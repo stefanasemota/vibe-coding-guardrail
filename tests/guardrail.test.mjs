@@ -26,8 +26,13 @@ test('Prerequisite core documentation and reference files exist and are non-empt
   }
 });
 
-test('README.md includes global skill installation and required community footer links', () => {
+test('README.md includes default 5-badge header row, global skill installation, and required community footer links', () => {
   const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
+  assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.0\.0-blue\.svg\)\]/);
+  assert.match(readme, /\[!\[License\]\(https:\/\/img\.shields\.io\/badge\/license-MIT-green\.svg\)\]\(LICENSE\)/);
+  assert.match(readme, /\[!\[Build Status\]\(https:\/\/img\.shields\.io\/badge\/build-passing-brightgreen\.svg\)\]/);
+  assert.match(readme, /\[!\[Firebase\]\(https:\/\/img\.shields\.io\/badge\/Firebase-/);
+  assert.match(readme, /\[!\[Gemini\]\(https:\/\/img\.shields\.io\/badge\/Gemini-AI%20Powered-/);
   assert.match(readme, /~\/\.gemini\/antigravity\/skills\//);
   assert.match(readme, /Powered by <a href="https:\/\/github\.com\/stefanasemota\/vibe-coding-guardrail">aos Vibe Coding Guardrail<\/a>/);
   assert.match(readme, /Fuel the Project - Buy me a coffee: <a href="https:\/\/buymeacoffee\.com\/stephanasex">https:\/\/buymeacoffee\.com\/stephanasex<\/a>/);

@@ -1,8 +1,10 @@
 # 🛡️ Vibe Coding Guardrail (`vibe-coder`)
 
-[![Protocol](https://img.shields.io/badge/protocol-vibe--coder%20%7C%207--Phase%20FDD-blue.svg)](.agent/skills/vibe-coder/SKILL.md)
-[![Benchmark](https://img.shields.io/badge/benchmark-stefanasemota-0F172A.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
+[![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20Hosting-FFCA28?logo=firebase&logoColor=white)]()
+[![Gemini](https://img.shields.io/badge/Gemini-AI%20Powered-8E75B2?logo=google-gemini&logoColor=white)]()
 
 **Vibe Coding Guardrail** is a standardized agentic orchestration framework and skill suite for rapid prototyping and disciplined 7-Phase Feature-Driven Development (FDD). It pairs the speed of AI-assisted "vibe coding" with production-grade engineering guardrails proven across **stefanasemota** projects.
 
