@@ -33,3 +33,9 @@ Chronological ledger of all architectural, UX, and implementation choices govern
 - **Context:** The YAML frontmatter snippet included `disable-model-invocation: true`, which prevented Antigravity from exposing `vibe-coder` in `<skills>` for automatic model activation, and Antigravity's global discovery also scans `~/.gemini/config/skills/`.
 - **Decision:** Removed `disable-model-invocation: true` from `.agent/skills/vibe-coder/SKILL.md`, added a regression assertion in `tests/guardrail.test.mjs`, and synced all 5 skills to both `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/`.
 - **Impact:** `.agent/skills/vibe-coder/SKILL.md`, `README.md`, `dev.md`, `decision.md`, `tests/guardrail.test.mjs`, `~/.gemini/antigravity/skills/`, `~/.gemini/config/skills/`.
+
+### [2026-10-31] - Enforce Default 5-Badge Header Row in `README.md`, `vibe-coder`, `aos-audit-project`, and `aos-vibecode`
+- **Origin:** Human Request
+- **Context:** Audited and vibecoded repositories needed a standardized 5-badge header row (`Version`, `License`, `Build Status`, `Firebase`/Stack, and `Gemini` or whichever AI provider is used) enforced by `vibe-coder`, `aos-audit-project`, and `aos-vibecode`.
+- **Decision:** Added the 5-badge header row to `README.md`, codified the 5-badge requirement into `.agent/skills/vibe-coder/SKILL.md`, `.agent/skills/aos-audit-project/SKILL.md`, and `.agent/skills/aos-vibecode/SKILL.md`, updated `tests/guardrail.test.mjs` and `aos-audit.md`, and synced the updated skills into `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/`.
+- **Impact:** `README.md`, `.agent/skills/vibe-coder/SKILL.md`, `.agent/skills/aos-audit-project/SKILL.md`, `.agent/skills/aos-vibecode/SKILL.md`, `aos-audit.md`, `decision.md`, `docs/feature/readme-default-badges/plan.md`, `tests/guardrail.test.mjs`, `~/.gemini/antigravity/skills/`, `~/.gemini/config/skills/`.
