@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { installGuardrail } from '../bin/init-guardrail.mjs';
 
 const rootDir = process.cwd();
 
@@ -55,4 +57,24 @@ test('decision.md contains dated entries matching protocol schema', () => {
   assert.match(content, /- \*\*Context:\*\*/);
   assert.match(content, /- \*\*Decision:\*\*/);
   assert.match(content, /- \*\*Impact:\*\*/);
+});
+
+test('bin/init-guardrail.mjs copies .agent/skills/ and AGENTS.md into a target directory', () => {
+  const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
+  assert.equal(pkg.bin?.['init-guardrail'], './bin/init-guardrail.mjs');
+
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'guardrail-test-'));
+  try {
+    const result = installGuardrail(tmpDir);
+    assert.equal(fs.existsSync(path.join(result.targetDir, 'AGENTS.md')), true);
+    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'vibe-coder', 'SKILL.md')), true);
+    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-vibecode', 'SKILL.md')), true);
+    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-verify', 'SKILL.md')), true);
+    assert.equal(
+      fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-check-for-security-issues', 'SKILL.md')),
+      true
+    );
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
 });

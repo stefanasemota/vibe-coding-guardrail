@@ -9,15 +9,13 @@ This document outlines how to install and use the **Vibe Coding Guardrail** (`vi
 Antigravity automatically discovers skills placed in a repository's `.agent/skills/` directory or in your global user skill directory.
 
 ### Option A: Add to an Existing or New Project (Workspace Scope)
-Copy the `.agent/skills/` folder and `AGENTS.md` into the root of your target repository:
+Run the included `init-guardrail` CLI script (or copy `.agent/skills/` and `AGENTS.md` manually) into the root of your target repository:
 
 ```bash
-# Clone the guardrail repository
-git clone https://github.com/stefanasemota/vibe-coding-guardrail.git
-
-# Copy the skill suite and commit rules into your project
-cp -R vibe-coding-guardrail/.agent /path/to/your-project/
-cp vibe-coding-guardrail/AGENTS.md /path/to/your-project/
+# Using the CLI installer from a local clone or npx
+npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
+# Or from a local clone:
+node bin/init-guardrail.mjs /path/to/your-project
 ```
 
 ### Option B: Install Globally Across All Projects (User Scope)

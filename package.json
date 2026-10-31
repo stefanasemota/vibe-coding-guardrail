@@ -8,6 +8,10 @@
     "url": "https://github.com/stefanasemota/vibe-coding-guardrail.git"
   },
   "description": "Standardized vibe-coding protocol, agent skills, and scaffolding guardrails from stefanasemota projects.",
+  "type": "module",
+  "bin": {
+    "init-guardrail": "./bin/init-guardrail.mjs"
+  },
   "engines": {
     "node": ">=22"
   },

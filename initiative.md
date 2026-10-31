@@ -19,6 +19,8 @@ Rapid AI-assisted prototyping ("vibe coding") often degrades as projects scale: 
    - Log every architectural, UX, and dependency decision in real time with `Origin`, `Context`, `Decision`, and `Impact`.
 4. **Coordinated Sub-Skill Execution:**
    - Separate rapid implementation (`aos-vibecode`), automated sanity/test verification (`aos-verify`), and defensive security auditing (`aos-check-for-security-issues`).
+5. **Zero-Friction CLI Onboarding (`init-guardrail`):**
+   - Provide an executable `bin/init-guardrail.mjs` script (`npx` compatible) to copy `.agent/skills/` and `AGENTS.md` into any target project directory in a single command.
 
 ---
 
