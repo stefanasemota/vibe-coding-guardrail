@@ -1,0 +1,21 @@
+{
+  "name": "vibe-coding-guardrail",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stefanasemota/vibe-coding-guardrail.git"
+  },
+  "description": "Standardized vibe-coding protocol, agent skills, and scaffolding guardrails from stefanasemota projects.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node --test tests/guardrail.test.mjs",
+    "build": "node --test tests/guardrail.test.mjs",
+    "test": "node --test tests/guardrail.test.mjs",
+    "test:unit": "node --test tests/guardrail.test.mjs",
+    "lint": "node --test tests/guardrail.test.mjs"
+  }
+}
