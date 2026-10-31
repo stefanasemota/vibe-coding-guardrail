@@ -1,8 +1,6 @@
 ---
 name: vibe-coder
 description: "Executes a rigorous 7-Phase Feature-Driven Development (FDD) loop and structured vibe-coding workflow across new or existing repositories with explicit architectural checkpoints, decision.md logging, and automated verification. Use when the user wants to scaffold, audit, build, iterate on, or patch features fast while maintaining repository consistency (package.json metadata/scripts, .gitignore, README.md + footer, dev.md, initiative.md, decision.md, docs/feature/[feature-name]/plan.md) and orchestrating sub-skills (aos-audit-project, aos-vibecode, aos-verify, aos-check-for-security-issues)."
-argument-hint: "[feature-description]"
-disable-model-invocation: true
 ---
 
 # Vibe Coding Protocol & SAS Antigravity (FDD + 7-Phase Workflow)

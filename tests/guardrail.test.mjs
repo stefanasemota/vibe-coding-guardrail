@@ -79,7 +79,8 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
     const skillPath = path.join(rootDir, '.agent', 'skills', skill, 'SKILL.md');
     assert.equal(fs.existsSync(skillPath), true, `Missing skill file: ${skillPath}`);
     const content = fs.readFileSync(skillPath, 'utf8');
-    assert.match(content, /^---\n([\s\S]*?)description:\s*.+\n([\s\S]*?)---/m, `Invalid frontmatter in ${skill}/SKILL.md`);
+    assert.match(content, /^---\nname:\s*.+\ndescription:\s*.+\n---/m, `Invalid frontmatter in ${skill}/SKILL.md`);
+    assert.doesNotMatch(content, /disable-model-invocation:\s*true/, `${skill}/SKILL.md must not disable model invocation`);
   }
 });
 

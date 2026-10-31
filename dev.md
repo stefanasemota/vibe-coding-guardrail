@@ -22,8 +22,9 @@ node bin/init-guardrail.mjs /path/to/your-project
 Install the skills into your global Antigravity configuration so `vibe-coder` is available in every workspace automatically:
 
 ```bash
-mkdir -p ~/.gemini/antigravity/skills
+mkdir -p ~/.gemini/antigravity/skills ~/.gemini/config/skills
 cp -R .agent/skills/* ~/.gemini/antigravity/skills/
+cp -R .agent/skills/* ~/.gemini/config/skills/
 ```
 
 ### Starting a Vibe-Coding Session in Antigravity
