@@ -1,13 +1,26 @@
 {
   "name": "vibe-coding-guardrail",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": false,
   "license": "MIT",
+  "description": "Standardized vibe-coding protocol, agent skills, and scaffolding guardrails from stefanasemota projects.",
+  "author": {
+    "name": "Stephan Asemota",
+    "email": "stefan@asemota.ch",
+    "url": "https://asemota.ch/"
+  },
+  "keywords": [
+    "node",
+    "npm",
+    "project",
+    "vibecoding tool",
+    "https://sabiai.work/",
+    "7-Phase Feature Development Workflow"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/stefanasemota/vibe-coding-guardrail.git"
+    "url": "git+https://github.com/stefanasemota/vibe-coding-guardrail.git"
   },
-  "description": "Standardized vibe-coding protocol, agent skills, and scaffolding guardrails from stefanasemota projects.",
   "type": "module",
   "bin": {
     "init-guardrail": "./bin/init-guardrail.mjs"

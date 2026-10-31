@@ -1,0 +1,96 @@
+---
+name: aos-audit-project
+description: Project architecture and scaffolding compliance auditor for the vibe-coder protocol. Use when inspecting any existing or new repository against the 🏗️ Architectural Summary expectations (README.md + footer, initiative.md, dev.md, decision.md, package.json metadata/scripts, .gitignore, AGENTS.md, Shift-Left Repository pattern), generating an optimization summary, asking the user which optimizations to apply, and outputting a final aos-audit.md report.
+---
+
+# `aos-audit-project` — Architectural & Scaffolding Compliance Auditor
+
+## Purpose
+Verifies any target project's structure, metadata, and architectural patterns against the **🏗️ Architectural Summary** expectations of the `vibe-coder` guardrail, presents a prioritized list of optimizations, asks the user which optimizations to apply, and writes a final `aos-audit.md` summary when changes are applied.
+
+---
+
+## 1. Audit Checklist (What to Inspect)
+
+Inspect the target repository against these 6 compliance pillars:
+
+### A. Core Documentation Files
+- `README.md`: Contains project pitch, architectural summary, quick-start scripts, and the mandatory footer:
+  ```markdown
+  Powered by <a href="https://github.com/stefanasemota/vibe-coding-guardrail">aos Vibe Coding Guardrail</a> | Fuel the Project - Buy me a coffee: <a href="https://buymeacoffee.com/stephanasex">https://buymeacoffee.com/stephanasex</a>
+  ```
+- `initiative.md`: Initial seed prompt, product brief, or problem statement.
+- `dev.md`: Local development setup, Antigravity usage instructions, environment variable specs, and execution commands.
+- `decision.md` (or `docs/decisions.md`): Chronological ADR ledger with dated `[YYYY-MM-DD]` entries (`Origin`, `Context`, `Decision`, `Impact`).
+
+### B. Standardized `package.json` Schema
+Verify that `package.json` includes the required identity, author, keywords, repository, and scripts fields:
+```json
+{
+  "name": "<project-name>",
+  "version": "1.0.0",
+  "description": "<project-description>",
+  "author": {
+    "name": "Stephan Asemota",
+    "email": "stefan@asemota.ch",
+    "url": "https://asemota.ch/"
+  },
+  "keywords": [
+    "node",
+    "npm",
+    "project",
+    "vibecoding tool",
+    "https://sabiai.work/",
+    "7-Phase Feature Development Workflow"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com"
+  },
+  "scripts": {
+    "dev": "...",
+    "build": "...",
+    "test": "...",
+    "test:unit": "...",
+    "lint": "..."
+  }
+}
+```
+
+### C. Git & Governance Hygiene
+- Active Git repository (`git rev-parse --is-inside-work-tree`) with upstream remote (`git remote -v`) and working branch isolated from `main`/`master`.
+- `.gitignore` excluding `.env*`, `/node_modules`, `/coverage`, `/.next/`, `/dist`, `/build`, `*service-account*.json`, `*key*.json`, and `*.pem`.
+- `AGENTS.md` enforcing Conventional Commits (`feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `perf`).
+- `.nvmrc` pinning the Node.js runtime (`22`).
+
+### D. Architectural Boundaries & Test Harness
+- **Shift-Left Repository Pattern:** Data access encapsulated in `src/repositories/` (no direct `firebase-admin` or database SDK leaks in `src/app/` or `src/components/`).
+- **Test Separation:** Unit test runner (`vitest` / `node:test`) separated from E2E tests (`cucumber` / `playwright`).
+
+---
+
+## 2. Interactive Execution Sequence
+
+1. **Scan & Score:**
+   - Check every item in Section 1 without modifying files yet.
+2. **Present Optimization Summary:**
+   - Output a markdown table showing each check (`✅ Pass`, `⚠️ Partial`, `❌ Missing`) and the specific optimization proposed.
+3. **Ask User Confirmation:**
+   - Ask the user which optimizations they want to apply (e.g., *All recommended optimizations*, or specific subset).
+4. **Apply Selected Optimizations & Generate `aos-audit.md`:**
+   - Apply only the user-approved optimizations.
+   - If one or more optimizations are applied, create or update **`aos-audit.md`** in the repository root with a concise summary:
+     ```markdown
+     # 🛡️ AOS Project Audit Report (`aos-audit.md`)
+     - **Date:** YYYY-MM-DD
+     - **Branch:** `<active-branch>`
+     - **Compliance Score:** X / Y checks passing
+
+     ## Applied Optimizations
+     - [x] <Optimization 1>
+     - [x] <Optimization 2>
+
+     ## Deferred / Skipped Items
+     - [ ] <Skipped Item, if any>
+     ```
+   - Log the audit milestone in `decision.md`.
