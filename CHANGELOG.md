@@ -4,6 +4,12 @@ All notable changes to **Vibe Coding Guardrail** are documented in this file. Da
 
 ---
 
+## [1.2.1] - 01.11.2026
+
+### Added
+- **Automatic Draft PR Workflow in `aos-audit-project` (Step 5):**
+  - Added explicit **Step 5: Branch, Commit, Push & Open Draft PR** to `aos-audit-project/SKILL.md` so every standalone audit run automatically creates an isolated branch (`chore/aos-project-audit` if on `main`/`master`/`development`), runs tests, commits with a Conventional Commit, pushes to `origin`, and opens a Draft PR (`gh pr create --draft`).
+
 ## [1.2.0] - 01.11.2026
 
 ### Added
