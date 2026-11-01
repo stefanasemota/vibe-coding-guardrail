@@ -38,6 +38,7 @@ The `.agent/skills/` suite separates the **7-Phase FDD Workflow Chassis** (where
 | :--- | :--- | :--- |
 | **Profile Schema Contract** | `vibe-coder/profiles/_schema.md` | Defines the 7 required profile fields (`engine_name`, `execution_mode`, `max_patch_size`, `patch_strategy`, `type_safety`, `gate_behavior`, `review_depth`). |
 | **Default Production Profile** | `vibe-coder/profiles/profile-antigravity.md` | High-rigor baseline (`max_patch_size: 50`, `surgical-unified-diff`, `strict` type safety, `explicit-pause-and-wait` at Phases 3, 4, 6). |
+| **Unattended Automation Profile** | `vibe-coder/profiles/profile-automation.md` | Unattended cron profile (`gate_behavior: advisory`, report-only mode) for scheduled background runs in the Antigravity Automations tab. |
 | **Neutral Orchestrator** | `vibe-coder/SKILL.md` | Resolves the active profile (`profile-antigravity.md` or `$PROFILE`) and drives the 7-phase FDD loop, Git branch isolation, `decision.md` (`[DD.MM.YYYY]`), and Draft PR hand-off. |
 | **Project Auditor** | `aos-audit-project/SKILL.md` | Audits any project against architectural summary expectations and generates `aos-audit.md`. |
 | **Rapid Feature Delivery** | `aos-vibecode/SKILL.md` | Consumes `max_patch_size` and `patch_strategy` from the active profile to apply surgical micro-patches from `initiative.md` and `docs/feature/<name>/plan.md`. |
@@ -46,12 +47,24 @@ The `.agent/skills/` suite separates the **7-Phase FDD Workflow Chassis** (where
 
 ---
 
-## 2. Scaffolding a Custom Engine Profile (`aos-create-profile`)
+## 2. Creating a Custom Profile for a Specific AI Model (`aos-create-profile`)
 
-Generate a new profile adhering to `vibe-coder/profiles/_schema.md` via CLI or agent prompt:
+Generate a new profile adhering to `vibe-coder/profiles/_schema.md` via CLI (interactive or flag-driven):
 
 ```bash
-npx aos-create-profile <name>
-# or
-node bin/aos-create-profile.mjs <name>
+# Interactive prompt (asks for engine_name, max_patch_size, review_depth, gate_behavior)
+npx aos-create-profile claude-sonnet
+
+# Or non-interactive with explicit model constraints:
+node bin/aos-create-profile.mjs gemini-flash \
+  --max-patch-size=30 \
+  --review-depth=quick-lint \
+  --gate-behavior=explicit-pause-and-wait \
+  --execution-mode=sequential-multi-turn
+```
+
+This emits `.agent/skills/vibe-coder/profiles/profile-gemini-flash.md`. To run a session with that model profile, specify `$PROFILE=gemini-flash` in your prompt:
+
+```text
+Start a vibe-coder session with $PROFILE=gemini-flash: implement the user profile settings card.
 ```

@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [01.11.2026] - Add `profile-automation.md`, Weekly Wednesday Automations & Release `v1.1.0`
+- **Origin:** Human Request | Agent Proposal
+- **Context:** Unattended scheduled runs in the Antigravity Automations tab require a profile that does not pause waiting for interactive human confirmation (`gate_behavior: "advisory"`), along with clear recipes for weekly Wednesday audits (`aos-audit-project` & `aos-check-for-security-issues`) and creating custom profiles for specific AI models.
+- **Decision:** Created `.agent/skills/vibe-coder/profiles/profile-automation.md`, documented Weekly Wednesday Automations and custom AI model profile creation in `README.md`, `.agent/skills/README.md`, and `dev.md`, bumped version to `1.1.0` (`package.json`, `README.md`, `CHANGELOG.md`), and expanded `tests/guardrail.test.mjs`.
+- **Impact:** `.agent/skills/vibe-coder/profiles/profile-automation.md`, `README.md`, `.agent/skills/README.md`, `dev.md`, `package.json`, `CHANGELOG.md`, `decision.md`, `aos-audit.md`, `tests/guardrail.test.mjs`.
+
 ### [01.11.2026] - Symlink Global Skills for Live Cross-Project Updates
 - **Origin:** Human Request
 - **Context:** Static copies (`cp -R`) in `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/` required manual re-copying after skill updates and did not resolve `../vibe-coder/profiles/profile-antigravity.md` relative to global skill directories when used in external repositories without a local `.agent/skills/` copy.

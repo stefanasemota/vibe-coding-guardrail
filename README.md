@@ -1,6 +1,6 @@
 # 🛡️ Vibe Coding Guardrail (`vibe-coder`)
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
 [![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20Hosting-FFCA28?logo=firebase&logoColor=white)]()
@@ -65,6 +65,7 @@ See [`.agent/skills/README.md`](.agent/skills/README.md) for full details on the
 | Component | Path | Responsibility |
 | :--- | :--- | :--- |
 | **`profile-antigravity`** | `.agent/skills/vibe-coder/profiles/profile-antigravity.md` | Default production engine profile (`max_patch_size: 50`, `surgical-unified-diff`, `strict` type safety, pause-and-wait gates at Phases 3, 4, 6). |
+| **`profile-automation`** | `.agent/skills/vibe-coder/profiles/profile-automation.md` | Unattended scheduled automation profile (`gate_behavior: advisory`, report-only mode) for background runs in the Antigravity Automations tab. |
 | **`_schema.md`** | `.agent/skills/vibe-coder/profiles/_schema.md` | Schema contract for custom profiles created via `aos-create-profile <name>`. |
 | **`vibe-coder`** | `.agent/skills/vibe-coder/SKILL.md` | Engine-neutral master orchestrator running the 7-Phase FDD loop, scaffolding checks, Git branch isolation, `decision.md` logging, and Draft PR hand-off. |
 | **`aos-audit-project`** | `.agent/skills/aos-audit-project/SKILL.md` | Audits any project against Architectural Summary expectations, proposes optimizations, asks which to apply, and writes `aos-audit.md`. |
@@ -111,6 +112,61 @@ Run aos-verify: validate imports, TypeScript types, zero-warning lint rules, uni
 ### 5. `aos-check-for-security-issues` (Defensive Security Audit)
 ```text
 Run aos-check-for-security-issues: scan staged changes and dependencies for hardcoded secrets, missing input validation, or insecure rules before committing.
+```
+
+---
+
+## ⏱️ Weekly Wednesday Automations (Antigravity Automations Tab)
+
+Use [`profile-automation.md`](.agent/skills/vibe-coder/profiles/profile-automation.md) (`$PROFILE=automation`, `gate_behavior: advisory`) to run unattended background guardrails in the Antigravity **Automations** tab once a week **every Wednesday**:
+
+### 1. Weekly Architecture Drift Audit (`aos-audit-project` — Every Wednesday)
+Paste into Antigravity chat (or trigger via `/schedule`):
+```text
+/schedule Every Wednesday at 09:00, run aos-audit-project with $PROFILE=automation: audit this repository against the Architectural Summary and update aos-audit.md without modifying application code.
+```
+
+### 2. Weekly Security & Secret Sweep (`aos-check-for-security-issues` — Every Wednesday)
+Paste into Antigravity chat (or trigger via `/schedule`):
+```text
+/schedule Every Wednesday at 09:30, run aos-check-for-security-issues with $PROFILE=automation: scan the repository and dependencies for hardcoded secrets, missing .gitignore exclusions, or insecure rules and summarize findings.
+```
+
+---
+
+## 🧩 Creating a Custom Profile for a Particular AI Model
+
+You can create a custom Engine Profile tailored to any AI model (for example `claude-sonnet` or `gemini-flash`) using the built-in `aos-create-profile` utility:
+
+```bash
+# Option 1: Interactive CLI prompt
+npx aos-create-profile claude-sonnet
+
+# Option 2: Non-interactive CLI with model-specific parameters
+node bin/aos-create-profile.mjs gemini-flash \
+  --max-patch-size=30 \
+  --review-depth=quick-lint \
+  --gate-behavior=explicit-pause-and-wait \
+  --execution-mode=sequential-multi-turn
+```
+
+This generates `.agent/skills/vibe-coder/profiles/profile-gemini-flash.md` adhering to [`_schema.md`](.agent/skills/vibe-coder/profiles/_schema.md):
+
+```markdown
+---
+engine_name: "gemini-flash"
+execution_mode: "sequential-multi-turn"
+max_patch_size: 30
+patch_strategy: "surgical-unified-diff"
+type_safety: "strict"
+gate_behavior: "explicit-pause-and-wait"
+review_depth: "quick-lint"
+---
+```
+
+Activate your custom model profile in any session by passing `$PROFILE=<name>`:
+```text
+Start a vibe-coder session with $PROFILE=gemini-flash: implement the user notification preferences panel.
 ```
 
 ---

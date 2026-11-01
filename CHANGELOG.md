@@ -4,6 +4,18 @@ All notable changes to **Vibe Coding Guardrail** are documented in this file. Da
 
 ---
 
+## [1.1.0] - 01.11.2026
+
+### Added
+- **Unattended Scheduled Automation Profile (`profile-automation.md`):**
+  - Added `.agent/skills/vibe-coder/profiles/profile-automation.md` (`gate_behavior: "advisory"`, report-only mode) for unattended background execution in the Antigravity Automations tab.
+- **Weekly Wednesday Guardrail Automations:**
+  - Documented `/schedule` recipes in `README.md` and `dev.md` for running **Weekly Architecture Drift Audit (`aos-audit-project`)** and **Weekly Security & Secret Sweep (`aos-check-for-security-issues`)** every Wednesday (`09:00` and `09:30`).
+- **Custom AI Model Profile Creation Guide:**
+  - Added end-to-end examples in `README.md` and `.agent/skills/README.md` showing how to scaffold custom profiles for specific AI models (e.g., `claude-sonnet`, `gemini-flash`) via `aos-create-profile` and invoke sessions with `$PROFILE=<name>`.
+- **Live Global Skill Symlinks (`ln -sfn`):**
+  - Updated global skill setup to use direct symbolic links and relative profile paths (`../vibe-coder/profiles/profile-antigravity.md`) so updates in this repository are immediately active across all projects.
+
 ## [1.0.0] - 01.11.2026
 
 ### Added

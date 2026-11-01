@@ -22,6 +22,7 @@ test('Prerequisite core documentation and reference files exist and are non-empt
     '.agent/skills/README.md',
     '.agent/skills/vibe-coder/profiles/_schema.md',
     '.agent/skills/vibe-coder/profiles/profile-antigravity.md',
+    '.agent/skills/vibe-coder/profiles/profile-automation.md',
     'docs/reference-architecture.md',
   ];
   for (const file of requiredFiles) {
@@ -32,13 +33,17 @@ test('Prerequisite core documentation and reference files exist and are non-empt
   }
 });
 
-test('Engine profile _schema.md and default profile-antigravity.md define all 7 required contract fields', () => {
+test('Engine profile _schema.md, profile-antigravity.md, and profile-automation.md define all 7 required contract fields', () => {
   const schemaContent = fs.readFileSync(
     path.join(rootDir, '.agent/skills/vibe-coder/profiles/_schema.md'),
     'utf8'
   );
   const profileContent = fs.readFileSync(
     path.join(rootDir, '.agent/skills/vibe-coder/profiles/profile-antigravity.md'),
+    'utf8'
+  );
+  const automationProfileContent = fs.readFileSync(
+    path.join(rootDir, '.agent/skills/vibe-coder/profiles/profile-automation.md'),
     'utf8'
   );
 
@@ -55,7 +60,9 @@ test('Engine profile _schema.md and default profile-antigravity.md define all 7 
   for (const field of requiredFields) {
     assert.match(schemaContent, new RegExp(field), `Missing ${field} in _schema.md`);
     assert.match(profileContent, new RegExp(`^${field}:`, 'm'), `Missing ${field} in profile-antigravity.md`);
+    assert.match(automationProfileContent, new RegExp(`^${field}:`, 'm'), `Missing ${field} in profile-automation.md`);
   }
+  assert.match(automationProfileContent, /gate_behavior:\s*"advisory"/);
 });
 
 test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipline, and Conventional Commits', () => {
@@ -82,9 +89,9 @@ test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipl
   assert.ok(aiRules.conventionalCommits?.allowedTypes?.includes('feat'));
 });
 
-test('README.md includes default 5-badge header row, global skill installation, Antigravity usage prompts, and required community footer links', () => {
+test('README.md includes default 5-badge header row, global skill installation, Antigravity usage prompts, Wednesday automations, custom model profile guide, and required community footer links', () => {
   const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
-  assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.0\.0-blue\.svg\)\]/);
+  assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.1\.0-blue\.svg\)\]/);
   assert.match(readme, /\[!\[License\]\(https:\/\/img\.shields\.io\/badge\/license-MIT-green\.svg\)\]\(LICENSE\)/);
   assert.match(readme, /\[!\[Build Status\]\(https:\/\/img\.shields\.io\/badge\/build-passing-brightgreen\.svg\)\]/);
   assert.match(readme, /\[!\[Firebase\]\(https:\/\/img\.shields\.io\/badge\/Firebase-/);
@@ -96,6 +103,10 @@ test('README.md includes default 5-badge header row, global skill installation, 
   assert.match(readme, /Run aos-vibecode:/);
   assert.match(readme, /Run aos-verify:/);
   assert.match(readme, /Run aos-check-for-security-issues:/);
+  assert.match(readme, /## ⏱️ Weekly Wednesday Automations/);
+  assert.match(readme, /Every Wednesday/);
+  assert.match(readme, /## 🧩 Creating a Custom Profile for a Particular AI Model/);
+  assert.match(readme, /aos-create-profile/);
   assert.match(readme, /Powered by <a href="https:\/\/github\.com\/stefanasemota\/vibe-coding-guardrail">aos Vibe Coding Guardrail<\/a>/);
   assert.match(readme, /Fuel the Project - Buy me a coffee: <a href="https:\/\/buymeacoffee\.com\/stephanasex">https:\/\/buymeacoffee\.com\/stephanasex<\/a>/);
 });

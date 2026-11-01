@@ -27,6 +27,11 @@ ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/antigravity/skills/
 ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/config/skills/
 ```
 
+### Option C: Weekly Wednesday Guardrail Automations (`$PROFILE=automation`)
+Use `/schedule` in Antigravity with [`profile-automation.md`](.agent/skills/vibe-coder/profiles/profile-automation.md) (`gate_behavior: advisory`) to run unattended background audits once a week every Wednesday:
+- **Every Wednesday at 09:00 (`aos-audit-project`):** Audits repository structure against the Architectural Summary and updates `aos-audit.md`.
+- **Every Wednesday at 09:30 (`aos-check-for-security-issues`):** Scans for hardcoded secrets, `.gitignore` drift, and vulnerable dependencies.
+
 ### Starting a Vibe-Coding Session in Antigravity
 Once installed, trigger the protocol in the Antigravity chat pane with any prompt such as:
 - *"Start a new vibe session and check the repository scaffolding."*
