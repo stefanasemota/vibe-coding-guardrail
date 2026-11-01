@@ -64,13 +64,44 @@ The guardrail enforces a **7-Phase Feature-Driven Development (FDD) Loop** with 
 
 ### Required Repository Metadata
 Every repository governed by `vibe-coder` maintains:
-- `README.md` — High-level pitch, architectural summary, quick-start commands, runtime scripts, and standard community attribution footer.
+- `README.md` — High-level pitch, architectural summary, quick-start commands, runtime scripts, 5-badge header row, and standard community attribution footer.
 - `initiative.md` — Initial seed prompt, product brief, and reference architecture goals.
 - `dev.md` — Antigravity installation guide, local development environment setup, environment variable specs, and execution instructions.
-- `decision.md` (or `docs/decisions.md`) — Immutable chronological ledger of architectural, UX, and implementation choices.
+- `decision.md` (or `docs/decisions.md`) — Reverse-chronological ledger (newest at top, oldest at bottom) of architectural, UX, and implementation choices using `[MM.DD.YYYY]` dates.
 - `AGENTS.md` & `ai-rules.json` — Strict AI workflow, Git branching, execution discipline, and Conventional Commits rules (Markdown + vendor-neutral JSON).
 - `docs/feature/[feature-name]/plan.md` — 7-Phase FDD execution checklist and micro-feature breakdown.
 - `package.json` — Standardized author metadata, keywords, repository link, and scripts (`dev`, `build`, `test`, `test:unit`, `lint`).
+
+---
+
+## 💬 How to Use in Antigravity (Copy-Paste Prompts)
+
+Use these simple, ready-to-copy prompts in the Google Antigravity chat pane to trigger the **7-Phase FDD Orchestrator** (`vibe-coder`) or any individual sub-skill:
+
+### 1. `vibe-coder` (Full 7-Phase FDD Orchestrator)
+```text
+Start a vibe-coder session: [describe your feature, fix, or new project idea].
+```
+
+### 2. `aos-audit-project` (Audit & Optimize Repository Structure)
+```text
+Run aos-audit-project: audit this repository against the Architectural Summary, show the optimization summary, and ask which changes to apply.
+```
+
+### 3. `aos-vibecode` (Rapid Micro-Patch Implementation)
+```text
+Run aos-vibecode: implement [feature or task] from initiative.md in atomic micro-patches without breaking existing routes or state.
+```
+
+### 4. `aos-verify` (Sanity, Lint, Build & Unit Test Gate)
+```text
+Run aos-verify: validate imports, TypeScript types, zero-warning lint rules, unit tests, and the production build.
+```
+
+### 5. `aos-check-for-security-issues` (Defensive Security Audit)
+```text
+Run aos-check-for-security-issues: scan staged changes and dependencies for hardcoded secrets, missing input validation, or insecure rules before committing.
+```
 
 ---
 

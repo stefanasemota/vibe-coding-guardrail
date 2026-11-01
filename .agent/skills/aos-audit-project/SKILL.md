@@ -31,7 +31,7 @@ Inspect the target repository against these 6 compliance pillars:
      ```
 - `initiative.md`: Initial seed prompt, product brief, or problem statement.
 - `dev.md`: Local development setup, Antigravity usage instructions, environment variable specs, and execution commands.
-- `decision.md` (or `docs/decisions.md`): Chronological ADR ledger with dated `[YYYY-MM-DD]` entries (`Origin`, `Context`, `Decision`, `Impact`).
+- `decision.md` (or `docs/decisions.md`): Reverse-chronological ADR ledger (**newest at top, oldest at bottom**) with dated `[MM.DD.YYYY]` entries (`Origin`, `Context`, `Decision`, `Impact`).
 
 ### B. Standardized `package.json` Schema
 Verify that `package.json` includes the required identity, author, keywords, repository, and scripts fields:
@@ -95,7 +95,7 @@ Verify that `package.json` includes the required identity, author, keywords, rep
    - If one or more optimizations are applied, create or update **`aos-audit.md`** in the repository root with a concise summary:
      ```markdown
      # 🛡️ AOS Project Audit Report (`aos-audit.md`)
-     - **Date:** YYYY-MM-DD
+     - **Date:** MM.DD.YYYY
      - **Branch:** `<active-branch>`
      - **Compliance Score:** X / Y checks passing
 
