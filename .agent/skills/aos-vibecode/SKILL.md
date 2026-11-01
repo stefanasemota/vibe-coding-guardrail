@@ -34,5 +34,5 @@ Translates product intent from `initiative.md`, `docs/rule-book.md`, and feature
 5. **README Badges, Package Metadata & Footer Consistency:**
    * When scaffolding or updating project documentation, ensure `README.md` displays the default 5-badge header row (`Version` synced with `package.json`, `License`, `Build Status`, `Firebase`/Stack, and `Gemini` or whichever AI provider is used) at the top, and the `Powered by aos Vibe Coding Guardrail` + `Buy me a coffee` footer at the bottom.
 
-6. **Decision Traceability (`[MM.DD.YYYY]`, Newest First):**
-   * Prepend every architectural choice, UX trade-off, or dependency addition at the **top** of `decision.md` (newest at top, oldest at bottom) using the `[MM.DD.YYYY]` date format before concluding the step.
+6. **Decision Traceability (`[DD.MM.YYYY]`, Newest First):**
+   * Prepend every architectural choice, UX trade-off, or dependency addition at the **top** of `decision.md` (newest at top, oldest at bottom) using the `[DD.MM.YYYY]` date format before concluding the step.

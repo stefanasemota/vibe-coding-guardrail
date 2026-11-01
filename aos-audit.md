@@ -1,7 +1,7 @@
 # 🛡️ AOS Project Audit Report (`aos-audit.md`)
 
-- **Date:** 11.01.2026
-- **Branch:** `fix/date-format-and-readme-prompts`
+- **Date:** 01.11.2026
+- **Branch:** `fix/dd-mm-yyyy-date-format`
 - **Compliance Score:** 6 / 6 pillars passing (100%)
 
 ## Applied Optimizations

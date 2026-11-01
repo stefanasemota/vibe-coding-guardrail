@@ -101,12 +101,12 @@ Execute environment sanity checks before writing any code:
 ## 3. Mandatory Decision Logging (`decision.md`)
 
 Maintain an immutable audit trail throughout the session in root `decision.md` (or `docs/decisions.md`).
-* **Date Format (STRICT):** Always use `[MM.DD.YYYY]` (e.g., `[11.01.2026]`). Never use `YYYY-MM-DD`.
+* **Date Format (STRICT):** Always use `[DD.MM.YYYY]` (e.g., `[01.11.2026]`). Never use `YYYY-MM-DD` or `MM.DD.YYYY`.
 * **Ordering (Newest to Oldest):** Always **prepend** new entries at the **top** of the decision list so `decision.md` is ordered from **newest (top) to oldest (bottom)**.
 * **Required Entry Schema:**
 
 ```markdown
-### [MM.DD.YYYY] - <Decision Title>
+### [DD.MM.YYYY] - <Decision Title>
 - **Origin:** Agent Proposal | Human Request
 - **Context:** Brief description of the problem or opportunity.
 - **Decision:** What was chosen and why.
