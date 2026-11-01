@@ -9,7 +9,7 @@ description: Defensive security audit sub-skill for the vibe-coder protocol. Use
 Prevents credential leaks, injection vectors, privilege escalations, and client-bundle exposure from entering version control during rapid vibe-coding sessions.
 
 ## Active Profile Consumption
-Reads `review_depth` and `gate_behavior` from `.agent/skills/vibe-coder/profiles/profile-antigravity.md` (or the active `$PROFILE`) to execute an engine-neutral security pass prior to commit.
+Reads `review_depth` and `gate_behavior` from [`../vibe-coder/profiles/profile-antigravity.md`](../vibe-coder/profiles/profile-antigravity.md) (or `.agent/skills/vibe-coder/profiles/profile-antigravity.md` / active `$PROFILE`) to execute an engine-neutral security pass prior to commit.
 
 ---
 

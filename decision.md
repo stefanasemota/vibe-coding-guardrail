@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [01.11.2026] - Symlink Global Skills for Live Cross-Project Updates
+- **Origin:** Human Request
+- **Context:** Static copies (`cp -R`) in `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/` required manual re-copying after skill updates and did not resolve `../vibe-coder/profiles/profile-antigravity.md` relative to global skill directories when used in external repositories without a local `.agent/skills/` copy.
+- **Decision:** Replaced static copies in `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/` with direct symlinks (`ln -sfn`) to `.agent/skills/*`, updated `README.md` and `dev.md` global installation instructions to use symlinks, and updated all `aos-*` sub-skills to resolve `../vibe-coder/profiles/profile-antigravity.md` relative to the skill directory.
+- **Impact:** `README.md`, `dev.md`, `.agent/skills/*/SKILL.md`, `decision.md`.
+
 ### [01.11.2026] - Prepare `v1.0.0` Release & `CHANGELOG.md`
 - **Origin:** Human Request
 - **Context:** With the 7-Phase FDD Orchestrator, Engine Profile architecture, 4 `aos-*` sub-skills, CLI utilities, and strict AI workflow rules complete and verified, the project is ready for its first tagged release (`v1.0.0`).

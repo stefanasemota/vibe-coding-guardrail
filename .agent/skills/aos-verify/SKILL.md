@@ -9,7 +9,7 @@ description: Automated sanity and test coverage sub-skill for the vibe-coder pro
 Verifies that every rapid-prototyping increment compiles cleanly, passes lint gates, and maintains high unit and E2E test coverage before hand-off.
 
 ## Active Profile Consumption
-Reads `type_safety` (`strict` | `permissive`) and `review_depth` (`multi-aspect-audit` | `quick-lint`) from `.agent/skills/vibe-coder/profiles/profile-antigravity.md` (or the active `$PROFILE`).
+Reads `type_safety` (`strict` | `permissive`) and `review_depth` (`multi-aspect-audit` | `quick-lint`) from [`../vibe-coder/profiles/profile-antigravity.md`](../vibe-coder/profiles/profile-antigravity.md) (or `.agent/skills/vibe-coder/profiles/profile-antigravity.md` / active `$PROFILE`).
 
 ---
 

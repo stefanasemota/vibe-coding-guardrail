@@ -9,7 +9,7 @@ description: Project architecture and scaffolding compliance auditor for the vib
 Audits any target project's structure, metadata, and architectural patterns against the **🏗️ Architectural Summary** expectations of the `vibe-coder` guardrail without hardcoded model assumptions, presents a prioritized list of optimizations, asks the user which optimizations to apply, and writes a final `aos-audit.md` report when changes are applied.
 
 ## Active Profile Consumption
-Reads `review_depth` and `gate_behavior` from `.agent/skills/vibe-coder/profiles/profile-antigravity.md` (or the active `$PROFILE`) to govern audit depth and interactive user confirmation gates.
+Reads `review_depth` and `gate_behavior` from [`../vibe-coder/profiles/profile-antigravity.md`](../vibe-coder/profiles/profile-antigravity.md) (or `.agent/skills/vibe-coder/profiles/profile-antigravity.md` / active `$PROFILE`) to govern audit depth and interactive user confirmation gates.
 
 ---
 

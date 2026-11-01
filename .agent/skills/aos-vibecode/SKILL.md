@@ -9,7 +9,7 @@ description: Rapid feature delivery sub-skill for the vibe-coder protocol. Use w
 Translates product intent from `initiative.md`, `docs/rule-book.md`, and `docs/feature/[feature-name]/plan.md` into minimal, working code increments without destabilizing the existing application.
 
 ## Active Profile Consumption
-Before writing code, pull the active operating parameters from `.agent/skills/vibe-coder/profiles/profile-antigravity.md` (or the active `$PROFILE`):
+Before writing code, pull the active operating parameters from [`../vibe-coder/profiles/profile-antigravity.md`](../vibe-coder/profiles/profile-antigravity.md) (or `.agent/skills/vibe-coder/profiles/profile-antigravity.md` / active `$PROFILE`):
 - **`max_patch_size`**: Enforce `<= max_patch_size` lines (default: `50` lines) per atomic micro-patch.
 - **`patch_strategy`**: Apply edits using the profile's strategy (default: `surgical-unified-diff`, preserving surrounding code and exports rather than rewriting entire modules).
 

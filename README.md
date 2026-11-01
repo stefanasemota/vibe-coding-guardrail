@@ -12,12 +12,12 @@
 
 ## ⚡ Run `vibe-coder` by Default Across All Projects in Antigravity
 
-Install the skill suite once into your global `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/` directories so `vibe-coder` and all `aos-*` sub-skills run by default across **every project session** in Google Antigravity:
+Symlink the skill suite into your global `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/` directories so `vibe-coder` and all `aos-*` sub-skills run by default across **every project session** in Google Antigravity and immediately reflect any updates pulled or committed here:
 
 ```bash
 mkdir -p ~/.gemini/antigravity/skills ~/.gemini/config/skills
-cp -R .agent/skills/* ~/.gemini/antigravity/skills/
-cp -R .agent/skills/* ~/.gemini/config/skills/
+ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/antigravity/skills/
+ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/config/skills/
 ```
 
 To install the skills and commit rules (`AGENTS.md`) directly into a specific repository workspace instead:
