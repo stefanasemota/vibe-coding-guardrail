@@ -120,7 +120,7 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
   }
 });
 
-test('decision.md and aos-audit.md use MM.DD.YYYY date format and order decisions newest-to-oldest', () => {
+test('decision.md and aos-audit.md use DD.MM.YYYY date format and order decisions newest-to-oldest', () => {
   const content = fs.readFileSync(path.join(rootDir, 'decision.md'), 'utf8');
   assert.match(content, /### \[\d{2}\.\d{2}\.\d{4}\] - .+/);
   assert.doesNotMatch(content, /### \[\d{4}-\d{2}-\d{2}\]/, 'decision.md must not use YYYY-MM-DD');
@@ -131,7 +131,14 @@ test('decision.md and aos-audit.md use MM.DD.YYYY date format and order decision
 
   const dateMatches = [...content.matchAll(/### \[(\d{2})\.(\d{2})\.(\d{4})\] - /g)];
   assert.ok(dateMatches.length >= 2, 'Expected at least 2 dated entries in decision.md');
-  const timestamps = dateMatches.map(([, mm, dd, yyyy]) => Date.UTC(Number(yyyy), Number(mm) - 1, Number(dd)));
+  const timestamps = dateMatches.map(([, dd, mm, yyyy]) => {
+    const day = Number(dd);
+    const month = Number(mm);
+    const year = Number(yyyy);
+    assert.ok(day >= 1 && day <= 31, `Invalid day in DD.MM.YYYY: ${dd}`);
+    assert.ok(month >= 1 && month <= 12, `Invalid month in DD.MM.YYYY: ${mm}`);
+    return Date.UTC(year, month - 1, day);
+  });
   for (let i = 1; i < timestamps.length; i++) {
     assert.ok(
       timestamps[i - 1] >= timestamps[i],

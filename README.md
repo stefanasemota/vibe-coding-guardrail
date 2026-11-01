@@ -67,7 +67,7 @@ Every repository governed by `vibe-coder` maintains:
 - `README.md` — High-level pitch, architectural summary, quick-start commands, runtime scripts, 5-badge header row, and standard community attribution footer.
 - `initiative.md` — Initial seed prompt, product brief, and reference architecture goals.
 - `dev.md` — Antigravity installation guide, local development environment setup, environment variable specs, and execution instructions.
-- `decision.md` (or `docs/decisions.md`) — Reverse-chronological ledger (newest at top, oldest at bottom) of architectural, UX, and implementation choices using `[MM.DD.YYYY]` dates.
+- `decision.md` (or `docs/decisions.md`) — Reverse-chronological ledger (newest at top, oldest at bottom) of architectural, UX, and implementation choices using `[DD.MM.YYYY]` dates.
 - `AGENTS.md` & `ai-rules.json` — Strict AI workflow, Git branching, execution discipline, and Conventional Commits rules (Markdown + vendor-neutral JSON).
 - `docs/feature/[feature-name]/plan.md` — 7-Phase FDD execution checklist and micro-feature breakdown.
 - `package.json` — Standardized author metadata, keywords, repository link, and scripts (`dev`, `build`, `test`, `test:unit`, `lint`).
