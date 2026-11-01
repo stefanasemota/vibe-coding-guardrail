@@ -3,10 +3,17 @@ name: aos-vibecode
 description: Rapid feature delivery sub-skill for the vibe-coder protocol. Use when translating product specifications or user stories from initiative.md and docs/specs/ into minimal, working code increments via micro-patches while preserving runtime state, routes, and architectural boundaries.
 ---
 
-# `aos-vibecode` — Rapid Feature Delivery Sub-Skill
+# `aos-vibecode` — Engine-Neutral Rapid Feature Delivery Sub-Skill
 
 ## Purpose
-Translates product intent from `initiative.md`, `docs/rule-book.md`, and feature specs (`docs/specs/*.md`) into minimal, working code increments without destabilizing the existing application.
+Translates product intent from `initiative.md`, `docs/rule-book.md`, and `docs/feature/[feature-name]/plan.md` into minimal, working code increments without destabilizing the existing application.
+
+## Active Profile Consumption
+Before writing code, pull the active operating parameters from `.agent/skills/vibe-coder/profiles/profile-antigravity.md` (or the active `$PROFILE`):
+- **`max_patch_size`**: Enforce `<= max_patch_size` lines (default: `50` lines) per atomic micro-patch.
+- **`patch_strategy`**: Apply edits using the profile's strategy (default: `surgical-unified-diff`, preserving surrounding code and exports rather than rewriting entire modules).
+
+---
 
 ## Execution Rules
 
@@ -15,18 +22,17 @@ Translates product intent from `initiative.md`, `docs/rule-book.md`, and feature
    * **Look Before You Leap:** Run a `find` or `grep` search to verify whether a utility function, hook, or component already exists before writing a new one from scratch.
    * **Dependency Lockdown:** Never install new `npm` packages or `pip` libraries without asking for explicit human approval first. Rely on existing dependencies whenever possible.
    * **Fix Your Own Bugs:** If a build, linter, or test fails after an edit, iterate and fix it autonomously before declaring the task done.
-   * **Commit Atomicity & Explain the Fix:** Favor small, atomic patches (≤ 50 lines per change where feasible) and make small, logical Conventional Commits (`feat`, `fix`, `refactor`, etc.). When resolving a bug (`fix`), write a concise commit summary explaining *why* the bug happened and *how* the change fixed it.
+   * **Commit Atomicity & Explain the Fix:** Favor atomic patches within `max_patch_size` (`<= 50` lines) and make small, logical Conventional Commits (`feat`, `fix`, `refactor`, etc.). When resolving a bug (`fix`), write a concise commit summary explaining *why* the bug happened and *how* the change fixed it.
    * **Documentation Sync & Zero AI Slop:** Update `README.md`, `dev.md`, or API docs in the same commit whenever an endpoint, CLI flag, env var, or setup step changes. Avoid AI slop or filler words—keep prose straight to the point.
 
 2. **Schema-First & Domain Grounding:**
-   * Define deterministic **Zod schemas** (`z.object(...)`) as strict contracts before implementing AI flows (e.g., Genkit / Gemini) or database writes.
+   * Define deterministic validation schemas (e.g., `zod`) as strict contracts before implementing AI flows or database writes.
    * Enforce domain invariants from `docs/rule-book.md` (such as content-hash deduplication, quota limits, and token usage metadata).
 
 3. **Shift-Left Repository Pattern & SSR Performance:**
-   * **Strict Layering:** Direct use of `firebase-admin` or client `firestore` SDKs inside `src/app/` (UI routes) or `src/components/` is forbidden. Route all data access through encapsulated repositories in `src/repositories/`.
-   * **Prevent CSR Waterfalls:** Prefer async React Server Components (RSC) and Server Actions (`src/modules/**/actions.ts`) over `'use client'` + `useEffect` data-fetching waterfalls.
-   * **Singleton Backend SDKs:** Ensure `firebase-admin` is initialized via a cached Singleton (`src/lib/firebase-admin.ts`) and listed in `serverExternalPackages` in `next.config.ts`.
-   * **Auth Safety:** Protect client-side OAuth redirect handlers (`getRedirectResult`) with a `useRef` lock to prevent double-execution under React 19 / Next.js 15 Strict Mode.
+   * **Strict Layering:** Direct use of backend/Admin SDKs or database drivers inside `src/app/` (UI routes) or `src/components/` is forbidden. Route all data access through encapsulated repositories in `src/repositories/`.
+   * **Prevent CSR Waterfalls:** Prefer async Server Components and Server Actions (`src/modules/**/actions.ts`) over client-side `useEffect` data-fetching waterfalls.
+   * **Singleton Backend SDKs:** Initialize backend admin SDKs via a cached Singleton (`src/lib/firebase-admin.ts`) and exclude server-only packages from client bundles.
 
 4. **Progressive Mobile-First UI Polish:**
    * Design for mobile usability first (390px viewport without horizontal scroll, high-contrast palettes, accessible tap targets, optimistic UI loaders for high-latency networks).

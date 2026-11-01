@@ -23,7 +23,8 @@
   },
   "type": "module",
   "bin": {
-    "init-guardrail": "./bin/init-guardrail.mjs"
+    "init-guardrail": "./bin/init-guardrail.mjs",
+    "aos-create-profile": "./bin/aos-create-profile.mjs"
   },
   "engines": {
     "node": ">=22"

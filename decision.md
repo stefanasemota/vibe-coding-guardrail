@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [01.11.2026] - Decouple Engine-Neutral 7-Phase FDD Workflow Chassis from Engine Profiles
+- **Origin:** Human Request | Agent Proposal
+- **Context:** The `.agent/skills/` suite needed to separate engine-neutral workflow orchestration (7-phase FDD loop, checkpoint gates, Git isolation, `decision.md`) from model-specific engine parameters (`max_patch_size`, `patch_strategy`, `type_safety`, `review_depth`, `gate_behavior`).
+- **Decision:** Created `.agent/skills/vibe-coder/profiles/_schema.md` and default production profile `.agent/skills/vibe-coder/profiles/profile-antigravity.md`, refactored `vibe-coder/SKILL.md` and all 4 `aos-*` sub-skills to consume profile parameters dynamically without hardcoded model dependencies, added `aos-create-profile` (`bin/aos-create-profile.mjs`), documented the architecture in `.agent/skills/README.md` and root `README.md`, and expanded `tests/guardrail.test.mjs`.
+- **Impact:** `.agent/skills/vibe-coder/profiles/_schema.md`, `.agent/skills/vibe-coder/profiles/profile-antigravity.md`, `.agent/skills/README.md`, `.agent/skills/*/SKILL.md`, `bin/aos-create-profile.mjs`, `package.json`, `README.md`, `decision.md`, `aos-audit.md`, `tests/guardrail.test.mjs`.
+
 ### [01.11.2026] - Standardize `DD.MM.YYYY` Date Format Across All Docs, Skills & Tests
 - **Origin:** Human Request
 - **Context:** The date format needed to be corrected from `MM.DD.YYYY` to `DD.MM.YYYY` (e.g., `[01.11.2026]` and `[31.10.2026]`) across `decision.md`, `aos-audit.md`, `README.md`, all `.agent/skills/`, and `tests/guardrail.test.mjs`.

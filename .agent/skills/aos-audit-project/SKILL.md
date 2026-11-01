@@ -3,20 +3,23 @@ name: aos-audit-project
 description: Project architecture and scaffolding compliance auditor for the vibe-coder protocol. Use when inspecting any existing or new repository against the 🏗️ Architectural Summary expectations (README.md + footer, initiative.md, dev.md, decision.md, package.json metadata/scripts, .gitignore, AGENTS.md, Shift-Left Repository pattern), generating an optimization summary, asking the user which optimizations to apply, and outputting a final aos-audit.md report.
 ---
 
-# `aos-audit-project` — Architectural & Scaffolding Compliance Auditor
+# `aos-audit-project` — Engine-Neutral Architectural & Scaffolding Compliance Auditor
 
 ## Purpose
-Verifies any target project's structure, metadata, and architectural patterns against the **🏗️ Architectural Summary** expectations of the `vibe-coder` guardrail, presents a prioritized list of optimizations, asks the user which optimizations to apply, and writes a final `aos-audit.md` summary when changes are applied.
+Audits any target project's structure, metadata, and architectural patterns against the **🏗️ Architectural Summary** expectations of the `vibe-coder` guardrail without hardcoded model assumptions, presents a prioritized list of optimizations, asks the user which optimizations to apply, and writes a final `aos-audit.md` report when changes are applied.
+
+## Active Profile Consumption
+Reads `review_depth` and `gate_behavior` from `.agent/skills/vibe-coder/profiles/profile-antigravity.md` (or the active `$PROFILE`) to govern audit depth and interactive user confirmation gates.
 
 ---
 
 ## 1. Audit Checklist (What to Inspect)
 
-Inspect the target repository against these 6 compliance pillars:
+Inspect the target repository against these 6 engine-neutral compliance pillars:
 
 ### A. Core Documentation Files
 - `README.md`: Contains:
-  1. **Default 5-Badge Header Row** (`Version` synced with `package.json`, `License`, `Build Status`, `Firebase` or primary BaaS/stack badge, and `Gemini` or whichever AI provider was used):
+  1. **Default 5-Badge Header Row** (`Version` synced with `package.json`, `License`, `Build Status`, `Firebase` or primary BaaS/stack badge, and `Gemini` or whichever AI provider is used):
      ```markdown
      [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/<owner>/<repo>)
      [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -30,7 +33,7 @@ Inspect the target repository against these 6 compliance pillars:
      Powered by <a href="https://github.com/stefanasemota/vibe-coding-guardrail">aos Vibe Coding Guardrail</a> | Fuel the Project - Buy me a coffee: <a href="https://buymeacoffee.com/stephanasex">https://buymeacoffee.com/stephanasex</a>
      ```
 - `initiative.md`: Initial seed prompt, product brief, or problem statement.
-- `dev.md`: Local development setup, Antigravity usage instructions, environment variable specs, and execution commands.
+- `dev.md`: Local development setup, skill installation instructions, environment variable specs, and execution commands.
 - `decision.md` (or `docs/decisions.md`): Reverse-chronological ADR ledger (**newest at top, oldest at bottom**) with dated `[DD.MM.YYYY]` entries (`Origin`, `Context`, `Decision`, `Impact`).
 
 ### B. Standardized `package.json` Schema
@@ -77,7 +80,7 @@ Verify that `package.json` includes the required identity, author, keywords, rep
 - `.nvmrc` pinning the Node.js runtime (`22`).
 
 ### D. Architectural Boundaries & Test Harness
-- **Shift-Left Repository Pattern:** Data access encapsulated in `src/repositories/` (no direct `firebase-admin` or database SDK leaks in `src/app/` or `src/components/`).
+- **Shift-Left Repository Pattern:** Data access encapsulated in `src/repositories/` (no direct backend/Admin SDK or database driver leaks in `src/app/` or `src/components/`).
 - **Test Separation:** Unit test runner (`vitest` / `node:test`) separated from E2E tests (`cucumber` / `playwright`).
 
 ---
@@ -89,7 +92,7 @@ Verify that `package.json` includes the required identity, author, keywords, rep
 2. **Present Optimization Summary:**
    - Output a markdown table showing each check (`✅ Pass`, `⚠️ Partial`, `❌ Missing`) and the specific optimization proposed.
 3. **Ask User Confirmation:**
-   - Ask the user which optimizations they want to apply (e.g., *All recommended optimizations*, or specific subset).
+   - Ask the user which optimizations they want to apply.
 4. **Apply Selected Optimizations & Generate `aos-audit.md`:**
    - Apply only the user-approved optimizations.
    - If one or more optimizations are applied, create or update **`aos-audit.md`** in the repository root with a concise summary:
@@ -106,4 +109,4 @@ Verify that `package.json` includes the required identity, author, keywords, rep
      ## Deferred / Skipped Items
      - [ ] <Skipped Item, if any>
      ```
-   - Log the audit milestone in `decision.md`.
+   - Prepend the audit milestone at the top of `decision.md` (`[DD.MM.YYYY]`).
