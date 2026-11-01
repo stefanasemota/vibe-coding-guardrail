@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { installGuardrail } from '../bin/init-guardrail.mjs';
+import { createProfileFile } from '../bin/aos-create-profile.mjs';
 
 const rootDir = process.cwd();
 
@@ -17,6 +18,9 @@ test('Prerequisite core documentation and reference files exist and are non-empt
     'ai-rules.json',
     '.gitignore',
     '.nvmrc',
+    '.agent/skills/README.md',
+    '.agent/skills/vibe-coder/profiles/_schema.md',
+    '.agent/skills/vibe-coder/profiles/profile-antigravity.md',
     'docs/reference-architecture.md',
   ];
   for (const file of requiredFiles) {
@@ -24,6 +28,32 @@ test('Prerequisite core documentation and reference files exist and are non-empt
     assert.equal(fs.existsSync(filePath), true, `Missing required file: ${file}`);
     const stat = fs.statSync(filePath);
     assert.ok(stat.size > 0, `File is empty: ${file}`);
+  }
+});
+
+test('Engine profile _schema.md and default profile-antigravity.md define all 7 required contract fields', () => {
+  const schemaContent = fs.readFileSync(
+    path.join(rootDir, '.agent/skills/vibe-coder/profiles/_schema.md'),
+    'utf8'
+  );
+  const profileContent = fs.readFileSync(
+    path.join(rootDir, '.agent/skills/vibe-coder/profiles/profile-antigravity.md'),
+    'utf8'
+  );
+
+  const requiredFields = [
+    'engine_name',
+    'execution_mode',
+    'max_patch_size',
+    'patch_strategy',
+    'type_safety',
+    'gate_behavior',
+    'review_depth',
+  ];
+
+  for (const field of requiredFields) {
+    assert.match(schemaContent, new RegExp(field), `Missing ${field} in _schema.md`);
+    assert.match(profileContent, new RegExp(`^${field}:`, 'm'), `Missing ${field} in profile-antigravity.md`);
   }
 });
 
@@ -102,7 +132,7 @@ test('Standardized package.json metadata, author, keywords, repository, and scri
   }
 });
 
-test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontmatter', () => {
+test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontmatter and consume profile parameters', () => {
   const skills = [
     'vibe-coder',
     'aos-audit-project',
@@ -117,6 +147,7 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
     const content = fs.readFileSync(skillPath, 'utf8');
     assert.match(content, /^---\nname:\s*.+\ndescription:\s*.+\n---/m, `Invalid frontmatter in ${skill}/SKILL.md`);
     assert.doesNotMatch(content, /disable-model-invocation:\s*true/, `${skill}/SKILL.md must not disable model invocation`);
+    assert.match(content, /profile-antigravity\.md/, `${skill}/SKILL.md should reference active profile resolution`);
   }
 });
 
@@ -150,23 +181,41 @@ test('decision.md and aos-audit.md use DD.MM.YYYY date format and order decision
   assert.match(auditContent, /- \*\*Date:\*\* \d{2}\.\d{2}\.\d{4}/);
 });
 
-test('bin/init-guardrail.mjs copies .agent/skills/, AGENTS.md, and ai-rules.json into a target directory', () => {
+test('bin/init-guardrail.mjs and bin/aos-create-profile.mjs work as expected in isolated directories', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
   assert.equal(pkg.bin?.['init-guardrail'], './bin/init-guardrail.mjs');
+  assert.equal(pkg.bin?.['aos-create-profile'], './bin/aos-create-profile.mjs');
 
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'guardrail-test-'));
   try {
     const result = installGuardrail(tmpDir);
     assert.equal(fs.existsSync(path.join(result.targetDir, 'AGENTS.md')), true);
     assert.equal(fs.existsSync(path.join(result.targetDir, 'ai-rules.json')), true);
-    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'vibe-coder', 'SKILL.md')), true);
-    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-audit-project', 'SKILL.md')), true);
-    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-vibecode', 'SKILL.md')), true);
-    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-verify', 'SKILL.md')), true);
+    assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'README.md')), true);
     assert.equal(
-      fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-check-for-security-issues', 'SKILL.md')),
+      fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'vibe-coder', 'profiles', '_schema.md')),
       true
     );
+    assert.equal(
+      fs.existsSync(
+        path.join(result.targetDir, '.agent', 'skills', 'vibe-coder', 'profiles', 'profile-antigravity.md')
+      ),
+      true
+    );
+
+    const created = createProfileFile({
+      name: 'custom-engine',
+      maxPatchSize: 40,
+      reviewDepth: 'quick-lint',
+      gateBehavior: 'advisory',
+      targetRoot: tmpDir,
+    });
+    assert.equal(fs.existsSync(created.filePath), true);
+    const customContent = fs.readFileSync(created.filePath, 'utf8');
+    assert.match(customContent, /engine_name: "custom-engine"/);
+    assert.match(customContent, /max_patch_size: 40/);
+    assert.match(customContent, /review_depth: "quick-lint"/);
+    assert.match(customContent, /gate_behavior: "advisory"/);
   } finally {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }

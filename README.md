@@ -30,37 +30,47 @@ npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
 
 ## 🏗️ Architectural Summary
 
-The guardrail enforces a **7-Phase Feature-Driven Development (FDD) Loop** with explicit gateway checkpoints (Phases 3, 4, and 6) via `.agent/skills/vibe-coder/SKILL.md` and four coordinated sub-skills:
+The guardrail decouples the **Engine-Neutral 7-Phase FDD Workflow Chassis** (`vibe-coder` + four `aos-*` sub-skills) from the **Interchangeable Engine Profile** ([`.agent/skills/vibe-coder/profiles/profile-antigravity.md`](.agent/skills/vibe-coder/profiles/profile-antigravity.md), validated by [`_schema.md`](.agent/skills/vibe-coder/profiles/_schema.md)):
 
 ```
-                      ┌──────────────────────────┐
-                      │  7-Phase FDD Orchestrator│
-                      │      (vibe-coder)        │
-                      └────────────┬─────────────┘
-                                   │
-       ┌───────────────────┬───────┴───────────┬────────────────────┐
+                      ┌──────────────────────────────────┐
+                      │         Engine Profile           │
+                      │ (profiles/profile-antigravity.md)│
+                      └─────────────────┬────────────────┘
+                                        │ (Parameters)
+                                        ▼
+                      ┌──────────────────────────────────┐
+                      │   7-Phase FDD Workflow Chassis   │
+                      │          (vibe-coder)            │
+                      └─────────────────┬────────────────┘
+                                        │
+       ┌───────────────────┬────────────┴──────┬────────────────────┐
        ▼                   ▼                   ▼                    ▼
 ┌─────────────────┐ ┌─────────────────┐ ┌─────────────┐ ┌──────────────────┐
 │aos-audit-project│ │  aos-vibecode   │ │ aos-verify  │ │aos-check-for-    │
 │ (Audit & Fix)   │ │ (Implementation)│ │ (Validation)│ │security-issues   │
 └─────────────────┘ └─────────────────┘ └─────────────┘ └──────────────────┘
        │                   │                   │                    │
-       └───────────────────┴───────┬───────────┴────────────────────┘
-                                   ▼
-                      ┌──────────────────────────┐
-                      │   Session Termination    │
-                      │(decision.md + Draft PR)  │
-                      └──────────────────────────┘
+       └───────────────────┴────────────┬──────┴────────────────────┘
+                                        ▼
+                      ┌──────────────────────────────────┐
+                      │       Session Termination        │
+                      │    (decision.md + Draft PR)      │
+                      └──────────────────────────────────┘
 ```
 
-### Skill Suite (`.agent/skills/`)
-| Skill | Path | Responsibility |
+### Skill Suite & Profile Architecture (`.agent/skills/`)
+See [`.agent/skills/README.md`](.agent/skills/README.md) for full details on the separation between the workflow chassis and engine profiles.
+
+| Component | Path | Responsibility |
 | :--- | :--- | :--- |
-| **`vibe-coder`** | `.agent/skills/vibe-coder/SKILL.md` | Master orchestrator running the 7-Phase FDD loop, scaffolding checks, Git branch isolation, `decision.md` logging, and Draft PR hand-off. |
+| **`profile-antigravity`** | `.agent/skills/vibe-coder/profiles/profile-antigravity.md` | Default production engine profile (`max_patch_size: 50`, `surgical-unified-diff`, `strict` type safety, pause-and-wait gates at Phases 3, 4, 6). |
+| **`_schema.md`** | `.agent/skills/vibe-coder/profiles/_schema.md` | Schema contract for custom profiles created via `aos-create-profile <name>`. |
+| **`vibe-coder`** | `.agent/skills/vibe-coder/SKILL.md` | Engine-neutral master orchestrator running the 7-Phase FDD loop, scaffolding checks, Git branch isolation, `decision.md` logging, and Draft PR hand-off. |
 | **`aos-audit-project`** | `.agent/skills/aos-audit-project/SKILL.md` | Audits any project against Architectural Summary expectations, proposes optimizations, asks which to apply, and writes `aos-audit.md`. |
-| **`aos-vibecode`** | `.agent/skills/aos-vibecode/SKILL.md` | Translates `initiative.md` and `docs/feature/[feature-name]/plan.md` into atomic FDD micro-patches (≤ 50 lines) while preserving runtime state. |
-| **`aos-verify`** | `.agent/skills/aos-verify/SKILL.md` | Executes lint, build, 3-point static review, and automated unit test checks before completion. |
-| **`aos-check-for-security-issues`** | `.agent/skills/aos-check-for-security-issues/SKILL.md` | Audits dependencies, secrets, input validation, and security rules prior to commit. |
+| **`aos-vibecode`** | `.agent/skills/aos-vibecode/SKILL.md` | Consumes `max_patch_size` and `patch_strategy` from the active profile to translate `initiative.md` and `plan.md` into surgical micro-patches. |
+| **`aos-verify`** | `.agent/skills/aos-verify/SKILL.md` | Consumes `type_safety` and `review_depth` to execute lint, build, 3-point static review, and automated unit test checks. |
+| **`aos-check-for-security-issues`** | `.agent/skills/aos-check-for-security-issues/SKILL.md` | Engine-neutral security audit inspecting dependencies, secrets, input sanitization, and security rules prior to commit. |
 
 ### Required Repository Metadata
 Every repository governed by `vibe-coder` maintains:

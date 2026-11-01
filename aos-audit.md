@@ -1,10 +1,11 @@
 # 🛡️ AOS Project Audit Report (`aos-audit.md`)
 
 - **Date:** 01.11.2026
-- **Branch:** `fix/dd-mm-yyyy-date-format`
+- **Branch:** `chore/engine-neutral-profile-architecture`
 - **Compliance Score:** 6 / 6 pillars passing (100%)
 
 ## Applied Optimizations
+- [x] **Engine-Neutral Workflow Chassis & Profile Architecture (`.agent/skills/vibe-coder/profiles/`):** Decoupled 7-Phase FDD orchestration from model parameters via `_schema.md`, `profile-antigravity.md`, and `bin/aos-create-profile.mjs`.
 - [x] **Strict AI Workflow, Git & Execution Rules (`AGENTS.md` & `ai-rules.json`):** Fused Conventional Commits with strict Git branching (*Never work on main*, *Test on the branch*, *Push, do not merge*) and execution rules (*Verify before writing*, *Look Before You Leap*, *Dependency Lockdown*, *Fix your own bugs*, *Commit atomicity*, *Documentation Sync*, *Explain the Fix*, *Zero AI Slop*) into `AGENTS.md` and vendor-neutral `ai-rules.json`.
 - [x] **CLI Installer Update (`bin/init-guardrail.mjs`):** Copies `.agent/skills/`, `AGENTS.md`, and `ai-rules.json` into target repositories.
 - [x] **Default 5-Badge Header Row (`README.md`, `vibe-coder`, `aos-audit-project`, `aos-vibecode`):** Enforced `Version`, `License`, `Build Status`, `Firebase`/Stack, and `Gemini`/AI Provider badges across `README.md` and the skill suite.
