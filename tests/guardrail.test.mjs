@@ -14,6 +14,7 @@ test('Prerequisite core documentation and reference files exist and are non-empt
     'dev.md',
     'decision.md',
     'AGENTS.md',
+    'ai-rules.json',
     '.gitignore',
     '.nvmrc',
     'docs/reference-architecture.md',
@@ -24,6 +25,30 @@ test('Prerequisite core documentation and reference files exist and are non-empt
     const stat = fs.statSync(filePath);
     assert.ok(stat.size > 0, `File is empty: ${file}`);
   }
+});
+
+test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipline, and Conventional Commits', () => {
+  const agentsMd = fs.readFileSync(path.join(rootDir, 'AGENTS.md'), 'utf8');
+  assert.match(agentsMd, /Never work on `main`/);
+  assert.match(agentsMd, /Test on the branch/);
+  assert.match(agentsMd, /Push, do not merge/);
+  assert.match(agentsMd, /Verify before writing/);
+  assert.match(agentsMd, /Look Before You Leap/);
+  assert.match(agentsMd, /Dependency Lockdown/);
+  assert.match(agentsMd, /Fix your own bugs/);
+  assert.match(agentsMd, /Documentation Sync/);
+  assert.match(agentsMd, /Explain the Fix/);
+  assert.match(agentsMd, /Zero AI Slop/);
+
+  const aiRules = JSON.parse(fs.readFileSync(path.join(rootDir, 'ai-rules.json'), 'utf8'));
+  assert.equal(aiRules.gitStrategy?.neverWorkOnMain, true);
+  assert.equal(aiRules.gitStrategy?.pushDoNotMerge, true);
+  assert.equal(aiRules.style?.noAiSlop, true);
+  assert.ok(aiRules.executionDiscipline?.lookBeforeYouLeap);
+  assert.ok(aiRules.executionDiscipline?.dependencyLockdown);
+  assert.ok(aiRules.executionDiscipline?.documentationSync);
+  assert.ok(aiRules.executionDiscipline?.explainTheFix);
+  assert.ok(aiRules.conventionalCommits?.allowedTypes?.includes('feat'));
 });
 
 test('README.md includes default 5-badge header row, global skill installation, and required community footer links', () => {
@@ -98,7 +123,7 @@ test('decision.md contains dated entries matching protocol schema', () => {
   assert.match(content, /- \*\*Impact:\*\*/);
 });
 
-test('bin/init-guardrail.mjs copies .agent/skills/ (including aos-audit-project) and AGENTS.md into a target directory', () => {
+test('bin/init-guardrail.mjs copies .agent/skills/, AGENTS.md, and ai-rules.json into a target directory', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
   assert.equal(pkg.bin?.['init-guardrail'], './bin/init-guardrail.mjs');
 
@@ -106,6 +131,7 @@ test('bin/init-guardrail.mjs copies .agent/skills/ (including aos-audit-project)
   try {
     const result = installGuardrail(tmpDir);
     assert.equal(fs.existsSync(path.join(result.targetDir, 'AGENTS.md')), true);
+    assert.equal(fs.existsSync(path.join(result.targetDir, 'ai-rules.json')), true);
     assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'vibe-coder', 'SKILL.md')), true);
     assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-audit-project', 'SKILL.md')), true);
     assert.equal(fs.existsSync(path.join(result.targetDir, '.agent', 'skills', 'aos-vibecode', 'SKILL.md')), true);
