@@ -1,7 +1,7 @@
 # 🛡️ AOS Project Audit Report (`aos-audit.md`)
 
-- **Date:** 2026-11-01
-- **Branch:** `feature/strict-ai-workflow-rules`
+- **Date:** 11.01.2026
+- **Branch:** `fix/date-format-and-readme-prompts`
 - **Compliance Score:** 6 / 6 pillars passing (100%)
 
 ## Applied Optimizations

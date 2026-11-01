@@ -51,7 +51,7 @@ test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipl
   assert.ok(aiRules.conventionalCommits?.allowedTypes?.includes('feat'));
 });
 
-test('README.md includes default 5-badge header row, global skill installation, and required community footer links', () => {
+test('README.md includes default 5-badge header row, global skill installation, Antigravity usage prompts, and required community footer links', () => {
   const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
   assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.0\.0-blue\.svg\)\]/);
   assert.match(readme, /\[!\[License\]\(https:\/\/img\.shields\.io\/badge\/license-MIT-green\.svg\)\]\(LICENSE\)/);
@@ -59,6 +59,12 @@ test('README.md includes default 5-badge header row, global skill installation, 
   assert.match(readme, /\[!\[Firebase\]\(https:\/\/img\.shields\.io\/badge\/Firebase-/);
   assert.match(readme, /\[!\[Gemini\]\(https:\/\/img\.shields\.io\/badge\/Gemini-AI%20Powered-/);
   assert.match(readme, /~\/\.gemini\/antigravity\/skills\//);
+  assert.match(readme, /## 💬 How to Use in Antigravity/);
+  assert.match(readme, /Start a vibe-coder session:/);
+  assert.match(readme, /Run aos-audit-project:/);
+  assert.match(readme, /Run aos-vibecode:/);
+  assert.match(readme, /Run aos-verify:/);
+  assert.match(readme, /Run aos-check-for-security-issues:/);
   assert.match(readme, /Powered by <a href="https:\/\/github\.com\/stefanasemota\/vibe-coding-guardrail">aos Vibe Coding Guardrail<\/a>/);
   assert.match(readme, /Fuel the Project - Buy me a coffee: <a href="https:\/\/buymeacoffee\.com\/stephanasex">https:\/\/buymeacoffee\.com\/stephanasex<\/a>/);
 });
@@ -114,13 +120,27 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
   }
 });
 
-test('decision.md contains dated entries matching protocol schema', () => {
+test('decision.md and aos-audit.md use MM.DD.YYYY date format and order decisions newest-to-oldest', () => {
   const content = fs.readFileSync(path.join(rootDir, 'decision.md'), 'utf8');
-  assert.match(content, /### \[\d{4}-\d{2}-\d{2}\] - .+/);
+  assert.match(content, /### \[\d{2}\.\d{2}\.\d{4}\] - .+/);
+  assert.doesNotMatch(content, /### \[\d{4}-\d{2}-\d{2}\]/, 'decision.md must not use YYYY-MM-DD');
   assert.match(content, /- \*\*Origin:\*\*/);
   assert.match(content, /- \*\*Context:\*\*/);
   assert.match(content, /- \*\*Decision:\*\*/);
   assert.match(content, /- \*\*Impact:\*\*/);
+
+  const dateMatches = [...content.matchAll(/### \[(\d{2})\.(\d{2})\.(\d{4})\] - /g)];
+  assert.ok(dateMatches.length >= 2, 'Expected at least 2 dated entries in decision.md');
+  const timestamps = dateMatches.map(([, mm, dd, yyyy]) => Date.UTC(Number(yyyy), Number(mm) - 1, Number(dd)));
+  for (let i = 1; i < timestamps.length; i++) {
+    assert.ok(
+      timestamps[i - 1] >= timestamps[i],
+      `decision.md entries must be ordered newest (top) to oldest (bottom)`
+    );
+  }
+
+  const auditContent = fs.readFileSync(path.join(rootDir, 'aos-audit.md'), 'utf8');
+  assert.match(auditContent, /- \*\*Date:\*\* \d{2}\.\d{2}\.\d{4}/);
 });
 
 test('bin/init-guardrail.mjs copies .agent/skills/, AGENTS.md, and ai-rules.json into a target directory', () => {
