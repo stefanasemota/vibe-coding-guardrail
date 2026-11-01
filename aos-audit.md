@@ -1,10 +1,11 @@
 # 🛡️ AOS Project Audit Report (`aos-audit.md`)
 
 - **Date:** 01.11.2026
-- **Branch:** `chore/release-v1.0.0`
+- **Branch:** `feat/automation-profile-v1.1.0`
 - **Compliance Score:** 6 / 6 pillars passing (100%)
 
 ## Applied Optimizations
+- [x] **Unattended Automation Profile & `v1.1.0` Release (`profile-automation.md`):** Added `profile-automation.md` (`gate_behavior: advisory`), Weekly Wednesday Automations (`aos-audit-project` & `aos-check-for-security-issues`), custom AI model profile creation guide, and bumped release to `v1.1.0`.
 - [x] **Release `v1.0.0` & `CHANGELOG.md`:** Added `CHANGELOG.md` (`01.11.2026`) and prepared tag `v1.0.0`.
 - [x] **Engine-Neutral Workflow Chassis & Profile Architecture (`.agent/skills/vibe-coder/profiles/`):** Decoupled 7-Phase FDD orchestration from model parameters via `_schema.md`, `profile-antigravity.md`, and `bin/aos-create-profile.mjs`.
 - [x] **Strict AI Workflow, Git & Execution Rules (`AGENTS.md` & `ai-rules.json`):** Fused Conventional Commits with strict Git branching (*Never work on main*, *Test on the branch*, *Push, do not merge*) and execution rules (*Verify before writing*, *Look Before You Leap*, *Dependency Lockdown*, *Fix your own bugs*, *Commit atomicity*, *Documentation Sync*, *Explain the Fix*, *Zero AI Slop*) into `AGENTS.md` and vendor-neutral `ai-rules.json`.
