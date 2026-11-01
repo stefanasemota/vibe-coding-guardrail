@@ -35,9 +35,12 @@ Inspect the target repository against these 6 engine-neutral compliance pillars:
 - `initiative.md`: Initial seed prompt, product brief, or problem statement.
 - `dev.md`: Local development setup, skill installation instructions, environment variable specs, and execution commands.
 - `decision.md` (or `docs/decisions.md`): Reverse-chronological ADR ledger (**newest at top, oldest at bottom**) with dated `[DD.MM.YYYY]` entries (`Origin`, `Context`, `Decision`, `Impact`).
+  - **Legacy Format & Ordering Check:** If `decision.md` or `aos-audit.md` exists but uses `[YYYY-MM-DD]` or `[MM.DD.YYYY]` dates or orders entries oldest-to-newest, mark it as `⚠️ Partial` and propose converting all dates to `DD.MM.YYYY` and reversing the entry order so newest is at the top.
 
-### B. Standardized `package.json` Schema
-Verify that `package.json` includes the required identity, author, keywords, repository, and scripts fields:
+### B. Stack-Aware `package.json` Schema (Node.js / TypeScript Projects Only)
+First detect the project type:
+- **Non-Node Projects (`pyproject.toml`, `go.mod`, `Cargo.toml`, `build.gradle`, `Package.swift`):** Mark `package.json` as `N/A (Non-Node Stack)` and audit the native manifest/test scripts instead.
+- **Node.js / TypeScript Projects (`package.json` exists):** Verify that `package.json` includes the required identity, author, keywords, repository, and scripts fields (and optionally offer to register `"vibe-coding-guardrail": "github:stefanasemota/vibe-coding-guardrail"` in `devDependencies`):
 ```json
 {
   "name": "<project-name>",

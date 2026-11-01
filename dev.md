@@ -18,11 +18,12 @@ npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
 node bin/init-guardrail.mjs /path/to/your-project
 ```
 
-### Option B: Install Globally Across All Projects (User Scope — Recommended)
-Symlink the skills into your global Antigravity configuration so `vibe-coder` is available in every workspace automatically and immediately reflects any updates in this repository:
+### Option B: Install Globally as an Antigravity Plugin Across All Projects (User Scope — Recommended)
+Symlink the repository as an Antigravity Plugin (`plugin.json`) and global skill suite so both `rules/AGENTS.md` and all 5 `skills/` are active in every workspace automatically (regardless of whether the target repo has a `package.json`) and immediately reflect any updates in this repository:
 
 ```bash
-mkdir -p ~/.gemini/antigravity/skills ~/.gemini/config/skills
+mkdir -p ~/.gemini/config/plugins ~/.gemini/antigravity/skills ~/.gemini/config/skills
+ln -sfn "$(pwd)" ~/.gemini/config/plugins/vibe-coding-guardrail
 ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/antigravity/skills/
 ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/config/skills/
 ```

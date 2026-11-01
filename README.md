@@ -1,6 +1,6 @@
 # 🛡️ Vibe Coding Guardrail (`vibe-coder`)
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
 [![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20Hosting-FFCA28?logo=firebase&logoColor=white)]()
@@ -12,19 +12,27 @@
 
 ## ⚡ Run `vibe-coder` by Default Across All Projects in Antigravity
 
-Symlink the skill suite into your global `~/.gemini/antigravity/skills/` and `~/.gemini/config/skills/` directories so `vibe-coder` and all `aos-*` sub-skills run by default across **every project session** in Google Antigravity and immediately reflect any updates pulled or committed here:
+### Option 1: Install as a Global Antigravity Plugin (`plugin.json` — Recommended)
+This repository ships as a complete, language-agnostic **Antigravity Plugin** ([`plugin.json`](plugin.json)) bundling `rules/AGENTS.md` + all 5 `skills/` as a single unit. Symlink the repository into `~/.gemini/config/plugins/` (and `~/.gemini/antigravity/skills/` / `~/.gemini/config/skills/`) so both the `AGENTS.md` rules and all 5 skills are active across **every project** (Node.js, Python, Go, Rust, Swift/Xcode, Android) without requiring a `package.json` in the target repo:
 
 ```bash
-mkdir -p ~/.gemini/antigravity/skills ~/.gemini/config/skills
+mkdir -p ~/.gemini/config/plugins ~/.gemini/antigravity/skills ~/.gemini/config/skills
+ln -sfn "$(pwd)" ~/.gemini/config/plugins/vibe-coding-guardrail
 ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/antigravity/skills/
 ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/config/skills/
 ```
 
-To install the skills and commit rules (`AGENTS.md`) directly into a specific repository workspace instead:
+### Option 2: Install into a Specific Workspace
+To copy `.agent/skills/`, `AGENTS.md`, and `ai-rules.json` directly into a single repository workspace instead:
 
 ```bash
 npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
 ```
+
+> **Updating Projects Previously Audited with an Older Version:**
+> 1. Remove any stale local `.agent/skills/` copy inside that project (`rm -rf /path/to/project/.agent/skills`) so it uses your live global plugin/skills.
+> 2. Open a new chat in that project and run:
+>    `Run aos-audit-project: audit this repository against the Architectural Summary, migrate decision.md and aos-audit.md dates to DD.MM.YYYY with newest entries at the top, and ask which changes to apply.`
 
 ---
 
@@ -64,6 +72,7 @@ See [`.agent/skills/README.md`](.agent/skills/README.md) for full details on the
 
 | Component | Path | Responsibility |
 | :--- | :--- | :--- |
+| **`plugin.json`** | `plugin.json` (`rules/AGENTS.md` + `skills/`) | Antigravity Plugin manifest bundling `rules/AGENTS.md`, `assets/logo.svg`, starter prompts, and all 5 skills into a single toggleable unit. |
 | **`profile-antigravity`** | `.agent/skills/vibe-coder/profiles/profile-antigravity.md` | Default production engine profile (`max_patch_size: 50`, `surgical-unified-diff`, `strict` type safety, pause-and-wait gates at Phases 3, 4, 6). |
 | **`profile-automation`** | `.agent/skills/vibe-coder/profiles/profile-automation.md` | Unattended scheduled automation profile (`gate_behavior: advisory`, report-only mode) for background runs in the Antigravity Automations tab. |
 | **`_schema.md`** | `.agent/skills/vibe-coder/profiles/_schema.md` | Schema contract for custom profiles created via `aos-create-profile <name>`. |
@@ -81,7 +90,7 @@ Every repository governed by `vibe-coder` maintains:
 - `decision.md` (or `docs/decisions.md`) — Reverse-chronological ledger (newest at top, oldest at bottom) of architectural, UX, and implementation choices using `[DD.MM.YYYY]` dates.
 - `AGENTS.md` & `ai-rules.json` — Strict AI workflow, Git branching, execution discipline, and Conventional Commits rules (Markdown + vendor-neutral JSON).
 - `docs/feature/[feature-name]/plan.md` — 7-Phase FDD execution checklist and micro-feature breakdown.
-- `package.json` — Standardized author metadata, keywords, repository link, and scripts (`dev`, `build`, `test`, `test:unit`, `lint`).
+- `package.json` *(Stack-Aware — Node.js/TS repos only)* — Standardized author metadata, keywords, repository link, scripts (`dev`, `build`, `test`, `test:unit`, `lint`), and optional `vibe-coding-guardrail` devDependency. Non-Node projects (`pyproject.toml`, `go.mod`, `Cargo.toml`, `Package.swift`, `build.gradle`) use their native manifest and test runner.
 
 ---
 

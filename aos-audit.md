@@ -1,10 +1,11 @@
 # 🛡️ AOS Project Audit Report (`aos-audit.md`)
 
 - **Date:** 01.11.2026
-- **Branch:** `feat/automation-profile-v1.1.0`
+- **Branch:** `feat/antigravity-plugin-v1.2.0`
 - **Compliance Score:** 6 / 6 pillars passing (100%)
 
 ## Applied Optimizations
+- [x] **Antigravity Plugin Bundle (`plugin.json`) & `v1.2.0` Release:** Added `plugin.json`, `rules/AGENTS.md`, `assets/logo.svg`, `skills/` symlink, stack-aware `package.json` checks, and legacy date migration in `aos-audit-project`.
 - [x] **Unattended Automation Profile & `v1.1.0` Release (`profile-automation.md`):** Added `profile-automation.md` (`gate_behavior: advisory`), Weekly Wednesday Automations (`aos-audit-project` & `aos-check-for-security-issues`), custom AI model profile creation guide, and bumped release to `v1.1.0`.
 - [x] **Release `v1.0.0` & `CHANGELOG.md`:** Added `CHANGELOG.md` (`01.11.2026`) and prepared tag `v1.0.0`.
 - [x] **Engine-Neutral Workflow Chassis & Profile Architecture (`.agent/skills/vibe-coder/profiles/`):** Decoupled 7-Phase FDD orchestration from model parameters via `_schema.md`, `profile-antigravity.md`, and `bin/aos-create-profile.mjs`.

@@ -91,7 +91,7 @@ test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipl
 
 test('README.md includes default 5-badge header row, global skill installation, Antigravity usage prompts, Wednesday automations, custom model profile guide, and required community footer links', () => {
   const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
-  assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.1\.0-blue\.svg\)\]/);
+  assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.2\.0-blue\.svg\)\]/);
   assert.match(readme, /\[!\[License\]\(https:\/\/img\.shields\.io\/badge\/license-MIT-green\.svg\)\]\(LICENSE\)/);
   assert.match(readme, /\[!\[Build Status\]\(https:\/\/img\.shields\.io\/badge\/build-passing-brightgreen\.svg\)\]/);
   assert.match(readme, /\[!\[Firebase\]\(https:\/\/img\.shields\.io\/badge\/Firebase-/);
@@ -142,6 +142,16 @@ test('Standardized package.json metadata, author, keywords, repository, and scri
   for (const script of requiredScripts) {
     assert.ok(pkg.scripts?.[script], `Missing required package.json script: ${script}`);
   }
+
+  const pluginJson = JSON.parse(fs.readFileSync(path.join(rootDir, 'plugin.json'), 'utf8'));
+  assert.equal(pluginJson.name, 'vibe-coding-guardrail');
+  assert.equal(pluginJson.version, pkg.version);
+  assert.equal(pluginJson.logo, 'assets/logo.svg');
+  assert.equal(Array.isArray(pluginJson.suggestedPrompts), true);
+  assert.equal(pluginJson.suggestedPrompts.length, 3);
+  assert.equal(fs.existsSync(path.join(rootDir, 'assets/logo.svg')), true);
+  assert.equal(fs.existsSync(path.join(rootDir, 'rules/AGENTS.md')), true);
+  assert.equal(fs.existsSync(path.join(rootDir, 'skills/vibe-coder/SKILL.md')), true);
 });
 
 test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontmatter and consume profile parameters', () => {
