@@ -1,7 +1,7 @@
 {
   "name": "vibe-coding-guardrail",
   "displayName": "AOS Vibe Coding Guardrail",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Engine-neutral 7-Phase FDD Orchestrator (vibe-coder), 4 aos-* sub-skills, and strict Git/commit guardrails (AGENTS.md).",
   "logo": "assets/logo.svg",
   "author": {

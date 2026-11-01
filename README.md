@@ -1,6 +1,6 @@
 # 🛡️ Vibe Coding Guardrail (`vibe-coder`)
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
+[![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/stefanasemota/vibe-coding-guardrail)
 [![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20Hosting-FFCA28?logo=firebase&logoColor=white)]()
