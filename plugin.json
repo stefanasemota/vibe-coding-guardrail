@@ -1,0 +1,21 @@
+{
+  "name": "vibe-coding-guardrail",
+  "displayName": "AOS Vibe Coding Guardrail",
+  "version": "1.2.0",
+  "description": "Engine-neutral 7-Phase FDD Orchestrator (vibe-coder), 4 aos-* sub-skills, and strict Git/commit guardrails (AGENTS.md).",
+  "logo": "assets/logo.svg",
+  "author": {
+    "name": "Stephan Asemota",
+    "url": "https://asemota.ch/"
+  },
+  "homepage": "https://github.com/stefanasemota/vibe-coding-guardrail",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stefanasemota/vibe-coding-guardrail.git"
+  },
+  "suggestedPrompts": [
+    "Start a vibe-coder session: scaffold or implement the next feature from initiative.md",
+    "Run aos-audit-project: audit this repository against the Architectural Summary and ask which changes to apply",
+    "Run aos-verify: validate imports, TypeScript types, zero-warning lint rules, unit tests, and the build"
+  ]
+}

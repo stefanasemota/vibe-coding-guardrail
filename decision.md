@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [01.11.2026] - Bundle as Antigravity Plugin (`plugin.json`), Add Stack-Aware `package.json` Check & Release `v1.2.0`
+- **Origin:** Human Request | Agent Proposal
+- **Context:** Not all repositories are Node.js projects with a `package.json`, and loose global skills do not automatically activate `AGENTS.md` rules across new workspaces. Additionally, previously audited repositories needed a migration check for legacy date formats and entry ordering in `decision.md`.
+- **Decision:** Packaged the repository as an Antigravity Plugin (`plugin.json`, `rules/AGENTS.md`, `assets/logo.svg`, `skills/`), updated `vibe-coder/SKILL.md` and `aos-audit-project/SKILL.md` for stack-aware `package.json` checks and legacy date/order migration, updated all READMEs and `dev.md`, and bumped version to `1.2.0`.
+- **Impact:** `plugin.json`, `assets/logo.svg`, `rules/AGENTS.md`, `skills`, `.agent/skills/vibe-coder/SKILL.md`, `.agent/skills/aos-audit-project/SKILL.md`, `README.md`, `.agent/skills/README.md`, `dev.md`, `package.json`, `CHANGELOG.md`, `decision.md`, `aos-audit.md`, `tests/guardrail.test.mjs`.
+
 ### [01.11.2026] - Add `profile-automation.md`, Weekly Wednesday Automations & Release `v1.1.0`
 - **Origin:** Human Request | Agent Proposal
 - **Context:** Unattended scheduled runs in the Antigravity Automations tab require a profile that does not pause waiting for interactive human confirmation (`gate_behavior: "advisory"`), along with clear recipes for weekly Wednesday audits (`aos-audit-project` & `aos-check-for-security-issues`) and creating custom profiles for specific AI models.

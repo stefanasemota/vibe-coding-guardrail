@@ -39,10 +39,12 @@ Every project managed or audited under this workflow enforces a uniform director
   * `dev.md`: Local development setup, skill installation guide, environment variable specs, and execution instructions.
   * `decision.md` (or `docs/decisions.md`): Reverse-chronological ADR ledger (`[DD.MM.YYYY]`, newest at top).
   * `docs/feature/[feature-name]/plan.md`: Active 7-Phase FDD checklist and micro-feature breakdown.
-* **Configuration & `package.json` Schema:**
+* **Stack-Aware Configuration & `package.json` Schema:**
   * Consistent `.gitignore` covering `.env*`, dependency caches (`node_modules`, `.turbo`), build artifacts (`dist`, `.next`, `coverage`), and keys (`*service-account*.json`, `*key*.json`, `*.pem`).
-  * `AGENTS.md` and `ai-rules.json` enforcing strict Git strategy, execution discipline, and Conventional Commits.
-  * Standardized `package.json` schema with required author metadata, keywords, repository, and uniform scripts (`dev`, `build`, `test`, `test:unit`, and `lint`):
+  * `AGENTS.md` and `ai-rules.json` enforcing strict Git strategy, execution discipline, and Conventional Commits (automatically active globally when installed as the `vibe-coding-guardrail` Antigravity Plugin via `plugin.json`).
+  * **Project-Type Detection (`package.json` vs. Non-Node Projects):**
+    * **Non-Node Projects (`pyproject.toml`, `go.mod`, `Cargo.toml`, `build.gradle`, `Package.swift`):** Skip `package.json` requirements and map `aos-verify` to the native build/test/lint toolchain (`pytest`/`ruff`, `go test`, `cargo clippy`, `./gradlew test`).
+    * **Node.js / TypeScript Projects (`package.json` exists):** Enforce the standardized `package.json` schema with required author metadata, keywords, repository, and uniform scripts (`dev`, `build`, `test`, `test:unit`, and `lint`), and optionally ask at Phase 3 if the user wants to add `"vibe-coding-guardrail": "github:stefanasemota/vibe-coding-guardrail"` to `devDependencies`:
     ```json
     {
       "name": "<project-name>",
