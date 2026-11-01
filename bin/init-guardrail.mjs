@@ -21,10 +21,14 @@ export function installGuardrail(targetDirInput = process.argv[2] || '.') {
   const destAgentsMd = path.join(targetDir, 'AGENTS.md');
   fs.copyFileSync(srcAgentsMd, destAgentsMd);
 
-  return { targetDir, destSkillsDir, destAgentsMd };
+  const srcAiRulesJson = path.join(packageRoot, 'ai-rules.json');
+  const destAiRulesJson = path.join(targetDir, 'ai-rules.json');
+  fs.copyFileSync(srcAiRulesJson, destAiRulesJson);
+
+  return { targetDir, destSkillsDir, destAgentsMd, destAiRulesJson };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
   const { targetDir } = installGuardrail();
-  console.log(`✅ Installed vibe-coder skills (.agent/skills/) and AGENTS.md into: ${targetDir}`);
+  console.log(`✅ Installed vibe-coder skills (.agent/skills/), AGENTS.md, and ai-rules.json into: ${targetDir}`);
 }

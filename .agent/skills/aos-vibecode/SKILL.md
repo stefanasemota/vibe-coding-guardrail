@@ -10,9 +10,13 @@ Translates product intent from `initiative.md`, `docs/rule-book.md`, and feature
 
 ## Execution Rules
 
-1. **Micro-Patch Discipline:**
-   * Favor small, atomic patches (≤ 50 lines per change where feasible) over sweeping multi-file rewrites.
-   * Keep diffs focused on a single concern per iteration and commit using Conventional Commits (`feat`, `fix`, `refactor`, etc. per `AGENTS.md`).
+1. **Micro-Patch & Execution Discipline (`AGENTS.md` & `ai-rules.json`):**
+   * **Verify Before Writing:** Read existing relevant code and run baseline build/test checks before making edits.
+   * **Look Before You Leap:** Run a `find` or `grep` search to verify whether a utility function, hook, or component already exists before writing a new one from scratch.
+   * **Dependency Lockdown:** Never install new `npm` packages or `pip` libraries without asking for explicit human approval first. Rely on existing dependencies whenever possible.
+   * **Fix Your Own Bugs:** If a build, linter, or test fails after an edit, iterate and fix it autonomously before declaring the task done.
+   * **Commit Atomicity & Explain the Fix:** Favor small, atomic patches (≤ 50 lines per change where feasible) and make small, logical Conventional Commits (`feat`, `fix`, `refactor`, etc.). When resolving a bug (`fix`), write a concise commit summary explaining *why* the bug happened and *how* the change fixed it.
+   * **Documentation Sync & Zero AI Slop:** Update `README.md`, `dev.md`, or API docs in the same commit whenever an endpoint, CLI flag, env var, or setup step changes. Avoid AI slop or filler words—keep prose straight to the point.
 
 2. **Schema-First & Domain Grounding:**
    * Define deterministic **Zod schemas** (`z.object(...)`) as strict contracts before implementing AI flows (e.g., Genkit / Gemini) or database writes.

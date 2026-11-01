@@ -70,22 +70,31 @@ Every project managed or audited under this workflow must enforce a uniform dire
 
 ---
 
-## 2. Git Lifecycle & Branch Management
+## 2. Git Lifecycle, Branch Management & Strict Execution Discipline
 
 Execute environment sanity checks before writing any code:
 
-1. **Repository Inspection:**
+1. **Repository & Baseline Inspection (Verify Before Writing):**
    * Check for an existing Git repository (`git rev-parse --is-inside-work-tree`). If absent, run `git init`.
    * Check for an upstream remote (`git remote -v`). If no remote exists, prompt to configure or auto-link the GitHub remote.
-2. **Branching Convention:**
-   * Direct commits to `main` or `master` are strictly prohibited.
-   * Classify the session goal and create a scoped branch using the pattern:
+   * Read existing relevant code and run the baseline build/test command to ensure the project builds cleanly before making edits.
+2. **Branching Convention (STRICT):**
+   * **Never work on `main`:** Direct commits to `main`, `master`, or `development` are strictly prohibited.
+   * Classify the session goal and create a descriptive branch from the latest `development`/`main` branch before writing code:
      * `feature/<short-slug>`
      * `fix/<short-slug>`
      * `chore/<short-slug>`
-3. **Session Completion & Pull Requests:**
+   * **Test on the branch:** Ensure all code builds, tests pass, and the feature works entirely within the isolated branch.
+3. **Core Execution Rules (`AGENTS.md` & `ai-rules.json`):**
+   * **Look Before You Leap:** Always run a `find` or `grep` search to check if a utility function or component already exists before writing a new one from scratch.
+   * **Dependency Lockdown:** Never install new `npm` packages or `pip` libraries without asking for explicit human approval first. Rely on existing dependencies whenever possible.
+   * **Fix Your Own Bugs:** If a command, linter, or test fails after an edit, iterate and fix it autonomously before declaring the task done.
+   * **Commit Atomicity & Explain the Fix:** Make small, logical Conventional Commits (`feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `perf`) as you progress. For bug fixes (`fix`), include a concise summary in the commit message explaining *why* the bug happened and *how* the change fixed it.
+   * **Documentation Sync:** If a change alters an API endpoint, CLI flag, environment variable, or setup step, update `README.md`, `dev.md`, or API docs in the same commit.
+   * **Zero AI Slop:** Avoid filler words or verbose prose—keep code, commits, and documentation straight to the point.
+4. **Session Completion & Pull Requests (Push, Do Not Merge):**
    * Conclude every session with explicit human confirmation/approval.
-   * Push the working branch to the remote upstream and generate a **Draft Pull Request** (via GitHub CLI `gh pr create --draft` or direct branch push) with a concise bulleted summary of changes.
+   * Push the working branch to the remote upstream and generate a **Draft Pull Request** (via GitHub CLI `gh pr create --draft` or direct branch push) with a concise bulleted summary of changes. **Do NOT merge the branch into `main` or `development`**—leave the final merge/PR review for the human.
 
 ---
 

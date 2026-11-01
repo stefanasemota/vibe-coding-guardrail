@@ -67,10 +67,13 @@ Verify that `package.json` includes the required identity, author, keywords, rep
 }
 ```
 
-### C. Git & Governance Hygiene
-- Active Git repository (`git rev-parse --is-inside-work-tree`) with upstream remote (`git remote -v`) and working branch isolated from `main`/`master`.
+### C. Git, AI Rules & Governance Hygiene
+- Active Git repository (`git rev-parse --is-inside-work-tree`) with upstream remote (`git remote -v`) and working branch isolated from `main`/`master`/`development`.
 - `.gitignore` excluding `.env*`, `/node_modules`, `/coverage`, `/.next/`, `/dist`, `/build`, `*service-account*.json`, `*key*.json`, and `*.pem`.
-- `AGENTS.md` enforcing Conventional Commits (`feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `perf`).
+- `AGENTS.md` and `ai-rules.json` enforcing:
+  - **Strict Git Strategy:** Never work on `main`, test on the branch, push and open a Draft PR (do not merge).
+  - **Execution Discipline:** Verify before writing, Look Before You Leap (`find`/`grep` before creating utilities), Dependency Lockdown (human approval before installing packages), Fix Your Own Bugs, Commit Atomicity, Documentation Sync, Explain the Fix, and Zero AI Slop.
+  - **Conventional Commits:** Semantic prefixes (`feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `perf`).
 - `.nvmrc` pinning the Node.js runtime (`22`).
 
 ### D. Architectural Boundaries & Test Harness
