@@ -113,3 +113,16 @@ First detect the project type:
      - [ ] <Skipped Item, if any>
      ```
    - Prepend the audit milestone at the top of `decision.md` (`[DD.MM.YYYY]`).
+5. **Branch, Commit, Push & Open Draft PR (Mandatory When Optimizations Are Applied):**
+   - **Never Commit to `main` (`AGENTS.md` Rule 1):** Before committing applied optimizations, check the current Git branch (`git branch --show-current`). If on `main`, `master`, or `development`, create and switch to an isolated branch (`git checkout -b chore/aos-project-audit`).
+   - **Verify Baseline / Tests:** Run the repository's native test/lint command (`npm test && npm run lint`, `pytest`, `go test ./...`, etc.) to confirm all checks pass on the branch.
+   - **Commit Atomicity:** Stage and commit all applied optimizations, `aos-audit.md`, and `decision.md` using a Conventional Commit:
+     ```bash
+     git add .
+     git commit -m "chore(audit): apply aos-audit-project compliance optimizations"
+     ```
+   - **Push & Open Draft PR (Do Not Merge):** If an upstream GitHub remote (`origin`) is configured, push the branch and open a Draft Pull Request automatically, returning the Draft PR URL to the user (leave final merge/review to the human):
+     ```bash
+     git push -u origin HEAD
+     gh pr create --draft --title "chore(audit): apply aos-audit-project compliance optimizations" --body "Applies approved aos-audit-project scaffolding optimizations and updates aos-audit.md and decision.md."
+     ```
