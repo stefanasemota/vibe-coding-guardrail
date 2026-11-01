@@ -11,6 +11,7 @@ const rootDir = process.cwd();
 test('Prerequisite core documentation and reference files exist and are non-empty', () => {
   const requiredFiles = [
     'README.md',
+    'CHANGELOG.md',
     'initiative.md',
     'dev.md',
     'decision.md',

@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [01.11.2026] - Prepare `v1.0.0` Release & `CHANGELOG.md`
+- **Origin:** Human Request
+- **Context:** With the 7-Phase FDD Orchestrator, Engine Profile architecture, 4 `aos-*` sub-skills, CLI utilities, and strict AI workflow rules complete and verified, the project is ready for its first tagged release (`v1.0.0`).
+- **Decision:** Created `CHANGELOG.md` (`[1.0.0] - 01.11.2026`), added `CHANGELOG.md` verification to `tests/guardrail.test.mjs`, and prepared annotated tag `v1.0.0` and GitHub Release.
+- **Impact:** `CHANGELOG.md`, `decision.md`, `aos-audit.md`, `docs/feature/release-v1.0.0/plan.md`, `tests/guardrail.test.mjs`.
+
 ### [01.11.2026] - Decouple Engine-Neutral 7-Phase FDD Workflow Chassis from Engine Profiles
 - **Origin:** Human Request | Agent Proposal
 - **Context:** The `.agent/skills/` suite needed to separate engine-neutral workflow orchestration (7-phase FDD loop, checkpoint gates, Git isolation, `decision.md`) from model-specific engine parameters (`max_patch_size`, `patch_strategy`, `type_safety`, `review_depth`, `gate_behavior`).
