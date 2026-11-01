@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [01.11.2026] - Enforce Explicit Step 5 (Branch, Commit, Push & Open Draft PR) in `aos-audit-project`
+- **Origin:** Human Request
+- **Context:** Standalone invocations of `aos-audit-project` stopped at Step 4 after applying optimizations and generating `aos-audit.md` without automatically creating an isolated branch, committing, pushing, and opening a Draft PR.
+- **Decision:** Added Step 5 (`Branch, Commit, Push & Open Draft PR`) to `.agent/skills/aos-audit-project/SKILL.md` (which also updates the symlinked global skill and plugin copy automatically) and added test verification in `tests/guardrail.test.mjs`.
+- **Impact:** `.agent/skills/aos-audit-project/SKILL.md`, `skills/aos-audit-project/SKILL.md`, `tests/guardrail.test.mjs`, `decision.md`, `aos-audit.md`.
+
 ### [01.11.2026] - Bundle as Antigravity Plugin (`plugin.json`), Add Stack-Aware `package.json` Check & Release `v1.2.0`
 - **Origin:** Human Request | Agent Proposal
 - **Context:** Not all repositories are Node.js projects with a `package.json`, and loose global skills do not automatically activate `AGENTS.md` rules across new workspaces. Additionally, previously audited repositories needed a migration check for legacy date formats and entry ordering in `decision.md`.

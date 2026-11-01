@@ -171,6 +171,13 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
     assert.doesNotMatch(content, /disable-model-invocation:\s*true/, `${skill}/SKILL.md must not disable model invocation`);
     assert.match(content, /profile-antigravity\.md/, `${skill}/SKILL.md should reference active profile resolution`);
   }
+
+  const auditSkill = fs.readFileSync(
+    path.join(rootDir, '.agent/skills/aos-audit-project/SKILL.md'),
+    'utf8'
+  );
+  assert.match(auditSkill, /5\.\s*\*\*Branch, Commit, Push & Open Draft PR/);
+  assert.match(auditSkill, /gh pr create --draft/);
 });
 
 test('decision.md and aos-audit.md use DD.MM.YYYY date format and order decisions newest-to-oldest', () => {

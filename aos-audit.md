@@ -1,10 +1,11 @@
 # 🛡️ AOS Project Audit Report (`aos-audit.md`)
 
 - **Date:** 01.11.2026
-- **Branch:** `feat/antigravity-plugin-v1.2.0`
+- **Branch:** `feat/audit-auto-draft-pr`
 - **Compliance Score:** 6 / 6 pillars passing (100%)
 
 ## Applied Optimizations
+- [x] **Explicit Draft PR Step in `aos-audit-project` (Step 5):** Added Step 5 (`Branch, Commit, Push & Open Draft PR`) to `aos-audit-project/SKILL.md` so every standalone audit run automatically branches (`chore/aos-project-audit`), commits, pushes, and opens a Draft PR.
 - [x] **Antigravity Plugin Bundle (`plugin.json`) & `v1.2.0` Release:** Added `plugin.json`, `rules/AGENTS.md`, `assets/logo.svg`, `skills/` symlink, stack-aware `package.json` checks, and legacy date migration in `aos-audit-project`.
 - [x] **Unattended Automation Profile & `v1.1.0` Release (`profile-automation.md`):** Added `profile-automation.md` (`gate_behavior: advisory`), Weekly Wednesday Automations (`aos-audit-project` & `aos-check-for-security-issues`), custom AI model profile creation guide, and bumped release to `v1.1.0`.
 - [x] **Release `v1.0.0` & `CHANGELOG.md`:** Added `CHANGELOG.md` (`01.11.2026`) and prepared tag `v1.0.0`.
