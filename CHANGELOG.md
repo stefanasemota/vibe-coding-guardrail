@@ -4,6 +4,20 @@ All notable changes to **Vibe Coding Guardrail** are documented in this file. Da
 
 ---
 
+## [1.3.0] - 15.11.2026
+
+### Added
+- **Session-Start Obsolete Branch Cleanup (`vibe-coder` & `AGENTS.md`):**
+  - Enforced pruning stale refs (`git fetch --prune`), auto-deleting obsolete local merged branches, and prompting before deleting merged `origin/*` branches at session start.
+- **Session Termination Telemetry (`vibe-coder` & all `aos-*` sub-skills):**
+  - Standardized Session Termination footer displaying the active Guardrail version (`plugin.json`/`package.json`), skill name, and runtime token usage.
+
+### Changed
+- **Documentation Restructure (`Architecture.md`, `README.md`, `dev.md`):**
+  - Extracted system diagram, skill/profile table, required metadata, and reference benchmarks into `Architecture.md`.
+  - Added **Updating the Global Plugin & Verifying Your Version** to `README.md`.
+  - Consolidated custom AI model profiles (`aos-create-profile`) and standard `package.json` scripts into `dev.md` with zero AI slop.
+
 ## [1.2.1] - 01.11.2026
 
 ### Added
