@@ -67,6 +67,7 @@ test('Engine profile _schema.md, profile-antigravity.md, and profile-automation.
 
 test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipline, and Conventional Commits', () => {
   const agentsMd = fs.readFileSync(path.join(rootDir, 'AGENTS.md'), 'utf8');
+  assert.match(agentsMd, /Clean up merged branches first/);
   assert.match(agentsMd, /Never work on `main`/);
   assert.match(agentsMd, /Test on the branch/);
   assert.match(agentsMd, /Push, do not merge/);
@@ -171,6 +172,9 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
     assert.doesNotMatch(content, /disable-model-invocation:\s*true/, `${skill}/SKILL.md must not disable model invocation`);
     assert.match(content, /profile-antigravity\.md/, `${skill}/SKILL.md should reference active profile resolution`);
   }
+
+  const vibeCoderContent = fs.readFileSync(path.join(rootDir, '.agent', 'skills', 'vibe-coder', 'SKILL.md'), 'utf8');
+  assert.match(vibeCoderContent, /Session-Start Obsolete Branch Cleanup/);
 
   const auditSkill = fs.readFileSync(
     path.join(rootDir, '.agent/skills/aos-audit-project/SKILL.md'),
