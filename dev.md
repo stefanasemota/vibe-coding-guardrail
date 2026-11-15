@@ -28,6 +28,15 @@ cd /path/to/vibe-coding-guardrail && git pull origin main
 node -p "require('./plugin.json').version"
 ```
 
+**Batch-update all git repositories from a parent folder (e.g. `~/Developer`):**
+```bash
+# Option 1 (Global Plugin): remove stale local .agent/skills/ and update AGENTS.md + ai-rules.json
+node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all --clean-local-skills .
+
+# Option 2 (Workspace Copies): update .agent/skills/, AGENTS.md, and ai-rules.json in all git repos
+node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all .
+```
+
 ### Workspace Scope (Single Repository)
 ```bash
 npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
