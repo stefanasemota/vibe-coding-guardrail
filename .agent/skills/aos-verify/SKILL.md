@@ -35,3 +35,7 @@ Reads `type_safety` (`strict` | `permissive`) and `review_depth` (`multi-aspect-
 
 4. **Production Build Sanity:**
    * Run `npm run build` to verify clean compilation and monitor route bundle budgets.
+
+5. **Session Termination:**
+   * End the response by reading `version` from `plugin.json` (or `package.json`) and outputting:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-verify | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`

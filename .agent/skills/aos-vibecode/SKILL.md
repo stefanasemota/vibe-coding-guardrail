@@ -42,3 +42,7 @@ Before writing code, pull the active operating parameters from [`../vibe-coder/p
 
 6. **Decision Traceability (`[DD.MM.YYYY]`, Newest First):**
    * Prepend every architectural choice, UX trade-off, or dependency addition at the **top** of `decision.md` (newest at top, oldest at bottom) using the `[DD.MM.YYYY]` date format before concluding the step.
+
+7. **Session Termination:**
+   * End the response by reading `version` from `plugin.json` (or `package.json`) and outputting:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-vibecode | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`

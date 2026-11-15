@@ -11,6 +11,7 @@ const rootDir = process.cwd();
 test('Prerequisite core documentation and reference files exist and are non-empty', () => {
   const requiredFiles = [
     'README.md',
+    'Architecture.md',
     'CHANGELOG.md',
     'initiative.md',
     'dev.md',
@@ -90,7 +91,7 @@ test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipl
   assert.ok(aiRules.conventionalCommits?.allowedTypes?.includes('feat'));
 });
 
-test('README.md includes default 5-badge header row, global skill installation, Antigravity usage prompts, Wednesday automations, custom model profile guide, and required community footer links', () => {
+test('README.md, Architecture.md, and dev.md maintain clean separation, badges, update guide, prompts, automations, and footer', () => {
   const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
   assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.2\.1-blue\.svg\)\]/);
   assert.match(readme, /\[!\[License\]\(https:\/\/img\.shields\.io\/badge\/license-MIT-green\.svg\)\]\(LICENSE\)/);
@@ -98,6 +99,9 @@ test('README.md includes default 5-badge header row, global skill installation, 
   assert.match(readme, /\[!\[Firebase\]\(https:\/\/img\.shields\.io\/badge\/Firebase-/);
   assert.match(readme, /\[!\[Gemini\]\(https:\/\/img\.shields\.io\/badge\/Gemini-AI%20Powered-/);
   assert.match(readme, /~\/\.gemini\/antigravity\/skills\//);
+  assert.match(readme, /Updating the Global Plugin & Verifying Your Version/);
+  assert.match(readme, /Architecture\.md/);
+  assert.match(readme, /dev\.md/);
   assert.match(readme, /## 💬 How to Use in Antigravity/);
   assert.match(readme, /Start a vibe-coder session:/);
   assert.match(readme, /Run aos-audit-project:/);
@@ -106,10 +110,19 @@ test('README.md includes default 5-badge header row, global skill installation, 
   assert.match(readme, /Run aos-check-for-security-issues:/);
   assert.match(readme, /## ⏱️ Weekly Wednesday Automations/);
   assert.match(readme, /Every Wednesday/);
-  assert.match(readme, /## 🧩 Creating a Custom Profile for a Particular AI Model/);
-  assert.match(readme, /aos-create-profile/);
   assert.match(readme, /Powered by <a href="https:\/\/github\.com\/stefanasemota\/vibe-coding-guardrail">aos Vibe Coding Guardrail<\/a>/);
   assert.match(readme, /Fuel the Project - Buy me a coffee: <a href="https:\/\/buymeacoffee\.com\/stephanasex">https:\/\/buymeacoffee\.com\/stephanasex<\/a>/);
+
+  const arch = fs.readFileSync(path.join(rootDir, 'Architecture.md'), 'utf8');
+  assert.match(arch, /## Skill Suite & Profile Architecture/);
+  assert.match(arch, /## Required Repository Metadata/);
+  assert.match(arch, /## Reference Benchmark/);
+
+  const devMd = fs.readFileSync(path.join(rootDir, 'dev.md'), 'utf8');
+  assert.match(devMd, /## 3\. Creating a Custom Profile for a Particular AI Model/);
+  assert.match(devMd, /aos-create-profile/);
+  assert.match(devMd, /## 5\. Quick-Start Commands & Standard Scripts/);
+  assert.match(devMd, /npm test/);
 });
 
 test('Standardized package.json metadata, author, keywords, repository, and scripts exist', () => {
@@ -171,6 +184,7 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
     assert.match(content, /^---\nname:\s*.+\ndescription:\s*.+\n---/m, `Invalid frontmatter in ${skill}/SKILL.md`);
     assert.doesNotMatch(content, /disable-model-invocation:\s*true/, `${skill}/SKILL.md must not disable model invocation`);
     assert.match(content, /profile-antigravity\.md/, `${skill}/SKILL.md should reference active profile resolution`);
+    assert.match(content, /Session Termination/, `${skill}/SKILL.md should define Session Termination telemetry footer`);
   }
 
   const vibeCoderContent = fs.readFileSync(path.join(rootDir, '.agent', 'skills', 'vibe-coder', 'SKILL.md'), 'utf8');
