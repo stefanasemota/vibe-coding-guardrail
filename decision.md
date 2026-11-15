@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [15.11.2026] - Add `/aos-vibecode-update` Skill and Simplify `README.md` Update Section
+- **Origin:** Human Request
+- **Context:** Manual `git pull` and CLI `init-guardrail.mjs` update commands in `README.md` were verbose compared to triggering updates directly via an Antigravity slash/skill prompt.
+- **Decision:** Created `.agent/skills/aos-vibecode-update/SKILL.md` to pull the latest plugin, refresh global symlinks, and batch-update single or parent-folder repositories via `init-guardrail.mjs`; simplified `README.md` to use `/aos-vibecode-update` while keeping `init-guardrail.mjs --all` documented in `dev.md`; updated `Architecture.md` and `tests/guardrail.test.mjs`.
+- **Impact:** `.agent/skills/aos-vibecode-update/SKILL.md`, `README.md`, `Architecture.md`, `tests/guardrail.test.mjs`, `decision.md`, `docs/feature/aos-vibecode-update-skill/plan.md`.
+
 ### [15.11.2026] - Extract `Architecture.md`, Restructure `README.md` & `dev.md`, and Add Session Termination Telemetry
 - **Origin:** Human Request
 - **Context:** `README.md` mixed architectural diagrams, profile creation, and runtime scripts with installation/prompts; Option 1 global plugin users lacked a clear update & version-check section; and `vibe-coder` + `aos-*` skills did not emit version/token metadata at session termination.

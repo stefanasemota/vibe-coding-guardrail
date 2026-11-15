@@ -100,7 +100,7 @@ test('README.md, Architecture.md, and dev.md maintain clean separation, badges, 
   assert.match(readme, /\[!\[Firebase\]\(https:\/\/img\.shields\.io\/badge\/Firebase-/);
   assert.match(readme, /\[!\[Gemini\]\(https:\/\/img\.shields\.io\/badge\/Gemini-AI%20Powered-/);
   assert.match(readme, /~\/\.gemini\/antigravity\/skills\//);
-  assert.match(readme, /Updating the Global Plugin & Verifying Your Version/);
+  assert.match(readme, /\/aos-vibecode-update/);
   assert.match(readme, /Architecture\.md/);
   assert.match(readme, /dev\.md/);
   assert.match(readme, /## 💬 How to Use in Antigravity/);
@@ -176,6 +176,7 @@ test('vibe-coder and all 4 orchestrated sub-skills exist with valid YAML frontma
     'aos-vibecode',
     'aos-verify',
     'aos-check-for-security-issues',
+    'aos-vibecode-update',
   ];
 
   for (const skill of skills) {
