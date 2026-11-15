@@ -103,6 +103,8 @@ Every project managed or audited under this workflow enforces a uniform director
 5. **Session Completion & Pull Requests (Push, Do Not Merge):**
    * Conclude every session with explicit human confirmation.
    * Push the working branch to the remote upstream and open a **Draft Pull Request** (`gh pr create --draft`). **Do NOT merge into `main` or `development`**—leave final merge/review to the human.
+   * **Session Termination Footer (MANDATORY):** End every session (and every standalone `aos-*` sub-skill run) by reading `version` from `plugin.json` (or `package.json`) and outputting:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: <skill-name> | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
 
 ---
 
@@ -197,7 +199,7 @@ Follow this sequential 7-phase protocol strictly. Respect `gate_behavior` from t
 
 ### Phase 7: Delivery, Decision Logging & Summary
 1. Ensure `decision.md` has the prepended `[DD.MM.YYYY]` ADR at the top and mark all items in `docs/feature/[feature-name]/plan.md` as completed.
-2. Output the final summary (**Delivered FDD Items**, **Modified Files**, **Test Status**, **Next Steps**) and push the branch + open a **Draft PR**.
+2. Output the final summary (**Delivered FDD Items**, **Modified Files**, **Test Status**, **Next Steps**), push the branch + open a **Draft PR**, and append the **Session Termination** footer (`Guardrail: aos Vibe Coding Guardrail v<version> | Skill: vibe-coder | Tokens: <exact count or "N/A (not exposed by runtime)">`).
 
 ---
 

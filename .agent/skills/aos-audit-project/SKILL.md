@@ -126,3 +126,6 @@ First detect the project type:
      git push -u origin HEAD
      gh pr create --draft --title "chore(audit): apply aos-audit-project compliance optimizations" --body "Applies approved aos-audit-project scaffolding optimizations and updates aos-audit.md and decision.md."
      ```
+6. **Session Termination:**
+   - End the response by reading `version` from `plugin.json` (or `package.json`) and outputting:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-audit-project | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`

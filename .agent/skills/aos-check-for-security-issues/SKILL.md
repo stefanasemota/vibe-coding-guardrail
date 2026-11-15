@@ -32,3 +32,7 @@ Reads `review_depth` and `gate_behavior` from [`../vibe-coder/profiles/profile-a
 4. **Dependency & CI Governance Audit:**
    * Enforce the **Dependency Lockdown Rule** (`AGENTS.md`): never install new packages without explicit human approval, and audit `package.json` for known CVEs (`npm audit`).
    * Ensure pre-commit hooks and CI governance checks are never bypassed (`--no-verify` is prohibited).
+
+5. **Session Termination:**
+   * End the response by reading `version` from `plugin.json` (or `package.json`) and outputting:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-check-for-security-issues | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`

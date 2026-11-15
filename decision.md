@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [15.11.2026] - Extract `Architecture.md`, Restructure `README.md` & `dev.md`, and Add Session Termination Telemetry
+- **Origin:** Human Request
+- **Context:** `README.md` mixed architectural diagrams, profile creation, and runtime scripts with installation/prompts; Option 1 global plugin users lacked a clear update & version-check section; and `vibe-coder` + `aos-*` skills did not emit version/token metadata at session termination.
+- **Decision:** Created `Architecture.md` for system diagrams, skill/profile tables, metadata contracts, and benchmarks; trimmed `README.md` and added **Updating the Global Plugin & Verifying Your Version**; consolidated custom AI model profiles (`aos-create-profile`) and runtime scripts into `dev.md` with zero AI slop; added a standardized **Session Termination** footer (`Guardrail: aos Vibe Coding Guardrail v<version> | Skill: <skill-name> | Tokens: <exact count or "N/A (not exposed by runtime)">`) to `vibe-coder` and all 4 `aos-*` sub-skills; and updated `tests/guardrail.test.mjs`.
+- **Impact:** `Architecture.md`, `README.md`, `dev.md`, `.agent/skills/vibe-coder/SKILL.md`, `.agent/skills/aos-audit-project/SKILL.md`, `.agent/skills/aos-vibecode/SKILL.md`, `.agent/skills/aos-verify/SKILL.md`, `.agent/skills/aos-check-for-security-issues/SKILL.md`, `tests/guardrail.test.mjs`, `decision.md`, `docs/feature/docs-restructure-session-telemetry/plan.md`.
+
 ### [15.11.2026] - Enforce Session-Start Obsolete Merged Branch Cleanup
 - **Origin:** Human Request
 - **Context:** Starting a `vibe-coder` session in repositories with accumulated merged feature/chore/fix branches caused branch clutter and stale refs.

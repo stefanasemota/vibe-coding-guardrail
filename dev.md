@@ -1,26 +1,20 @@
-# 🛠️ Local Development & Antigravity Usage Guide (`dev.md`)
+# 🛠️ Developer & Operations Guide (`dev.md`)
 
-This document outlines how to install and use the **Vibe Coding Guardrail** (`vibe-coder`) in Google Antigravity, along with local environment setup, configuration specifications, and execution workflows.
+Setup, custom model profiles, environment variables, runtime scripts, and session workflow for **Vibe Coding Guardrail** (`vibe-coder`).
 
 ---
 
-## 1. How to Install & Use with Antigravity
+## 1. Prerequisites
 
-Antigravity automatically discovers skills placed in a repository's `.agent/skills/` directory or in your global user skill directory.
+- **Node.js:** `v22.x` (pinned via `.nvmrc`)
+- **Git:** `>= 2.39` with GitHub CLI (`gh`) authenticated for Draft PR creation
+- **Antigravity:** IDE or CLI with plugin/skill discovery enabled
 
-### Option A: Add to an Existing or New Project (Workspace Scope)
-Run the included `init-guardrail` CLI script (or copy `.agent/skills/`, `AGENTS.md`, and `ai-rules.json` manually) into the root of your target repository:
+---
 
-```bash
-# Using the CLI installer from a local clone or npx
-npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
-# Or from a local clone:
-node bin/init-guardrail.mjs /path/to/your-project
-```
+## 2. Installation & Updates
 
-### Option B: Install Globally as an Antigravity Plugin Across All Projects (User Scope — Recommended)
-Symlink the repository as an Antigravity Plugin (`plugin.json`) and global skill suite so both `rules/AGENTS.md` and all 5 `skills/` are active in every workspace automatically (regardless of whether the target repo has a `package.json`) and immediately reflect any updates in this repository:
-
+### Global Plugin (Recommended)
 ```bash
 mkdir -p ~/.gemini/config/plugins ~/.gemini/antigravity/skills ~/.gemini/config/skills
 ln -sfn "$(pwd)" ~/.gemini/config/plugins/vibe-coding-guardrail
@@ -28,39 +22,64 @@ ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/antigravity/skills/
 ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/config/skills/
 ```
 
-### Option C: Weekly Wednesday Guardrail Automations (`$PROFILE=automation`)
-Use `/schedule` in Antigravity with [`profile-automation.md`](.agent/skills/vibe-coder/profiles/profile-automation.md) (`gate_behavior: advisory`) to run unattended background audits once a week every Wednesday:
-- **Every Wednesday at 09:00 (`aos-audit-project`):** Audits repository structure against the Architectural Summary and updates `aos-audit.md`.
-- **Every Wednesday at 09:30 (`aos-check-for-security-issues`):** Scans for hardcoded secrets, `.gitignore` drift, and vulnerable dependencies.
+**Update & check active version:**
+```bash
+cd /path/to/vibe-coding-guardrail && git pull origin main
+node -p "require('./plugin.json').version"
+```
 
-### Starting a Vibe-Coding Session in Antigravity
-Once installed, trigger the protocol in the Antigravity chat pane with any prompt such as:
-- *"Start a new vibe session and check the repository scaffolding."*
-- *"Use `vibe-coder` to scaffold this project and implement the next feature from `initiative.md`."*
-- *"Review `.agent/skills/vibe-coder/SKILL.md`, check git status, and prepare the session."*
-
-Antigravity will automatically:
-1. Verify or create `README.md`, `initiative.md`, `dev.md`, and `decision.md`.
-2. Enforce an isolated Git branch (`feature/<slug>`, `fix/<slug>`, or `chore/<slug>`).
-3. Orchestrate `aos-vibecode` (micro-patches), `aos-verify` (tests & lint), and `aos-check-for-security-issues` (security audit).
-4. Log architectural decisions in `decision.md` and prepare a Draft PR upon your confirmation.
+### Workspace Scope (Single Repository)
+```bash
+npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
+# Or from a local clone:
+node bin/init-guardrail.mjs /path/to/your-project
+```
 
 ---
 
-## 2. Prerequisites & Runtime Environment
+## 3. Creating a Custom Profile for a Particular AI Model
 
-- **Node.js:** `v22.x` (pinned via `.nvmrc`)
-- **Git:** `>= 2.39` with GitHub CLI (`gh`) authenticated for Draft PR creation
-- **Agent Environment:** Antigravity IDE / CLI with workspace skill discovery enabled (`.agent/skills/`)
+Generate a custom Engine Profile tailored to any model (e.g., `claude-sonnet`, `gemini-flash`) using `aos-create-profile`:
+
+```bash
+# Interactive CLI prompt
+npx aos-create-profile claude-sonnet
+
+# Non-interactive CLI with model-specific parameters
+node bin/aos-create-profile.mjs gemini-flash \
+  --max-patch-size=30 \
+  --review-depth=quick-lint \
+  --gate-behavior=explicit-pause-and-wait \
+  --execution-mode=sequential-multi-turn
+```
+
+This writes `.agent/skills/vibe-coder/profiles/profile-gemini-flash.md` validated against [`_schema.md`](.agent/skills/vibe-coder/profiles/_schema.md):
+
+```markdown
+---
+engine_name: "gemini-flash"
+execution_mode: "sequential-multi-turn"
+max_patch_size: 30
+patch_strategy: "surgical-unified-diff"
+type_safety: "strict"
+gate_behavior: "explicit-pause-and-wait"
+review_depth: "quick-lint"
+---
+```
+
+Activate in any session with `$PROFILE=<name>`:
+```text
+Start a vibe-coder session with $PROFILE=gemini-flash: implement the user notification preferences panel.
+```
 
 ---
 
-## 3. Environment Variable Specifications
+## 4. Environment Variable Specifications
 
-For full-stack Next.js + Firebase + Genkit applications, create a `.env.local` file in the project root (never committed to Git):
+For full-stack Next.js + Firebase + Genkit apps, create `.env.local` in the project root (never committed to Git):
 
 ```env
-# Firebase Client SDK Configuration
+# Firebase Client SDK
 NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
@@ -75,43 +94,26 @@ NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 GOOGLE_GENAI_API_KEY=your_gemini_api_key
 ```
 
-> **Security Rule (`aos-check-for-security-issues`):** Never commit `.env*`, `*service-account*.json`, or `*key*.json` files. Verify `.gitignore` coverage before staging changes.
+> **Security Rule (`aos-check-for-security-issues`):** Never commit `.env*`, `*service-account*.json`, or `*key*.json`.
 
 ---
 
-## 4. Standard Execution Scripts (`package.json`)
+## 5. Quick-Start Commands & Standard Scripts (`package.json`)
 
-Every project under the `vibe-coder` protocol exposes five uniform scripts:
-
-| Command | Description | Full-Stack Reference Equivalent |
+| Command | Guardrail Repo | Full-Stack Reference Equivalent |
 | :--- | :--- | :--- |
-| `npm run dev` | Runs guardrail session inspector (or starts app dev server) | `next dev --turbopack` |
-| `npm run build` | Validates protocol integrity and builds artifacts | `next lint && NODE_ENV=production next build` |
-| `npm test` | Runs full automated test suite | `vitest --coverage` |
-| `npm run test:unit` | Runs baseline unit test suite | `node --test tests/guardrail.test.mjs` / `vitest run` |
-| `npm run lint` | Validates skill frontmatter, markdown docs, and code style | `eslint .` |
+| `npm test` | Runs full guardrail test suite | `vitest --coverage` |
+| `npm run test:unit` | Runs `node --test tests/guardrail.test.mjs` | `vitest run` |
+| `npm run lint` | Validates skill frontmatter, docs, and metadata | `eslint .` |
+| `npm run build` | Validates protocol readiness | `next lint && NODE_ENV=production next build` |
+| `npm run dev` | Runs guardrail verification suite | `next dev --turbopack` |
 
 ---
 
-## 5. Vibe-Coder Session Workflow
+## 6. Vibe-Coder Session Workflow
 
-1. **Inspect & Branch:**
-   ```bash
-   git status
-   git checkout -b chore/<short-slug> # or feature/<short-slug>, fix/<short-slug>
-   ```
-2. **Implement (`aos-vibecode`):**
-   - Apply incremental micro-patches (≤ 50 lines where feasible) guided by `initiative.md`.
-3. **Verify (`aos-verify`):**
-   ```bash
-   npm run lint && npm run test:unit && npm run build
-   ```
-4. **Audit (`aos-check-for-security-issues`):**
-   - Confirm zero hardcoded secrets or unsafe dependencies.
-5. **Log & Hand-Off:**
-   - Append session decisions to `decision.md`.
-   - After human confirmation, push branch and open a Draft PR:
-     ```bash
-     git push -u origin HEAD
-     gh pr create --draft
-     ```
+1. **Clean & Branch:** Run `git fetch --prune`, delete obsolete local merged branches, confirm remote merged branch deletions, and branch from `origin/main` (`feature/<slug>`, `fix/<slug>`, `chore/<slug>`).
+2. **Implement (`aos-vibecode`):** Apply atomic micro-patches (`<= max_patch_size`) guided by `initiative.md` and `plan.md`.
+3. **Verify (`aos-verify`):** Run `npm run lint && npm run test:unit && npm run build` (or the native stack toolchain).
+4. **Audit (`aos-check-for-security-issues`):** Confirm zero hardcoded secrets or unsafe dependencies.
+5. **Log & Hand-Off:** Prepend `[DD.MM.YYYY]` ADR to `decision.md`, output the Session Termination footer (version + skill + token usage), push, and open a Draft PR (`gh pr create --draft`).
