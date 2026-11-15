@@ -33,8 +33,15 @@ node -p "require('./plugin.json').version"
 Compare against the [latest GitHub release](https://github.com/stefanasemota/vibe-coding-guardrail/releases) (or check the **Guardrail version** printed in the Session Termination footer).
 
 #### Updating Existing Projects
-1. Remove any stale local `.agent/skills/` copy inside the target project (`rm -rf /path/to/project/.agent/skills`) so it resolves the global plugin.
-2. Run `aos-audit-project` in that project:
+1. From your parent workspace folder (e.g., `~/Developer`), batch-update all git repositories using the installed global plugin script:
+   ```bash
+   # Option 1 (Global Plugin): remove stale local .agent/skills/ and update AGENTS.md + ai-rules.json
+   node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all --clean-local-skills .
+
+   # Option 2 (Workspace Copies): update .agent/skills/, AGENTS.md, and ai-rules.json in all git repos
+   node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all .
+   ```
+2. Run `aos-audit-project` in any project to align its docs (`decision.md`, `Architecture.md`, `README.md`):
    ```text
    Run aos-audit-project: audit this repository against Architecture.md, migrate decision.md and aos-audit.md dates to DD.MM.YYYY with newest entries at the top, and ask which changes to apply.
    ```

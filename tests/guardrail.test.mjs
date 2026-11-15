@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { installGuardrail } from '../bin/init-guardrail.mjs';
+import { installGuardrail, installAllGuardrails } from '../bin/init-guardrail.mjs';
 import { createProfileFile } from '../bin/aos-create-profile.mjs';
 
 const rootDir = process.cwd();
@@ -265,5 +265,29 @@ test('bin/init-guardrail.mjs and bin/aos-create-profile.mjs work as expected in 
     assert.match(customContent, /gate_behavior: "advisory"/);
   } finally {
     fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+});
+
+test('installAllGuardrails batch-updates git repos and supports cleanLocalSkills', () => {
+  const parentDir = fs.mkdtempSync(path.join(os.tmpdir(), 'guardrail-all-test-'));
+  try {
+    const repoA = path.join(parentDir, 'repo-a');
+    const nonGit = path.join(parentDir, 'notes');
+    fs.mkdirSync(path.join(repoA, '.git'), { recursive: true });
+    fs.mkdirSync(nonGit, { recursive: true });
+
+    const resCopy = installAllGuardrails(parentDir);
+    assert.equal(resCopy.updated.length, 1);
+    assert.equal(fs.existsSync(path.join(repoA, '.agent', 'skills', 'vibe-coder', 'SKILL.md')), true);
+    assert.equal(fs.existsSync(path.join(repoA, 'AGENTS.md')), true);
+    assert.equal(fs.existsSync(path.join(nonGit, 'AGENTS.md')), false);
+
+    const resClean = installAllGuardrails(parentDir, { cleanLocalSkills: true });
+    assert.equal(resClean.updated.length, 1);
+    assert.equal(fs.existsSync(path.join(repoA, '.agent', 'skills')), false);
+    assert.equal(fs.existsSync(path.join(repoA, 'AGENTS.md')), true);
+    assert.equal(fs.existsSync(path.join(repoA, 'ai-rules.json')), true);
+  } finally {
+    fs.rmSync(parentDir, { recursive: true, force: true });
   }
 });
