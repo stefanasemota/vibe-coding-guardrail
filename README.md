@@ -22,29 +22,8 @@ ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/antigravity/skills/
 ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/config/skills/
 ```
 
-#### Updating the Global Plugin & Verifying Your Version
-Because Option 1 uses symlinks, pulling `main` updates your global plugin and skills immediately. Verify your active version at any time:
-
-```bash
-cd /path/to/vibe-coding-guardrail && git pull origin main
-node -p "require('./plugin.json').version"
-```
-
-Compare against the [latest GitHub release](https://github.com/stefanasemota/vibe-coding-guardrail/releases) (or check the **Guardrail version** printed in the Session Termination footer).
-
-#### Updating Existing Projects
-1. From your parent workspace folder (e.g., `~/Developer`), batch-update all git repositories using the installed global plugin script:
-   ```bash
-   # Option 1 (Global Plugin): remove stale local .agent/skills/ and update AGENTS.md + ai-rules.json
-   node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all --clean-local-skills .
-
-   # Option 2 (Workspace Copies): update .agent/skills/, AGENTS.md, and ai-rules.json in all git repos
-   node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all .
-   ```
-2. Run `aos-audit-project` in any project to align its docs (`decision.md`, `Architecture.md`, `README.md`):
-   ```text
-   Run aos-audit-project: audit this repository against Architecture.md, migrate decision.md and aos-audit.md dates to DD.MM.YYYY with newest entries at the top, and ask which changes to apply.
-   ```
+#### Updating the Plugin & Projects
+Run `/aos-vibecode-update` in Antigravity chat to pull the latest plugin, refresh global symlinks, and update your current project (or all projects when run from a parent folder like `~/Developer`).
 
 ### Option 2: Install into a Specific Workspace
 Copy `.agent/skills/`, `AGENTS.md`, and `ai-rules.json` directly into a single repository:
@@ -88,6 +67,11 @@ Run aos-verify: validate imports, TypeScript types, zero-warning lint rules, uni
 ### 5. `aos-check-for-security-issues` (Defensive Security Audit)
 ```text
 Run aos-check-for-security-issues: scan staged changes and dependencies for hardcoded secrets, missing input validation, or insecure rules before committing.
+```
+
+### 6. `aos-vibecode-update` (Update Plugin & Projects)
+```text
+/aos-vibecode-update
 ```
 
 ---

@@ -46,6 +46,7 @@ See [`.agent/skills/README.md`](.agent/skills/README.md) for the chassis/profile
 | **`aos-vibecode`** | `.agent/skills/aos-vibecode/SKILL.md` | Consumes `max_patch_size` and `patch_strategy` to implement `initiative.md` and `plan.md` in atomic micro-patches. |
 | **`aos-verify`** | `.agent/skills/aos-verify/SKILL.md` | Consumes `type_safety` and `review_depth` to run lint, build, 3-point static review, and unit tests. |
 | **`aos-check-for-security-issues`** | `.agent/skills/aos-check-for-security-issues/SKILL.md` | Security audit inspecting dependencies, secrets, input validation, and security rules prior to commit. |
+| **`aos-vibecode-update`** | `.agent/skills/aos-vibecode-update/SKILL.md` | Pulls the latest plugin, refreshes global symlinks, and updates `AGENTS.md`/`ai-rules.json` across one or all repos. |
 
 ---
 
