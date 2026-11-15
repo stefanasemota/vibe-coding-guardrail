@@ -69,6 +69,7 @@ test('Engine profile _schema.md, profile-antigravity.md, and profile-automation.
 test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipline, and Conventional Commits', () => {
   const agentsMd = fs.readFileSync(path.join(rootDir, 'AGENTS.md'), 'utf8');
   assert.match(agentsMd, /Clean up merged branches first/);
+  assert.match(agentsMd, /Never commit to an already-merged branch/);
   assert.match(agentsMd, /Never work on `main`/);
   assert.match(agentsMd, /Test on the branch/);
   assert.match(agentsMd, /Push, do not merge/);
