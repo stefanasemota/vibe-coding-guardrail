@@ -36,6 +36,7 @@ The `.agent/skills/` suite separates the **7-Phase FDD Workflow Chassis** (where
 ### Workflow Chassis vs. Engine Profile
 | Layer | Path | Responsibility |
 | :--- | :--- | :--- |
+| **Antigravity Plugin Bundle** | `../plugin.json` (`rules/AGENTS.md` + `skills/`) | Bundles `rules/AGENTS.md` and all 5 skills into a single toggleable Antigravity Plugin (`vibe-coding-guardrail`). |
 | **Profile Schema Contract** | `vibe-coder/profiles/_schema.md` | Defines the 7 required profile fields (`engine_name`, `execution_mode`, `max_patch_size`, `patch_strategy`, `type_safety`, `gate_behavior`, `review_depth`). |
 | **Default Production Profile** | `vibe-coder/profiles/profile-antigravity.md` | High-rigor baseline (`max_patch_size: 50`, `surgical-unified-diff`, `strict` type safety, `explicit-pause-and-wait` at Phases 3, 4, 6). |
 | **Unattended Automation Profile** | `vibe-coder/profiles/profile-automation.md` | Unattended cron profile (`gate_behavior: advisory`, report-only mode) for scheduled background runs in the Antigravity Automations tab. |

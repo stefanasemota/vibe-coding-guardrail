@@ -4,6 +4,21 @@ All notable changes to **Vibe Coding Guardrail** are documented in this file. Da
 
 ---
 
+## [1.2.1] - 01.11.2026
+
+### Added
+- **Automatic Draft PR Workflow in `aos-audit-project` (Step 5):**
+  - Added explicit **Step 5: Branch, Commit, Push & Open Draft PR** to `aos-audit-project/SKILL.md` so every standalone audit run automatically creates an isolated branch (`chore/aos-project-audit` if on `main`/`master`/`development`), runs tests, commits with a Conventional Commit, pushes to `origin`, and opens a Draft PR (`gh pr create --draft`).
+
+## [1.2.0] - 01.11.2026
+
+### Added
+- **Antigravity Plugin Bundle (`plugin.json`):**
+  - Packaged the repository as a self-contained, language-agnostic Antigravity Plugin (`plugin.json`, `rules/AGENTS.md`, `assets/logo.svg`, `skills/`) that enables all 5 skills and `AGENTS.md` rules across any workspace as a single toggleable unit.
+- **Stack-Aware `package.json` & Legacy Date Migration:**
+  - Updated `vibe-coder/SKILL.md` and `aos-audit-project/SKILL.md` to detect project stack first (enforcing `package.json` schema and optional `vibe-coding-guardrail` devDependency only in Node.js/TS repos, while using native toolchains in Python/Go/Rust/Swift/Android repos).
+  - Added legacy date/order migration check in `aos-audit-project/SKILL.md` to flag and convert existing `[YYYY-MM-DD]` / `[MM.DD.YYYY]` dates or oldest-first ordering in `decision.md` and `aos-audit.md`.
+
 ## [1.1.0] - 01.11.2026
 
 ### Added

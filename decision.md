@@ -10,6 +10,18 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 - **Decision:** Added a mandatory **Session-Start Obsolete Branch Cleanup** step to `vibe-coder` (`.agent/skills/vibe-coder/SKILL.md` Section 2 & Phase 1) and synced the rule into `AGENTS.md`: prune stale refs (`git fetch --prune`), auto-delete local merged branches (excluding protected and current branches), and prompt for human confirmation before deleting merged `origin/*` remote branches.
 - **Impact:** `.agent/skills/vibe-coder/SKILL.md`, `AGENTS.md`, `tests/guardrail.test.mjs`, `decision.md`, `docs/feature/session-start-branch-cleanup/plan.md`.
 
+### [01.11.2026] - Enforce Explicit Step 5 (Branch, Commit, Push & Open Draft PR) in `aos-audit-project`
+- **Origin:** Human Request
+- **Context:** Standalone invocations of `aos-audit-project` stopped at Step 4 after applying optimizations and generating `aos-audit.md` without automatically creating an isolated branch, committing, pushing, and opening a Draft PR.
+- **Decision:** Added Step 5 (`Branch, Commit, Push & Open Draft PR`) to `.agent/skills/aos-audit-project/SKILL.md` (which also updates the symlinked global skill and plugin copy automatically) and added test verification in `tests/guardrail.test.mjs`.
+- **Impact:** `.agent/skills/aos-audit-project/SKILL.md`, `skills/aos-audit-project/SKILL.md`, `tests/guardrail.test.mjs`, `decision.md`, `aos-audit.md`.
+
+### [01.11.2026] - Bundle as Antigravity Plugin (`plugin.json`), Add Stack-Aware `package.json` Check & Release `v1.2.0`
+- **Origin:** Human Request | Agent Proposal
+- **Context:** Not all repositories are Node.js projects with a `package.json`, and loose global skills do not automatically activate `AGENTS.md` rules across new workspaces. Additionally, previously audited repositories needed a migration check for legacy date formats and entry ordering in `decision.md`.
+- **Decision:** Packaged the repository as an Antigravity Plugin (`plugin.json`, `rules/AGENTS.md`, `assets/logo.svg`, `skills/`), updated `vibe-coder/SKILL.md` and `aos-audit-project/SKILL.md` for stack-aware `package.json` checks and legacy date/order migration, updated all READMEs and `dev.md`, and bumped version to `1.2.0`.
+- **Impact:** `plugin.json`, `assets/logo.svg`, `rules/AGENTS.md`, `skills`, `.agent/skills/vibe-coder/SKILL.md`, `.agent/skills/aos-audit-project/SKILL.md`, `README.md`, `.agent/skills/README.md`, `dev.md`, `package.json`, `CHANGELOG.md`, `decision.md`, `aos-audit.md`, `tests/guardrail.test.mjs`.
+
 ### [01.11.2026] - Add `profile-automation.md`, Weekly Wednesday Automations & Release `v1.1.0`
 - **Origin:** Human Request | Agent Proposal
 - **Context:** Unattended scheduled runs in the Antigravity Automations tab require a profile that does not pause waiting for interactive human confirmation (`gate_behavior: "advisory"`), along with clear recipes for weekly Wednesday audits (`aos-audit-project` & `aos-check-for-security-issues`) and creating custom profiles for specific AI models.
