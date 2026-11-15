@@ -82,18 +82,23 @@ Every project managed or audited under this workflow enforces a uniform director
 1. **Repository & Baseline Inspection (Verify Before Writing):**
    * Confirm Git initialization (`git rev-parse --is-inside-work-tree`) and upstream remote (`git remote -v`).
    * Read existing relevant code and run the baseline build/test command to confirm the baseline passes before making edits.
-2. **Branching Convention (STRICT):**
+2. **Session-Start Obsolete Branch Cleanup (MANDATORY):**
+   * Before creating a new working branch or starting Phase 1 implementation, clean up obsolete merged branches for the project:
+     1. Prune stale remote-tracking refs: `git fetch --prune`.
+     2. Automatically delete **local** branches already merged into `<base>` (`main`/`master`/`development`), excluding protected branches (`main`, `master`, `development`, `develop`) and the currently checked-out branch (`git branch --merged <base>` -> `git branch -d <branch>`).
+     3. List **remote** (`origin/*`) branches already merged into `<base>` (excluding `HEAD` and protected branches) and **prompt the user for confirmation** before deleting them (`git push origin --delete <branch>`). Skip remote deletion in unattended `advisory` automation runs.
+3. **Branching Convention (STRICT):**
    * **Never work on `main`:** Direct commits to `main`, `master`, or `development` are strictly prohibited.
    * Create a scoped branch (`feature/<short-slug>`, `fix/<short-slug>`, `chore/<short-slug>`) from the latest `development`/`main` branch before writing code.
    * **Test on the branch:** Ensure all code builds, tests pass, and the feature works within the isolated branch.
-3. **Core Execution Rules (`AGENTS.md` & `ai-rules.json`):**
+4. **Core Execution Rules (`AGENTS.md` & `ai-rules.json`):**
    * **Look Before You Leap:** Run a `find` or `grep` search to check if a utility function or component already exists before writing a new one from scratch.
    * **Dependency Lockdown:** Never install new `npm` packages or `pip` libraries without explicit human approval first.
    * **Fix Your Own Bugs:** If a command, linter, or test fails after an edit, iterate and fix it autonomously before declaring the task done.
    * **Commit Atomicity & Explain the Fix:** Make small, logical Conventional Commits (`feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `perf`). For bug fixes (`fix`), include a concise commit summary explaining *why* the bug happened and *how* the change fixed it.
    * **Documentation Sync:** Update `README.md`, `dev.md`, or API docs in the same commit when endpoints, CLI flags, env vars, or setup steps change.
    * **Zero AI Slop:** Avoid filler words—keep code, commits, and documentation straight to the point.
-4. **Session Completion & Pull Requests (Push, Do Not Merge):**
+5. **Session Completion & Pull Requests (Push, Do Not Merge):**
    * Conclude every session with explicit human confirmation.
    * Push the working branch to the remote upstream and open a **Draft Pull Request** (`gh pr create --draft`). **Do NOT merge into `main` or `development`**—leave final merge/review to the human.
 
@@ -152,7 +157,7 @@ Maintain an immutable audit trail in root `decision.md` (or `docs/decisions.md`)
 Follow this sequential 7-phase protocol strictly. Respect `gate_behavior` from the active profile (default: pause for explicit user confirmation at **Phase 3**, **Phase 4**, and **Phase 6**).
 
 ### Phase 1: Discovery & FDD Decomposition
-1. Resolve the active Engine Profile (`profiles/profile-antigravity.md` by default) and verify Git branch isolation.
+1. Resolve the active Engine Profile (`profiles/profile-antigravity.md` by default), run the **Session-Start Obsolete Branch Cleanup** (Section 2), and verify Git branch isolation.
 2. Initialize or update `docs/feature/[feature-name]/plan.md` with a 7-phase checklist.
 3. Break the request down into standard FDD micro-features:
    Format: `<action> <result> <by | for | of> <a | an> <object>`

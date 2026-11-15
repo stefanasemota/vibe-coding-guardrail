@@ -5,6 +5,7 @@ Strict operational rules for all AI coding agents. Zero filler or AI slop—keep
 ---
 
 ## 1. Branching & Git Strategy (STRICT)
+* **Clean up merged branches first:** Before starting a new session or creating a branch, run `git fetch --prune`, delete obsolete local branches already merged into `main`/`development` (excluding protected branches), and confirm with the human before deleting merged remote `origin/*` branches.
 * **Never work on `main`:** Always create a descriptive branch (`feature/<slug>`, `fix/<slug>`, `chore/<slug>`) from the latest `development` or `main` branch before writing code.
 * **Test on the branch:** Ensure all code builds, tests pass, and the feature works within the isolated branch.
 * **Push, do not merge:** Push the verified branch to the remote repository and open a Draft Pull Request. Never merge into `main` or `development`—leave final merge/review to the human.

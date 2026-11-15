@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [15.11.2026] - Enforce Session-Start Obsolete Merged Branch Cleanup
+- **Origin:** Human Request
+- **Context:** Starting a `vibe-coder` session in repositories with accumulated merged feature/chore/fix branches caused branch clutter and stale refs.
+- **Decision:** Added a mandatory **Session-Start Obsolete Branch Cleanup** step to `vibe-coder` (`.agent/skills/vibe-coder/SKILL.md` Section 2 & Phase 1) and synced the rule into `AGENTS.md`: prune stale refs (`git fetch --prune`), auto-delete local merged branches (excluding protected and current branches), and prompt for human confirmation before deleting merged `origin/*` remote branches.
+- **Impact:** `.agent/skills/vibe-coder/SKILL.md`, `AGENTS.md`, `tests/guardrail.test.mjs`, `decision.md`, `docs/feature/session-start-branch-cleanup/plan.md`.
+
 ### [01.11.2026] - Add `profile-automation.md`, Weekly Wednesday Automations & Release `v1.1.0`
 - **Origin:** Human Request | Agent Proposal
 - **Context:** Unattended scheduled runs in the Antigravity Automations tab require a profile that does not pause waiting for interactive human confirmation (`gate_behavior: "advisory"`), along with clear recipes for weekly Wednesday audits (`aos-audit-project` & `aos-check-for-security-issues`) and creating custom profiles for specific AI models.
