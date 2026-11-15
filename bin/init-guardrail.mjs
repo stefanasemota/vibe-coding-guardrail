@@ -61,7 +61,7 @@ export function installAllGuardrails(parentDirInput = '.', { cleanLocalSkills = 
   return { parentDir, updated };
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(__filename)) {
   const args = process.argv.slice(2);
   const isAll = args.includes('--all');
   const cleanLocalSkills = args.includes('--clean-local-skills');
