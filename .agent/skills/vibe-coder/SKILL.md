@@ -91,6 +91,7 @@ Every project managed or audited under this workflow enforces a uniform director
      3. List **remote** (`origin/*`) branches already merged into `<base>` (excluding `HEAD` and protected branches) and **prompt the user for confirmation** before deleting them (`git push origin --delete <branch>`). Skip remote deletion in unattended `advisory` automation runs.
 3. **Branching Convention (STRICT):**
    * **Never work on `main`:** Direct commits to `main`, `master`, or `development` are strictly prohibited.
+   * **Never commit to an already-merged branch:** Before making follow-up edits or commits on an existing branch, run `git fetch --prune` and check `gh pr view --json state` (or `git branch --merged origin/main`). If already merged, branch fresh from `origin/main` first.
    * Create a scoped branch (`feature/<short-slug>`, `fix/<short-slug>`, `chore/<short-slug>`) from the latest `development`/`main` branch before writing code.
    * **Test on the branch:** Ensure all code builds, tests pass, and the feature works within the isolated branch.
 4. **Core Execution Rules (`AGENTS.md` & `ai-rules.json`):**
