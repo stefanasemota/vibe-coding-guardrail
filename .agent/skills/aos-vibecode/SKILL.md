@@ -1,48 +1,36 @@
 ---
 name: aos-vibecode
-description: Rapid feature delivery sub-skill for the vibe-coder protocol. Use when translating product specifications or user stories from initiative.md and docs/specs/ into minimal, working code increments via micro-patches while preserving runtime state, routes, and architectural boundaries.
+description: Translate product specs or user stories from initiative.md, docs/rule-book.md, and docs/feature/[feature-name]/plan.md into minimal, working code increments via micro-patches while preserving runtime state and architectural boundaries. Use when implementing or patching features in Phase 5 of vibe-coder or standalone.
 ---
 
-# `aos-vibecode` — Engine-Neutral Rapid Feature Delivery Sub-Skill
+# `aos-vibecode` — Engine-Neutral Rapid Feature Delivery
 
-## Purpose
-Translates product intent from `initiative.md`, `docs/rule-book.md`, and `docs/feature/[feature-name]/plan.md` into minimal, working code increments without destabilizing the existing application.
+## 1. Active Profile Consumption
 
-## Active Profile Consumption
-Before writing code, pull the active operating parameters from [`../vibe-coder/profiles/profile-antigravity.md`](../vibe-coder/profiles/profile-antigravity.md) (or `.agent/skills/vibe-coder/profiles/profile-antigravity.md` / active `$PROFILE`):
-- **`max_patch_size`**: Enforce `<= max_patch_size` lines (default: `50` lines) per atomic micro-patch.
-- **`patch_strategy`**: Apply edits using the profile's strategy (default: `surgical-unified-diff`, preserving surrounding code and exports rather than rewriting entire modules).
+Before writing code, load operating parameters from [`../vibe-coder/profiles/profile-antigravity.md`](../vibe-coder/profiles/profile-antigravity.md) (or the active `$PROFILE`):
+- **`max_patch_size`**: Enforce `<= max_patch_size` lines (default: `50`) per atomic micro-patch.
+- **`patch_strategy`**: Apply edits using the profile's strategy (default: `surgical-unified-diff`, preserving surrounding code and exports).
 
 ---
 
-## Execution Rules
+## 2. Micro-Patch Implementation Loop
 
-1. **Micro-Patch & Execution Discipline (`AGENTS.md` & `ai-rules.json`):**
-   * **Verify Before Writing:** Read existing relevant code and run baseline build/test checks before making edits.
-   * **Look Before You Leap:** Run a `find` or `grep` search to verify whether a utility function, hook, or component already exists before writing a new one from scratch.
-   * **Dependency Lockdown:** Never install new `npm` packages or `pip` libraries without asking for explicit human approval first. Rely on existing dependencies whenever possible.
-   * **Fix Your Own Bugs:** If a build, linter, or test fails after an edit, iterate and fix it autonomously before declaring the task done.
-   * **Commit Atomicity & Explain the Fix:** Favor atomic patches within `max_patch_size` (`<= 50` lines) and make small, logical Conventional Commits (`feat`, `fix`, `refactor`, etc.). When resolving a bug (`fix`), write a concise commit summary explaining *why* the bug happened and *how* the change fixed it.
-   * **Documentation Sync & Zero AI Slop:** Update `README.md`, `dev.md`, or API docs in the same commit whenever an endpoint, CLI flag, env var, or setup step changes. Avoid AI slop or filler words—keep prose straight to the point.
+Follow `AGENTS.md` execution discipline (`Verify before writing`, `Look Before You Leap`, `Dependency Lockdown`, `Fix your own bugs`, `Documentation Sync`, Conventional Commits) and execute each increment in order:
 
-2. **Schema-First & Domain Grounding:**
-   * Define deterministic validation schemas (e.g., `zod`) as strict contracts before implementing AI flows or database writes.
-   * Enforce domain invariants from `docs/rule-book.md` (such as content-hash deduplication, quota limits, and token usage metadata).
+1. **Schema-First & Domain Grounding:** Define deterministic validation schemas (e.g., `zod` or typed contracts) before implementing AI flows or database writes. Enforce domain invariants from `docs/rule-book.md` (e.g., deduplication, quotas, token metadata).
+2. **Apply Atomic Micro-Patch:** Keep each diff within `max_patch_size` (`<= 50` lines). Implement in sequence: types/contracts -> domain logic -> UI/API wiring.
+3. **Per-Patch Verification Gate:** Run the repository's relevant build, typecheck, or unit test command after each micro-patch and fix any failures before starting the next patch.
+4. **Stack-Specific Guardrails (Conditional):**
+   - *When working in a Next.js + Firebase codebase:* Route all data access through `src/repositories/` (never import Admin SDKs in `src/app/` or `src/components/`), prefer async Server Components and Server Actions (`src/modules/**/actions.ts`) over `useEffect` waterfalls, initialize backend SDKs via a cached singleton (`src/lib/firebase-admin.ts`), and design mobile-first (`390px` viewport, accessible tap targets, optimistic loaders).
+   - *When scaffolding or updating docs:* Follow [`../vibe-coder/references/scaffolding-templates.md`](../vibe-coder/references/scaffolding-templates.md).
+5. **Decision Traceability:** Prepend architectural choices, UX trade-offs, or approved dependency additions to the **top** of `decision.md` using `[DD.MM.YYYY]` before concluding.
+6. **Session Termination:** Read `version` from `plugin.json` (or `package.json`) and end the response with:
+   `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-vibecode | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
 
-3. **Shift-Left Repository Pattern & SSR Performance:**
-   * **Strict Layering:** Direct use of backend/Admin SDKs or database drivers inside `src/app/` (UI routes) or `src/components/` is forbidden. Route all data access through encapsulated repositories in `src/repositories/`.
-   * **Prevent CSR Waterfalls:** Prefer async Server Components and Server Actions (`src/modules/**/actions.ts`) over client-side `useEffect` data-fetching waterfalls.
-   * **Singleton Backend SDKs:** Initialize backend admin SDKs via a cached Singleton (`src/lib/firebase-admin.ts`) and exclude server-only packages from client bundles.
+---
 
-4. **Progressive Mobile-First UI Polish:**
-   * Design for mobile usability first (390px viewport without horizontal scroll, high-contrast palettes, accessible tap targets, optimistic UI loaders for high-latency networks).
+## 3. Gotchas
 
-5. **README Badges, Package Metadata & Footer Consistency:**
-   * When scaffolding or updating project documentation, ensure `README.md` displays the default 5-badge header row (`Version` synced with `package.json`, `License`, `Build Status`, `Firebase`/Stack, and `Gemini` or whichever AI provider is used) at the top, and the `Powered by aos Vibe Coding Guardrail` + `Buy me a coffee` footer at the bottom.
-
-6. **Decision Traceability (`[DD.MM.YYYY]`, Newest First):**
-   * Prepend every architectural choice, UX trade-off, or dependency addition at the **top** of `decision.md` (newest at top, oldest at bottom) using the `[DD.MM.YYYY]` date format before concluding the step.
-
-7. **Session Termination:**
-   * End the response by reading `version` from `plugin.json` (or `package.json`) and outputting:
-     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-vibecode | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+* **Patch size overflow:** If a feature unit exceeds `max_patch_size` (`50` lines), split it into multiple sequential micro-patches rather than rewriting a module in one edit.
+* **Non-Next.js repositories:** Do not force `src/repositories/` or `src/lib/firebase-admin.ts` conventions onto Node CLIs, Python, or Go projects—adapt to the repo's existing layout.
+* **Dependency Lockdown:** Never install `npm` or `pip` packages without explicit human approval first.
