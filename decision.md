@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [19.11.2026] - Apply `skill-evaluation` Fixes to `vibe-coder` and `aos-vibecode`
+- **Origin:** Human Request
+- **Context:** Evaluating `.agent/skills/vibe-coder/SKILL.md` and `.agent/skills/aos-vibecode/SKILL.md` with `fabricioctelles/skills` (`skill-evaluation` v2.1.0) surfaced duplication with `AGENTS.md`, buried 7-Phase workflow steps, unconditional Next.js/Firebase & scaffolding boilerplate, description drift, and missing `Gotchas` / per-patch verification gates.
+- **Decision:** Extracted conditional README badge, `package.json`, and ADR templates into `.agent/skills/vibe-coder/references/scaffolding-templates.md`; moved the 7-Phase FDD workflow to the top of `vibe-coder/SKILL.md`; deduplicated `AGENTS.md` execution rules into concise pointers; scoped Next.js/Firebase rules in `aos-vibecode/SKILL.md` behind a conditional check; tightened both frontmatter descriptions; and added `## Gotchas` + a per-patch verification gate.
+- **Impact:** `.agent/skills/vibe-coder/SKILL.md`, `.agent/skills/vibe-coder/references/scaffolding-templates.md`, `.agent/skills/aos-vibecode/SKILL.md`, `decision.md`.
+
 ### [15.11.2026] - Add `/aos-vibecode-update` Skill and Simplify `README.md` Update Section
 - **Origin:** Human Request
 - **Context:** Manual `git pull` and CLI `init-guardrail.mjs` update commands in `README.md` were verbose compared to triggering updates directly via an Antigravity slash/skill prompt.
