@@ -94,7 +94,7 @@ test('AGENTS.md and ai-rules.json enforce strict Git strategy, execution discipl
 
 test('README.md, Architecture.md, and dev.md maintain clean separation, badges, update guide, prompts, automations, and footer', () => {
   const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
-  assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.3\.0-blue\.svg\)\]/);
+  assert.match(readme, /\[!\[Version\]\(https:\/\/img\.shields\.io\/badge\/version-1\.3\.1-blue\.svg\)\]/);
   assert.match(readme, /\[!\[License\]\(https:\/\/img\.shields\.io\/badge\/license-MIT-green\.svg\)\]\(LICENSE\)/);
   assert.match(readme, /\[!\[Build Status\]\(https:\/\/img\.shields\.io\/badge\/build-passing-brightgreen\.svg\)\]/);
   assert.match(readme, /\[!\[Firebase\]\(https:\/\/img\.shields\.io\/badge\/Firebase-/);

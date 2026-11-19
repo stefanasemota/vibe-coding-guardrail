@@ -4,6 +4,14 @@ All notable changes to **Vibe Coding Guardrail** are documented in this file. Da
 
 ---
 
+## [1.3.1] - 19.11.2026
+
+### Changed
+- **Skill Evaluation Hardening (`vibe-coder` & `aos-vibecode`):**
+  - Extracted conditional README badge, `package.json`, and ADR templates into `.agent/skills/vibe-coder/references/scaffolding-templates.md`.
+  - Moved the 7-Phase FDD workflow to the top of `vibe-coder/SKILL.md`, deduplicated `AGENTS.md` execution rules, tightened descriptions, and added `Gotchas`.
+  - Scoped Next.js/Firebase rules conditionally in `aos-vibecode/SKILL.md` and added a per-patch verification gate.
+
 ## [1.3.0] - 15.11.2026
 
 ### Added
