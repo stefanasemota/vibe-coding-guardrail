@@ -1,6 +1,6 @@
 # 🏗️ Architecture (`Architecture.md`) — v2.0
 
-**Vibe Coding Guardrail v2.0** is a zero-dependency **Python 3.9+ / 3.11+** plugin built natively for **Google Antigravity**. Deterministic safety checks run in native Antigravity lifecycle hooks (`hooks.json`), while the **3-Stage Orchestrator** (`vibe-coder`) coordinates 5 specialized `aos-*` skills (**6 skills total**).
+**Vibe Coding Guardrail v2.0** is a zero-dependency **Python 3.9+ / 3.11+** plugin built natively for **Google Antigravity**. Deterministic safety checks run in native Antigravity lifecycle hooks (`hooks.json`), while the **3-Stage Orchestrator** (`vibe-coder`) coordinates 5 specialized `aos-*` skills plus 2 vendored Apache-2.0 token-compression skills (**8 skills total**).
 
 ```text
                ┌──────────────────────────────────────────────┐
@@ -27,13 +27,13 @@
 
 ---
 
-## Component & Skill Inventory (6 Skills)
+## Component & Skill Inventory (8 Skills)
 
 `skills/*/SKILL.md` on disk is the single source of truth enforced by `tests/test_guardrail.py`.
 
 | Component | Path | Responsibility |
 | :--- | :--- | :--- |
-| **`plugin.json`** | `plugin.json` | Native Antigravity plugin manifest bundling `hooks.json`, `rules/AGENTS.md`, `assets/logo.svg`, and all 6 skills. |
+| **`plugin.json`** | `plugin.json` | Native Antigravity plugin manifest bundling `hooks.json`, `rules/AGENTS.md`, `assets/logo.svg`, and all 8 skills. |
 | **`hooks.json`** | `hooks.json` | Native Antigravity lifecycle hook registry (`SessionStart`, `PreToolUse`, `Stop`). |
 | **`session_start.py`** | `hooks/session_start.py` | 100% local, read-only branch check at startup (no `git fetch` or `.git/` writes). |
 | **`branch_guard.py`** | `hooks/branch_guard.py` | Deterministically blocks `git commit`/`git push` on `main`/`master` and `--no-verify`. |
@@ -45,6 +45,8 @@
 | **`aos-check-for-security-issues`** | `skills/aos-check-for-security-issues/SKILL.md` | Defensive security audit for secrets, `.gitignore`, server/client boundaries, and CVEs. |
 | **`aos-audit-project`** | `skills/aos-audit-project/SKILL.md` | Audits repository structure/metadata and generates `aos-audit.md` (`pause` or `advisory`). |
 | **`aos-vibecode-update`** | `skills/aos-vibecode-update/SKILL.md` | Updates the plugin, runs on-demand `git fetch --prune` + merged branch cleanup, and syncs `AGENTS.md`. |
+| **`caveman`** | `skills/caveman/SKILL.md` | Vendored (Apache-2.0, local/zero-telemetry) terse response voice with explicit guardrail exemptions. |
+| **`caveman-compress`** | `skills/caveman-compress/SKILL.md` | Vendored (Apache-2.0, local/zero-telemetry) natural-language file compressor with explicit guardrail exemptions. |
 | **`scaffolding-templates.md`** | `references/scaffolding-templates.md` | Shared templates for README badges/footer, Node `package.json`, and `[DD.MM.YYYY]` ADRs. |
 | **`test_guardrail.py`** | `tests/test_guardrail.py` | Zero-dependency Python `unittest` suite enforcing zero skill drift and testing all hooks. |
 

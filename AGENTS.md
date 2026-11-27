@@ -19,6 +19,7 @@ Concise operational rules for AI coding agents. Deterministic branch protection 
 * **Fix your own bugs:** If a build, lint, or test command fails after your edit, fix it autonomously before finishing.
 * **Documentation Sync:** When changing CLI flags, hooks, skills, or setup steps, update `README.md`, `Architecture.md`, or `dev.md` in the same branch.
 * **Decision Logging:** Prepend architectural decisions to the top of `decision.md` in `[DD.MM.YYYY]` format (`Origin`, `Context`, `Decision`, `Impact`), validated by the guardrail plugin's adr_check hook.
+* **Compression Exemptions:** Never apply caveman prose or compression (`caveman`, `caveman-compress`) to `decision.md` (immutable ADR ledger), `docs/feature/*/plan.md` (implementation plans), or security and project audit reports (`aos-check-for-security-issues`, `aos-audit-project`, `aos-audit.md`).
 
 ---
 

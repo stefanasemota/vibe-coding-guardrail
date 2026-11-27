@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [27.11.2026] - Vendor `caveman` and `caveman-compress` Skills (Apache-2.0) with Guardrail Exemptions
+- **Origin:** Human Request
+- **Context:** Users wanted optional token-saving terse response mode (`caveman`) and local natural-language file compression (`caveman-compress`) bundled directly into the v2.0 Antigravity plugin without introducing external CLI/proxy binaries, telemetry, or compressed/degraded governance artifacts.
+- **Decision:** Vendored only the pure Markdown `SKILL.md` definitions and upstream Apache-2.0 `LICENSE` from `https://github.com/JuliusBrussee/caveman` into `skills/caveman/` and `skills/caveman-compress/`; adapted `caveman-compress` to run 100% locally using Antigravity's native file tools with zero external CLI or API scripts; added explicit compression exemptions in `rules/AGENTS.md` and both vendored `SKILL.md` files prohibiting caveman prose/compression on `decision.md`, `docs/feature/*/plan.md`, and security/project audit reports (`aos-check-for-security-issues`, `aos-audit-project`, `aos-audit.md`); synced `plugin.json`, `README.md`, and `Architecture.md` to 8 skills; and added regression assertions in `tests/test_guardrail.py`.
+- **Impact:** `skills/caveman/SKILL.md`, `skills/caveman/LICENSE`, `skills/caveman-compress/SKILL.md`, `skills/caveman-compress/LICENSE`, `AGENTS.md`, `plugin.json`, `README.md`, `Architecture.md`, `tests/test_guardrail.py`, `decision.md`.
+
 ### [27.11.2026] - Refactor `vibe-coding-guardrail` to v2.0 Antigravity-Native Python Plugin
 - **Origin:** Human Request
 - **Context:** v1.3.1 carried Node.js runtime plumbing (`package.json`, `bin/*.mjs`, `guardrail.test.mjs`), multi-vendor abstractions (`ai-rules.json`, Engine Profiles), a heavy 7-Phase/3-gate prompt loop, startup `git fetch --prune` calls that failed offline/in sandboxes, and recurring skill-count drift between `skills/` and docs.
