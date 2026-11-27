@@ -1,43 +1,39 @@
 # AI Workflow, Git & Commit Rules (`AGENTS.md`)
 
-Strict operational rules for all AI coding agents. Zero filler or AI slop—keep code, commits, and documentation straight to the point.
+Concise operational rules for AI coding agents. Deterministic branch protection and ADR checks are enforced natively by Antigravity hooks (`hooks.json`); these rules govern everything else. Zero filler or AI slop.
 
 ---
 
-## 1. Branching & Git Strategy (STRICT)
-* **Clean up merged branches first:** Before starting a new session or creating a branch, run `git fetch --prune`, delete obsolete local branches already merged into `main`/`development` (excluding protected branches), and confirm with the human before deleting merged remote `origin/*` branches.
-* **Never commit to an already-merged branch:** Before making follow-up edits or commits on an existing branch, run `git fetch --prune` and check `gh pr view --json state` (or `git branch --merged origin/main`). If the branch or its PR is already `MERGED`, create a fresh branch from `origin/main` first.
-* **Never work on `main`:** Always create a descriptive branch (`feature/<slug>`, `fix/<slug>`, `chore/<slug>`) from the latest `development` or `main` branch before writing code.
-* **Test on the branch:** Ensure all code builds, tests pass, and the feature works within the isolated branch.
-* **Push, do not merge:** Push the verified branch to the remote repository and open a Draft Pull Request. Never merge into `main` or `development`—leave final merge/review to the human.
+## 1. Branching & Git Strategy
+* **Never work on protected branches:** Always create a descriptive branch (`feature/<slug>`, `fix/<slug>`, `chore/<slug>`, `refactor/<slug>`) before editing code. Direct commits/pushes to `main`/`master` are blocked by `hooks/branch_guard.py`.
+* **No startup `git fetch`:** Keep session startup 100% local and read-only (`hooks/session_start.py`). Run `/aos-vibecode-update` on demand to prune remotes and clean obsolete merged branches.
+* **Test on the branch:** Ensure builds, linters, and tests pass on the isolated branch before pushing.
+* **Push, do not merge:** Push the verified branch and open a Draft Pull Request (`gh pr create --draft`). Leave final review and merge to the human.
 
 ---
 
 ## 2. Execution Discipline
-* **Verify before writing:** Read existing relevant code and run the build/test command to confirm the baseline passes before making edits.
-* **Look Before You Leap:** Always run a `find` or `grep` search to check if a utility function, hook, or component already exists before writing a new one from scratch.
-* **Dependency Lockdown:** Never install new `npm` packages or `pip` libraries without explicit human approval first. Rely on existing dependencies whenever possible.
-* **Fix your own bugs:** If a build, lint, or test command fails after your edit, iterate and fix it autonomously before declaring the task done.
-* **Documentation Sync:** If a code change alters an API endpoint, CLI flag, environment variable, or setup step, update `README.md`, `dev.md`, or API docs in the same commit.
-* **Zero AI Slop:** Avoid filler words, robotic transitions, or verbose boilerplate. Write concise, direct prose and self-documenting code.
+* **Verify before writing:** Read relevant existing code and confirm the baseline passes before editing.
+* **Look Before You Leap:** Search (`find`/`grep`) for existing utilities, hooks, or components before creating new ones.
+* **Dependency Lockdown:** Never install new `npm`, `pip`, or system packages without explicit human approval first.
+* **Fix your own bugs:** If a build, lint, or test command fails after your edit, fix it autonomously before finishing.
+* **Documentation Sync:** When changing CLI flags, hooks, skills, or setup steps, update `README.md`, `Architecture.md`, or `dev.md` in the same branch.
+* **Decision Logging:** Prepend architectural decisions to the top of `decision.md` in `[DD.MM.YYYY]` format (`Origin`, `Context`, `Decision`, `Impact`), validated by `hooks/adr_check.py`.
 
 ---
 
 ## 3. Conventional Commits & Atomicity
-* **Commit atomicity:** Make small, logical commits as you progress through a feature rather than one massive commit at the end.
-* **Explain the Fix:** When resolving a bug (`fix`), include a concise commit body explaining *why* the bug occurred and *how* the change fixed it.
+* **Commit atomicity:** Make small, logical commits as you progress.
+* **Explain the Fix:** For `fix` commits, include a brief body stating root cause and fix.
 * **Required Header Format:** `type(optional-scope): short description`
 
 | Type | When to Use |
 |---|---|
-| `feat` | A new feature visible to the user |
+| `feat` | A new user-visible feature |
 | `fix` | A bug fix (include root cause & fix summary) |
-| `docs` | Documentation only changes |
+| `docs` | Documentation-only changes |
 | `chore` | Build, config, or tooling changes |
 | `refactor` | Code restructured with no behavior change |
 | `test` | Adding or correcting tests |
 | `style` | Formatting changes only |
 | `perf` | Performance improvements |
-
-### ❌ Rejected by CI
-* `"updated code"`, `"changes"`, `"WIP"`, or any commit message without a valid `type:` prefix.

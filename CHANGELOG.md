@@ -4,6 +4,23 @@ All notable changes to **Vibe Coding Guardrail** are documented in this file. Da
 
 ---
 
+## [2.0.0] - 27.11.2026
+
+### Changed
+- **Antigravity-Native Python Refactor (Zero External Dependencies):**
+  - Removed Node.js runtime dependency (`package.json`, `.nvmrc`, `bin/init-guardrail.mjs`, `bin/aos-create-profile.mjs`, `tests/guardrail.test.mjs`) and multi-vendor abstractions (`ai-rules.json`, Engine Profile schemas).
+  - Relocated canonical skills from `.agent/skills/` to `skills/` (all 6 skills preserved) and templates to `references/scaffolding-templates.md`.
+  - Compressed `skills/vibe-coder/SKILL.md` from a 7-Phase, 3-gate loop into a 3-Stage Loop with a single configurable gate (`pause` vs `advisory`).
+  - Moved remote `git fetch --prune` and obsolete merged branch cleanup strictly into `skills/aos-vibecode-update/SKILL.md`.
+
+### Added
+- **Deterministic Antigravity Lifecycle Hooks (`hooks.json` + `hooks/*.py`):**
+  - `hooks/session_start.py` (`SessionStart`): 100% local, read-only branch check (never runs `git fetch` or mutates `.git/`).
+  - `hooks/branch_guard.py` (`PreToolUse`): Deterministically blocks `git commit`/`git push` on `main`/`master` and `--no-verify` bypasses.
+  - `hooks/adr_check.py` (`Stop`): Validates reverse-chronological `[DD.MM.YYYY]` ADR headings and required fields (`Origin`, `Context`, `Decision`, `Impact`) when `decision.md` is modified.
+- **Single Source of Truth Python Test Suite (`tests/test_guardrail.py`):**
+  - Zero-dependency `unittest` suite asserting zero skill-count/name drift across `skills/*/SKILL.md`, `plugin.json`, `README.md`, and `Architecture.md`, plus unit tests for all hooks and `decision.md`.
+
 ## [1.3.1] - 19.11.2026
 
 ### Changed

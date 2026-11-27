@@ -1,0 +1,32 @@
+---
+name: aos-verify
+description: Automated sanity and test coverage sub-skill for the vibe-coder protocol. Use after implementing changes to validate imports, types, lint rules, builds, and unit/integration test suites before session completion.
+---
+
+# `aos-verify` — Automated Sanity & Test Coverage Gate
+
+## Purpose
+Verifies that every implementation increment compiles cleanly, passes lint and type gates, and maintains strong unit/integration test coverage before hand-off.
+
+---
+
+## Verification Checklist (Stack-Aware)
+
+1. **Static Analysis & Lint Gate:**
+   * **Node.js / TypeScript:** Run `npm run lint` (`eslint --max-warnings=0`) and `npx tsc --noEmit` (or `npm run typecheck`) with zero untyped `any` escapes or dead imports.
+   * **Python:** Run `ruff check .` / `mypy` if configured, or verify syntax and stdlib compatibility (`python3 -m py_compile ...`).
+   * **Other stacks (Go, Rust, Swift, Android):** Run the repository's native linter/checker (`go vet ./...`, `cargo clippy`, `./gradlew lint`).
+
+2. **3-Point Static Audit:**
+   * **Simplicity / DRY:** Remove redundant logic, dead imports, or unnecessary state.
+   * **Functional Correctness:** Verify boundary conditions, error handling, and null/empty safety.
+
+3. **Layered Automated Test Suite:**
+   * Run the project's native test command (`python3 -m unittest discover -s tests -v`, `pytest`, `npm run test:unit`, `go test ./...`, `cargo test`) and verify 100% pass rate (target **> 90% coverage** on core domain logic and repositories).
+   * Keep E2E specs isolated so unit test runs remain fast.
+
+4. **Production Build Sanity:**
+   * When the repository has a build step (`npm run build`, `cargo build`, `./gradlew assemble`), run it to confirm clean compilation.
+
+5. **Session Termination:**
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-verify | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
