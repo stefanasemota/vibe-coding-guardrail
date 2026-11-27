@@ -6,13 +6,13 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B%20stdlib--only-3776AB?logo=python&logoColor=white)]()
 [![Gemini](https://img.shields.io/badge/Antigravity-Native%20Plugin-8E75B2?logo=google-gemini&logoColor=white)]()
 
-**Vibe Coding Guardrail** is a zero-dependency Python plugin built natively for **Google Antigravity**. It combines deterministic lifecycle hooks (`hooks.json`), a lean **3-Stage Loop**, and **6 skills** to keep AI-assisted coding fast, isolated, and auditable across any language stack.
+**Vibe Coding Guardrail** is a zero-dependency Python plugin built natively for **Google Antigravity**. It combines deterministic lifecycle hooks (`hooks.json`), a lean **3-Stage Loop**, and **8 skills** to keep AI-assisted coding fast, isolated, and auditable across any language stack.
 
 ---
 
 ## ⚡ Install as a Native Antigravity Plugin
 
-Symlink this repository into `~/.gemini/config/plugins/` so `plugin.json`, `hooks.json`, `rules/AGENTS.md`, and all **6 skills** activate automatically in **every workspace**:
+Symlink this repository into `~/.gemini/config/plugins/` so `plugin.json`, `hooks.json`, `rules/AGENTS.md`, and all **8 skills** activate automatically in **every workspace**:
 
 ```bash
 mkdir -p ~/.gemini/config/plugins
@@ -40,7 +40,7 @@ See [`Architecture.md`](Architecture.md) for the full v2.0 diagram and repositor
 
 ---
 
-## 💬 Skills Included (6 Skills)
+## 💬 Skills Included (8 Skills)
 
 1. **`vibe-coder`** — 3-Stage orchestrator with a single configurable gate (`pause` vs `advisory`):
    ```text
@@ -65,6 +65,14 @@ See [`Architecture.md`](Architecture.md) for the full v2.0 diagram and repositor
 6. **`aos-vibecode-update`** — Plugin updater, on-demand `git fetch --prune` + merged branch cleanup, and project `AGENTS.md` sync:
    ```text
    /aos-vibecode-update
+   ```
+7. **`caveman`** *(vendored Apache-2.0 from [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman), 100% local/zero-telemetry)* — Terse response voice with guardrail exemptions (`decision.md`, `docs/feature/*/plan.md`, and audit reports):
+   ```text
+   /caveman
+   ```
+8. **`caveman-compress`** *(vendored Apache-2.0, 100% local/zero-telemetry)* — Compresses natural-language memory/notes files locally while exempting `decision.md`, `docs/feature/*/plan.md`, and audit reports:
+   ```text
+   /caveman-compress path/to/notes.md
    ```
 
 ---

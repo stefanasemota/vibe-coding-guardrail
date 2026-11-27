@@ -208,7 +208,11 @@ class TestSingleSourceOfTruth(unittest.TestCase):
         )
 
     def test_skills_session_termination_tokens_default_false(self) -> None:
-        for skill_name in _discover_skills():
+        guardrail_skills = [
+            s for s in _discover_skills() if s == "vibe-coder" or s.startswith("aos-")
+        ]
+        self.assertGreaterEqual(len(guardrail_skills), 6)
+        for skill_name in guardrail_skills:
             text = (REPO_ROOT / "skills" / skill_name / "SKILL.md").read_text(encoding="utf-8")
             self.assertIn(
                 "VIBE_CODER_SHOW_TOKENS",
@@ -220,6 +224,35 @@ class TestSingleSourceOfTruth(unittest.TestCase):
                 text.lower(),
                 f"skills/{skill_name}/SKILL.md must default VIBE_CODER_SHOW_TOKENS to false",
             )
+
+    def test_vendored_caveman_skills_license_exemptions_and_zero_cli(self) -> None:
+        required_exemptions = (
+            "decision.md",
+            "docs/feature/*/plan.md",
+            "aos-check-for-security-issues",
+            "aos-audit-project",
+        )
+        agents_text = (REPO_ROOT / "rules" / "AGENTS.md").read_text(encoding="utf-8")
+        for token in required_exemptions:
+            self.assertIn(token, agents_text, f"rules/AGENTS.md missing exemption: {token}")
+
+        for skill_name in ("caveman", "caveman-compress"):
+            skill_dir = REPO_ROOT / "skills" / skill_name
+            entries = sorted(p.name for p in skill_dir.iterdir())
+            self.assertEqual(
+                entries,
+                ["LICENSE", "SKILL.md"],
+                f"skills/{skill_name} must contain only pure Markdown SKILL.md and LICENSE",
+            )
+            lic_text = (skill_dir / "LICENSE").read_text(encoding="utf-8")
+            self.assertIn("Apache License", lic_text)
+            self.assertIn("Version 2.0", lic_text)
+
+            skill_text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+            for token in required_exemptions:
+                self.assertIn(token, skill_text, f"skills/{skill_name}/SKILL.md missing exemption: {token}")
+            self.assertNotIn("python3 -m scripts", skill_text)
+            self.assertNotIn("scripts/compress.py", skill_text)
 
 
 class TestSessionStartHook(unittest.TestCase):

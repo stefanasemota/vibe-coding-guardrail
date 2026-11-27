@@ -2,7 +2,7 @@
   "name": "vibe-coding-guardrail",
   "displayName": "AOS Vibe Coding Guardrail",
   "version": "2.0.0",
-  "description": "Antigravity-native Python plugin with deterministic lifecycle hooks (hooks.json), a 3-Stage loop, and 6 skills (vibe-coder, aos-vibecode, aos-verify, aos-check-for-security-issues, aos-audit-project, aos-vibecode-update).",
+  "description": "Antigravity-native Python plugin with deterministic lifecycle hooks (hooks.json), a 3-Stage loop, and 8 skills (vibe-coder, aos-vibecode, aos-verify, aos-check-for-security-issues, aos-audit-project, aos-vibecode-update, caveman, caveman-compress).",
   "logo": "assets/logo.svg",
   "author": {
     "name": "Stephan Asemota",
