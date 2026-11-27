@@ -1,0 +1,30 @@
+{
+  "vibe-coding-guardrail": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "python3 ./hooks/session_start.py",
+        "timeout": 10
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ./hooks/branch_guard.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "python3 ./hooks/adr_check.py",
+        "timeout": 10
+      }
+    ]
+  }
+}

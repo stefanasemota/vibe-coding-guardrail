@@ -1,128 +1,69 @@
 # 🛠️ Developer & Operations Guide (`dev.md`)
 
-Setup, custom model profiles, environment variables, runtime scripts, and session workflow for **Vibe Coding Guardrail** (`vibe-coder`).
+Local setup, hook testing, and operational workflow for **Vibe Coding Guardrail v2.0** (`vibe-coder`).
 
 ---
 
 ## 1. Prerequisites
 
-- **Node.js:** `v22.x` (pinned via `.nvmrc`)
+- **Python:** `3.9+` (tested on macOS system Python 3.9+ and Python 3.11+ — **zero external dependencies**, stdlib only)
 - **Git:** `>= 2.39` with GitHub CLI (`gh`) authenticated for Draft PR creation
-- **Antigravity:** IDE or CLI with plugin/skill discovery enabled
+- **Antigravity:** IDE or CLI with native plugin discovery enabled
 
 ---
 
 ## 2. Installation & Updates
 
-### Global Plugin (Recommended)
+### Install as a Native Global Plugin
 ```bash
-mkdir -p ~/.gemini/config/plugins ~/.gemini/antigravity/skills ~/.gemini/config/skills
+mkdir -p ~/.gemini/config/plugins
 ln -sfn "$(pwd)" ~/.gemini/config/plugins/vibe-coding-guardrail
-ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/antigravity/skills/
-ln -sfn "$(pwd)/.agent/skills/"* ~/.gemini/config/skills/
 ```
 
-**Update & check active version:**
-```bash
-cd /path/to/vibe-coding-guardrail && git pull origin main
-node -p "require('./plugin.json').version"
-```
+### Update Plugin & Sync Reference Projects
+Run `/aos-vibecode-update` in Antigravity chat to:
+1. Pull `origin/main` in `~/.gemini/config/plugins/vibe-coding-guardrail`.
+2. Run on-demand `git fetch --prune` and clean up merged local/remote branches.
+3. Remove stale local `.agent/skills/` overrides and refresh `AGENTS.md` across your projects.
 
-**Batch-update all git repositories from a parent folder (e.g. `~/Developer`):**
+Check the active plugin version at any time:
 ```bash
-# Option 1 (Global Plugin): remove stale local .agent/skills/ and update AGENTS.md + ai-rules.json
-node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all --clean-local-skills .
-
-# Option 2 (Workspace Copies): update .agent/skills/, AGENTS.md, and ai-rules.json in all git repos
-node ~/.gemini/config/plugins/vibe-coding-guardrail/bin/init-guardrail.mjs --all .
-```
-
-### Workspace Scope (Single Repository)
-```bash
-npx github:stefanasemota/vibe-coding-guardrail /path/to/your-project
-# Or from a local clone:
-node bin/init-guardrail.mjs /path/to/your-project
+python3 -c 'import json, pathlib; print(json.loads(pathlib.Path("plugin.json").read_text())["version"])'
 ```
 
 ---
 
-## 3. Creating a Custom Profile for a Particular AI Model
+## 3. Running Tests & Validating Hooks
 
-Generate a custom Engine Profile tailored to any model (e.g., `claude-sonnet`, `gemini-flash`) using `aos-create-profile`:
+Run the full zero-dependency Python `unittest` suite:
 
 ```bash
-# Interactive CLI prompt
-npx aos-create-profile claude-sonnet
-
-# Non-interactive CLI with model-specific parameters
-node bin/aos-create-profile.mjs gemini-flash \
-  --max-patch-size=30 \
-  --review-depth=quick-lint \
-  --gate-behavior=explicit-pause-and-wait \
-  --execution-mode=sequential-multi-turn
+python3 -m unittest discover -s tests -v
 ```
 
-This writes `.agent/skills/vibe-coder/profiles/profile-gemini-flash.md` validated against [`_schema.md`](.agent/skills/vibe-coder/profiles/_schema.md):
+Manually smoke-test any hook over `stdin`/`stdout`:
 
-```markdown
----
-engine_name: "gemini-flash"
-execution_mode: "sequential-multi-turn"
-max_patch_size: 30
-patch_strategy: "surgical-unified-diff"
-type_safety: "strict"
-gate_behavior: "explicit-pause-and-wait"
-review_depth: "quick-lint"
----
-```
+```bash
+# SessionStart (read-only local branch check)
+echo '{"cwd": "."}' | python3 ./hooks/session_start.py
 
-Activate in any session with `$PROFILE=<name>`:
-```text
-Start a vibe-coder session with $PROFILE=gemini-flash: implement the user notification preferences panel.
+# PreToolUse (branch guard)
+echo '{"cwd": ".", "toolCall": {"name": "run_command", "args": {"CommandLine": "git push origin main"}}}' | python3 ./hooks/branch_guard.py
+
+# Stop (ADR format check on modified decision.md)
+echo '{"cwd": ".", "continuationActive": false}' | python3 ./hooks/adr_check.py
 ```
 
 ---
 
-## 4. Environment Variable Specifications
+## 4. Environment Variables (Reference Full-Stack Apps)
 
-For full-stack Next.js + Firebase + Genkit apps, create `.env.local` in the project root (never committed to Git):
-
-```env
-# Firebase Client SDK
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-
-# Firebase App Check (ReCAPTCHA v3)
-NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
-
-# Genkit / Google Gemini AI
-GOOGLE_GENAI_API_KEY=your_gemini_api_key
-```
-
-> **Security Rule (`aos-check-for-security-issues`):** Never commit `.env*`, `*service-account*.json`, or `*key*.json`.
+For full-stack Next.js + Firebase + Genkit reference apps governed by this plugin, keep secrets in `.env.local` (never committed to Git) and confirm `.gitignore` excludes `.env*`, `*service-account*.json`, `*key*.json`, and `*.pem`.
 
 ---
 
-## 5. Quick-Start Commands & Standard Scripts (`package.json`)
+## 5. 3-Stage Session Workflow
 
-| Command | Guardrail Repo | Full-Stack Reference Equivalent |
-| :--- | :--- | :--- |
-| `npm test` | Runs full guardrail test suite | `vitest --coverage` |
-| `npm run test:unit` | Runs `node --test tests/guardrail.test.mjs` | `vitest run` |
-| `npm run lint` | Validates skill frontmatter, docs, and metadata | `eslint .` |
-| `npm run build` | Validates protocol readiness | `next lint && NODE_ENV=production next build` |
-| `npm run dev` | Runs guardrail verification suite | `next dev --turbopack` |
-
----
-
-## 6. Vibe-Coder Session Workflow
-
-1. **Clean & Branch:** Run `git fetch --prune`, delete obsolete local merged branches, confirm remote merged branch deletions, and branch from `origin/main` (`feature/<slug>`, `fix/<slug>`, `chore/<slug>`).
-2. **Implement (`aos-vibecode`):** Apply atomic micro-patches (`<= max_patch_size`) guided by `initiative.md` and `plan.md`.
-3. **Verify (`aos-verify`):** Run `npm run lint && npm run test:unit && npm run build` (or the native stack toolchain).
-4. **Audit (`aos-check-for-security-issues`):** Confirm zero hardcoded secrets or unsafe dependencies.
-5. **Log & Hand-Off:** Prepend `[DD.MM.YYYY]` ADR to `decision.md`, output the Session Termination footer (version + skill + token usage), push, and open a Draft PR (`gh pr create --draft`).
+1. **Stage 1 — Scope & Plan:** Confirm isolated branch (checked by `hooks/session_start.py`), inspect repo, draft `docs/feature/<slug>/plan.md`, and wait for approval in `pause` mode (or continue directly in `advisory` mode).
+2. **Stage 2 — Build & Verify:** Implement atomic increments (`aos-vibecode`), run native tests/lint (`aos-verify`), and prepend `[DD.MM.YYYY]` ADRs to `decision.md`.
+3. **Stage 3 — Audit & PR:** Run `aos-check-for-security-issues`, push the branch (protected by `hooks/branch_guard.py`), open a Draft PR (`gh pr create --draft`), and let `hooks/adr_check.py` verify `decision.md`.

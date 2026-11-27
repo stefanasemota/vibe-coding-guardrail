@@ -1,0 +1,55 @@
+---
+name: vibe-coder
+description: Orchestrate a lean 3-Stage development loop across any repository with a single configurable gate (pause vs advisory), Git branch isolation, reverse-chronological decision.md ADR logging, and automated verification. Use when scaffolding, auditing, building, or iterating on features under the vibe-coding guardrail.
+---
+
+# Vibe Coding Protocol — 3-Stage Orchestrator (v2.0)
+
+The **human is the driver** and the **AI is the engine**. Deterministic Git branch protection (`hooks/session_start.py`, `hooks/branch_guard.py`) and ADR validation (`hooks/adr_check.py`) are enforced natively by Antigravity hooks (`hooks.json`), keeping this orchestrator lean.
+
+---
+
+## 1. The 3-Stage Loop
+
+### Stage 1 — Scope & Plan
+1. Inspect the repository structure, existing patterns, and baseline test/build commands.
+2. Confirm branch isolation: never work on `main`, `master`, or `development`. Create a descriptive branch (`feature/<slug>`, `fix/<slug>`, `chore/<slug>`) before editing files.
+3. Draft a concise implementation plan in `docs/feature/<slug>/plan.md` covering scope, affected files, key trade-offs/edge cases, and verification commands.
+4. **Single Configurable Gate (`gate_mode`):**
+   - **`pause` (default — interactive sessions):** Present the plan and any clarifying questions, then **wait for explicit human approval** before entering Stage 2.
+   - **`advisory` (unattended scheduled automations):** Do not pause. Proceed directly in report/audit mode (e.g., weekly `aos-audit-project` or `aos-check-for-security-issues` runs).
+
+### Stage 2 — Build & Verify
+1. Implement the approved plan in atomic, surgical increments (`aos-vibecode`), keeping diffs small (`<= 50` lines per logical unit) and preserving existing exports and state.
+2. Run the repository's native verification checks (`aos-verify`): linter, typecheck, unit/integration tests, and build. Fix any failures autonomously before continuing.
+3. If an architectural, UX, or dependency decision was made, prepend a dated `[DD.MM.YYYY]` entry at the **top** of `decision.md` (`Origin`, `Context`, `Decision`, `Impact`). The `Stop` hook (`hooks/adr_check.py`) validates formatting automatically.
+
+### Stage 3 — Audit & PR
+1. Run defensive security and hygiene checks (`aos-check-for-security-issues`) on staged/modified files.
+2. Mark completed items in `docs/feature/<slug>/plan.md`, commit using Conventional Commits (`AGENTS.md`), push the isolated branch, and open a **Draft PR** (`gh pr create --draft`). Never merge into `main` or `development`.
+3. Output a concise summary (**Delivered**, **Modified Files**, **Test Status**, **Next Steps**) and append the **Session Termination** footer.
+
+---
+
+## 2. Project Standardization & Templates (Conditional)
+
+When scaffolding a repository, auditing metadata, or logging an ADR in `decision.md`, read [`../../references/scaffolding-templates.md`](../../references/scaffolding-templates.md) for the exact `README.md` badges/footer, Node `package.json` schema, and `[DD.MM.YYYY]` ADR template.
+
+* **Stack Detection:**
+  * **Non-Node (`pyproject.toml`, `go.mod`, `Cargo.toml`, `build.gradle`, `Package.swift`, zero-dependency Python):** Skip `package.json` checks; run the native toolchain (`python3 -m unittest`, `pytest`/`ruff`, `go test`, `cargo clippy`, `./gradlew test`).
+  * **Node.js / TypeScript (`package.json` exists):** Enforce standard metadata and scripts (`dev`, `build`, `test`, `test:unit`, `lint`).
+
+---
+
+## 3. Session Termination (MANDATORY)
+
+End every `vibe-coder` or standalone `aos-*` session by reading `version` from `plugin.json` and outputting:
+`Guardrail: aos Vibe Coding Guardrail v<version> | Skill: <skill-name> | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+
+---
+
+## 4. Gotchas
+
+* **No startup `git fetch`:** Never run `git fetch --prune` at session start—it breaks offline/sandboxed sessions. Remote pruning and obsolete branch cleanup live exclusively in `aos-vibecode-update`.
+* **Unattended `advisory` mode:** Never pause at Stage 1 or prompt for remote deletions when running in `advisory` mode.
+* **ADR date format:** Always prepend `[DD.MM.YYYY]` at the top of `decision.md`; `YYYY-MM-DD` or bottom-appended entries will be blocked by `hooks/adr_check.py`.

@@ -4,6 +4,12 @@ Reverse-chronological ledger (newest at top, oldest at bottom) of all architectu
 
 ---
 
+### [27.11.2026] - Refactor `vibe-coding-guardrail` to v2.0 Antigravity-Native Python Plugin
+- **Origin:** Human Request
+- **Context:** v1.3.1 carried Node.js runtime plumbing (`package.json`, `bin/*.mjs`, `guardrail.test.mjs`), multi-vendor abstractions (`ai-rules.json`, Engine Profiles), a heavy 7-Phase/3-gate prompt loop, startup `git fetch --prune` calls that failed offline/in sandboxes, and recurring skill-count drift between `skills/` and docs.
+- **Decision:** Refactored the repository into a zero-dependency Python (3.9+ / 3.11+ stdlib-only) Antigravity-native plugin (`v2.0.0`): removed Node.js CLIs and multi-vendor profile layers; relocated canonical skills to `skills/` and templates to `references/scaffolding-templates.md`; moved deterministic enforcement into root `hooks.json` (`hooks/session_start.py` read-only local branch check, `hooks/branch_guard.py` PreToolUse commit/push guard, `hooks/adr_check.py` Stop ADR validator); compressed `vibe-coder` into a 3-Stage Loop with a single configurable gate (`pause` vs `advisory`); moved on-demand remote pruning and branch cleanup into `aos-vibecode-update`; and replaced `guardrail.test.mjs` with `tests/test_guardrail.py` enforcing Single Source of Truth skill-drift checks and hook unit tests.
+- **Impact:** `plugin.json`, `hooks.json`, `hooks/session_start.py`, `hooks/branch_guard.py`, `hooks/adr_check.py`, `skills/*/SKILL.md`, `references/scaffolding-templates.md`, `AGENTS.md`, `README.md`, `Architecture.md`, `dev.md`, `CHANGELOG.md`, `INITIATIVE.md`, `tests/test_guardrail.py`, `decision.md`.
+
 ### [19.11.2026] - Apply `skill-evaluation` Fixes to `vibe-coder` and `aos-vibecode`
 - **Origin:** Human Request
 - **Context:** Evaluating `.agent/skills/vibe-coder/SKILL.md` and `.agent/skills/aos-vibecode/SKILL.md` with `fabricioctelles/skills` (`skill-evaluation` v2.1.0) surfaced duplication with `AGENTS.md`, buried 7-Phase workflow steps, unconditional Next.js/Firebase & scaffolding boilerplate, description drift, and missing `Gotchas` / per-patch verification gates.
