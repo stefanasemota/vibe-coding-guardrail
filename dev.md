@@ -56,9 +56,10 @@ echo '{"cwd": ".", "continuationActive": false}' | python3 ./hooks/adr_check.py
 
 ---
 
-## 4. Environment Variables (Reference Full-Stack Apps)
+## 4. Environment Variables & Optional Settings
 
-For full-stack Next.js + Firebase + Genkit reference apps governed by this plugin, keep secrets in `.env.local` (never committed to Git) and confirm `.gitignore` excludes `.env*`, `*service-account*.json`, `*key*.json`, and `*.pem`.
+- **`VIBE_CODER_SHOW_TOKENS`** (default: `false`): Set to `true` (or request it in your session prompt) to append `| Tokens: ...` to the Session Termination footer. When unset or `false`, the footer omits token telemetry (`Guardrail: aos Vibe Coding Guardrail v<version> | Skill: <skill-name>`).
+- **Reference Full-Stack Apps:** Keep secrets in `.env.local` (never committed to Git) and confirm `.gitignore` excludes `.env*`, `*service-account*.json`, `*key*.json`, and `*.pem`.
 
 ---
 
