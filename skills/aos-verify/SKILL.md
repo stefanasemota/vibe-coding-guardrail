@@ -29,4 +29,6 @@ Verifies that every implementation increment compiles cleanly, passes lint and t
    * When the repository has a build step (`npm run build`, `cargo build`, `./gradlew assemble`), run it to confirm clean compilation.
 
 5. **Session Termination:**
-     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-verify | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+   - Read `version` from `plugin.json` and end the response with:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-verify`
+     *(Only append `| Tokens: <exact count or "N/A (not exposed by runtime)">` when `VIBE_CODER_SHOW_TOKENS=true`; default `false`.)*
