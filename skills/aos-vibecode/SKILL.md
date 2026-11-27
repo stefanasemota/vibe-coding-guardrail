@@ -12,7 +12,9 @@ description: Translate product specs or user stories from INITIATIVE.md, docs/ru
 3. **Per-Patch Verification Gate:** Run the repository's relevant build, typecheck, or unit test command after each micro-patch and fix any failures before starting the next patch.
 4. **Stack-Specific Guardrails (Conditional):**
    - *When scaffolding or updating docs:* Follow [`../../references/scaffolding-templates.md`](../../references/scaffolding-templates.md).
-   `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-vibecode | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+5. **Session Termination:** Read `version` from `plugin.json` and end the response with:
+   `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-vibecode`
+   *(Only append `| Tokens: <exact count or "N/A (not exposed by runtime)">` when `VIBE_CODER_SHOW_TOKENS=true`; default `false`.)*
 
 ---
 

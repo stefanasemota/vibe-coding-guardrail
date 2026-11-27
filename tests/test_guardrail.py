@@ -199,6 +199,28 @@ class TestSingleSourceOfTruth(unittest.TestCase):
         headings = re.findall(r"^###\s+\[\d{2}\.\d{2}\.\d{4}\]\s+-\s+.+$", content, re.MULTILINE)
         self.assertGreaterEqual(len(headings), 18, "All 17 historical ADRs + v2.0 ADR must be preserved")
 
+    def test_agents_md_has_no_backticked_local_hook_paths(self) -> None:
+        agents_text = (REPO_ROOT / "rules" / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertNotRegex(
+            agents_text,
+            r"`hooks(?:/[^`]+|\.json)`",
+            "rules/AGENTS.md must reference guardrail hooks without backticked local paths",
+        )
+
+    def test_skills_session_termination_tokens_default_false(self) -> None:
+        for skill_name in _discover_skills():
+            text = (REPO_ROOT / "skills" / skill_name / "SKILL.md").read_text(encoding="utf-8")
+            self.assertIn(
+                "VIBE_CODER_SHOW_TOKENS",
+                text,
+                f"skills/{skill_name}/SKILL.md must reference VIBE_CODER_SHOW_TOKENS toggle",
+            )
+            self.assertIn(
+                "false",
+                text.lower(),
+                f"skills/{skill_name}/SKILL.md must default VIBE_CODER_SHOW_TOKENS to false",
+            )
+
 
 class TestSessionStartHook(unittest.TestCase):
     """Tests for hooks/session_start.py (offline/read-only safety + branch detection)."""

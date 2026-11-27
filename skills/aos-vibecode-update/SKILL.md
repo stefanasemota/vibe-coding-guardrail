@@ -36,4 +36,6 @@ When updating a single repository or all git repositories under a parent folder 
 ---
 
 ## 4. Session Termination
-`Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-vibecode-update | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+Read `version` from `plugin.json` and end the response with:
+`Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-vibecode-update`
+*(Only append `| Tokens: <exact count or "N/A (not exposed by runtime)">` when `VIBE_CODER_SHOW_TOKENS=true`; default `false`.)*

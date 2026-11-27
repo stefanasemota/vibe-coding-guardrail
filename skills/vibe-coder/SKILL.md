@@ -37,7 +37,11 @@ description: Orchestrate a lean 3-Stage development loop across any repository w
 
 ## 3. Session Termination (MANDATORY)
 
-`Guardrail: aos Vibe Coding Guardrail v<version> | Skill: <skill-name> | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+End every `vibe-coder` or standalone `aos-*` session by reading `version` from `plugin.json` and outputting:
+- **Default (`VIBE_CODER_SHOW_TOKENS=false`, or unset):**
+  `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: <skill-name>`
+- **When `VIBE_CODER_SHOW_TOKENS=true` (or explicitly requested in the session):**
+  `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: <skill-name> | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
 
 ---
 

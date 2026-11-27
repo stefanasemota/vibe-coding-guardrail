@@ -34,4 +34,6 @@ description: Project architecture and scaffolding compliance auditor for the vib
    - Run the repository's native test/lint command to verify all checks pass.
    - Commit with a Conventional Commit (`chore(audit): apply aos-audit-project compliance optimizations`), push to `origin`, and open a Draft PR (`gh pr create --draft`). Leave final merge/review to the human.
 6. **Session Termination:**
-     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-audit-project | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+   - Read `version` from `plugin.json` and end the response with:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-audit-project`
+     *(Only append `| Tokens: <exact count or "N/A (not exposed by runtime)">` when `VIBE_CODER_SHOW_TOKENS=true`; default `false`.)*

@@ -29,4 +29,6 @@ Prevents credential leaks, injection vectors, privilege escalations, and client-
 4. **Dependency & Hook Governance Audit:**
 
 5. **Session Termination:**
-     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-check-for-security-issues | Tokens: <exact count if exposed by runtime, otherwise "N/A (not exposed by runtime)">`
+   - Read `version` from `plugin.json` and end the response with:
+     `Guardrail: aos Vibe Coding Guardrail v<version> | Skill: aos-check-for-security-issues`
+     *(Only append `| Tokens: <exact count or "N/A (not exposed by runtime)">` when `VIBE_CODER_SHOW_TOKENS=true`; default `false`.)*
